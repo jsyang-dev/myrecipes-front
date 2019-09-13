@@ -13,3 +13,5 @@ spring:
       enabled: true
   thymeleaf:
     cache: false
+  resources:
+    static-locations: classpath:/static/
