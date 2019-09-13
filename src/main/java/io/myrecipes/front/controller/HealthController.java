@@ -11,4 +11,9 @@ public class HealthController {
         model.addAttribute("title", "Hello System");
         return "health";
     }
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        return "index";
+    }
 }
