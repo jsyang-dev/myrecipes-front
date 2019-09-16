@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Album - Your Favorite Stuffs</title>
+    <title>마이레시피</title>
     <!-- Required meta tags always come first -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,7 +72,7 @@
         </div>
     </header>
     <main id="main" role="main">
-        <section class="jumbotron text-center" id="mainBanner">
+<!--        <section class="jumbotron text-center" id="mainBanner">
             <div class="container">
                 <h1 class="jumbotron-heading">Album Example</h1>
                 <p class="lead text-muted">Your gallery is an asset to your business. Use it to post examples of your photography, or your school's
@@ -82,13 +82,13 @@
                     <a href="#" class="btn btn-secondary my-2">Secondary action</a>
                 </p>
             </div>
-        </section>
+        </section>-->
 
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12" id="collection-heading">
-                        <span>My Collection</span>
+                        <span>인기 레시피</span>
                     </div>
                 </div>
 
@@ -109,137 +109,56 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" th:each="recipe: ${popularRecipeList}">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
+                            <img class="card-img-top" th:src="${imgPath} + ${recipe.image}" alt="Card image cap">
                             <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
+                                <p class="card-text" th:text="${recipe.title}"></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                                         <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                     </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">12 mins</small>
+                                    <small class="text-muted">
+                                        <th:block th:each="recipeTag: ${recipe.recipeTagList}">
+                                            <span th:text="'#' + ${recipeTag.tag}"></span>
+                                        </th:block>
+                                    </small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-12" id="collection-heading">
+                        <span>신규 레시피</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4" th:each="recipe: ${newRecipeList}">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" th:src="${imgPath} + ${recipe.image}" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text" th:text="${recipe.title}"></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    </div>
+                                    <small class="text-muted">
+                                        <th:block th:each="recipeTag: ${recipe.recipeTagList}">
+                                            <span th:text="'#' + ${recipeTag.tag}"></span>
+                                        </th:block>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <a href="#" class="btn btn-primary scrollUp">

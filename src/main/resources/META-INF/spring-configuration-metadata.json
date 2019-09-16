@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "app.img-path",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.index.page-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "app.index.sort-field",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.index.is-descending",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}
