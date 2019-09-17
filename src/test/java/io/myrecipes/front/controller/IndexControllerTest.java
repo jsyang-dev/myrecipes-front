@@ -45,8 +45,8 @@ public class IndexControllerTest {
 
     @Test
     public void 메인_페이지_호출() throws Exception {
-        PageParam pageParam = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
         Recipe recipe = new Recipe("test1", "test1.jpg", 30, "1", 1001);
+        PageParam pageParam = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
 
         final ResultActions actions = this.mockMvc.perform(get("/index"));
@@ -68,10 +68,10 @@ public class IndexControllerTest {
 
         @Override
         public boolean matches(PageParam right) {
-            return left.getPage() == right.getPage() &&
-                    left.getSize() == right.getSize() &&
-                    left.getSortField().equals(right.getSortField()) &&
-                    left.isDescending() == right.isDescending();
+            return left.getPage() == right.getPage()
+                    && left.getSize() == right.getSize()
+                    && left.getSortField().equals(right.getSortField())
+                    && left.isDescending() == right.isDescending();
         }
     }
 }

@@ -1,14 +1,12 @@
 package io.myrecipes.front.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class Recipe {
     private Integer id;
     private String title;
