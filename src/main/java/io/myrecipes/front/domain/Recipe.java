@@ -20,4 +20,12 @@ public class Recipe {
     private Integer modifyUserId;
     private Timestamp modifyDate;
     private List<RecipeTag> recipeTagList = new ArrayList<>();
+
+    public Recipe(String title, String image, Integer estimatedTime, String difficulty, Integer registerUserId) {
+        this.title = title;
+        this.image = image;
+        this.estimatedTime = estimatedTime;
+        this.difficulty = difficulty;
+        this.registerUserId = registerUserId;
+    }
 }

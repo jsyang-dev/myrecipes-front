@@ -32,15 +32,15 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(Model model) {
-        PageParam pageParamForPopularList = new PageParam(0, pageSize, sortField, isDescending);
+        PageParam pageParamForPopularList = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> popularRecipeList = this.indexService.readRecipeList(pageParamForPopularList);
 
-        PageParam pageParamForNewList = new PageParam(0, pageSize, sortField, isDescending);
+        PageParam pageParamForNewList = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);
 
         model.addAttribute("popularRecipeList", popularRecipeList);
         model.addAttribute("newRecipeList", newRecipeList);
-        model.addAttribute("imgPath", imgPath);
+        model.addAttribute("imgPath", this.imgPath);
         return "index";
     }
 }
