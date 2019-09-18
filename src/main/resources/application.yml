@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.web: TRACE
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: false
+  resources:
+    static-locations: classpath:/static/
+
+app:
+  img-path: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/img/
+  api:
+    recipe: http://localhost:8081
+  index:
+    page-size: 10
+    sort-field: registerDate
+    is-descending: true
