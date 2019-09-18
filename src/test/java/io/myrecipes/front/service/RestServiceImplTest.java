@@ -1,5 +1,6 @@
 package io.myrecipes.front.service;
 
+import io.myrecipes.front.domain.Recipe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.CoreMatchers.is;
+import java.util.LinkedHashMap;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -22,10 +25,10 @@ public class RestServiceImplTest {
     private String api;
 
     @Test
-    public void 레시피_API_호출_테스트() {
+    public void API_호출_테스트() {
         String url = api + "/health";
-        ResponseEntity<String> responseEntity = restService.callApi(url, HttpMethod.GET);
+        ResponseEntity<Recipe> responseEntity = restService.callApi(url, HttpMethod.GET);
 
-        assertThat(responseEntity.getBody(), is("Hello System"));
+        assertThat(responseEntity.getBody(), instanceOf(LinkedHashMap.class));
     }
 }
