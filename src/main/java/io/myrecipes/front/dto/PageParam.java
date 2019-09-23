@@ -1,4 +1,4 @@
-package io.myrecipes.front.domain;
+package io.myrecipes.front.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

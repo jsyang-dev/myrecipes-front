@@ -1,14 +1,11 @@
 package io.myrecipes.front.service;
 
-import io.myrecipes.front.domain.PageParam;
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.dto.PageParam;
+import io.myrecipes.front.dto.Recipe;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 

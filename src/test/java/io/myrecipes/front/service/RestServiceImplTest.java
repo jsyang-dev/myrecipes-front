@@ -1,6 +1,6 @@
 package io.myrecipes.front.service;
 
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.dto.Recipe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

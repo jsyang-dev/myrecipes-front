@@ -1,7 +1,7 @@
 package io.myrecipes.front.controller;
 
-import io.myrecipes.front.domain.PageParam;
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.dto.PageParam;
+import io.myrecipes.front.dto.Recipe;
 import io.myrecipes.front.service.IndexService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
