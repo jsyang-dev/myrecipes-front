@@ -45,8 +45,8 @@ public class IndexControllerTest {
 
     @Test
     public void 메인_페이지_호출() throws Exception {
-        Recipe recipe = new Recipe("test1", "test1.jpg", 30, "1", 1001);
-        PageParam pageParam = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
+        Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
+        PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
 
         final ResultActions actions = this.mockMvc.perform(get("/index"));

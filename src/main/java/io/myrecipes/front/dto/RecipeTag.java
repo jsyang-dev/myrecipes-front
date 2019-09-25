@@ -1,11 +1,14 @@
 package io.myrecipes.front.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-class RecipeTag {
-    private Integer id;
+public class RecipeTag {
     private String tag;
+
+    @Builder
+    public RecipeTag(String tag) {
+        this.tag = tag;
+    }
 }
