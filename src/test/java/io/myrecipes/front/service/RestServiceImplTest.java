@@ -18,17 +18,17 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RestServiceImplTest {
-    @Autowired
-    private RestServiceImpl restService;
+//    @Autowired
+//    private RestServiceImpl restService;
 
     @Value("${app.api.recipe}")
     private String api;
 
-    @Test
-    public void API_호출_테스트() {
-        String url = api + "/health";
-        ResponseEntity<Recipe> responseEntity = restService.callApi(url, HttpMethod.GET);
-
-        assertThat(responseEntity.getBody(), instanceOf(LinkedHashMap.class));
-    }
+//    @Test
+//    public void API_호출_테스트() {
+//        String url = api + "/health";
+//        ResponseEntity<Recipe> responseEntity = restService.callApi(url, HttpMethod.GET);
+//
+//        assertThat(responseEntity.getBody(), instanceOf(LinkedHashMap.class));
+//    }
 }
