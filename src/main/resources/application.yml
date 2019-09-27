@@ -21,6 +21,6 @@ app:
   api:
     recipe: http://localhost:8081
   index:
-    page-size: 10
+    page-size: 9
     sort-field: registerDate
     is-descending: true
