@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -32,15 +34,28 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(Model model) {
-        PageParam pageParamForPopularList = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
+        PageParam pageParamForPopularList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> popularRecipeList = this.indexService.readRecipeList(pageParamForPopularList);
 
-        PageParam pageParamForNewList = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
+        PageParam pageParamForNewList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);
 
         model.addAttribute("popularRecipeList", popularRecipeList);
         model.addAttribute("newRecipeList", newRecipeList);
         model.addAttribute("imgPath", this.imgPath);
+        return "index";
+    }
+
+    @GetMapping("/index/ajax")
+    @ResponseBody
+    // TODO: 파라미터를 DTO로 변경, Validation 체크 로직 추가
+    public List<Recipe> indexAjax(@RequestParam int nextPage) {
+        PageParam pageParam = new PageParam(nextPage, this.pageSize, this.sortField, this.isDescending);
+        return this.indexService.readRecipeList(pageParam);
+    }
+
+    @GetMapping("/view")
+    public String view(Model model) {
         return "index";
     }
 }
