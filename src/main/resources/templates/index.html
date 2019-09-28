@@ -149,6 +149,7 @@
                     </div>
                 </div>
                 <div>
+                    <input type="hidden" id="nextPage" value="2">
                     <button type="button" class="btn btn-secondary btn-block" id="more">더보기</button>
                 </div>
 
@@ -171,6 +172,23 @@
     <script src="dist/popper/popper.min.js" integrity=""></script>
     <script src="dist/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/main.min.js"></script>
+    <script>
+        $("#more").click(function() {
+            $.ajax({
+                type: "GET",
+                url : "/index/ajax?nextPage=" + $("#nextPage").val(),
+                // data: sendData,
+                async: true,
+                success : function(data, status, xhr) {
+                    console.log(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
