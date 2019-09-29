@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -40,18 +39,24 @@ public class IndexController {
         PageParam pageParamForNewList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);
 
+        long recipePageCnt = this.indexService.readRecipePageCnt();
+
         model.addAttribute("popularRecipeList", popularRecipeList);
         model.addAttribute("newRecipeList", newRecipeList);
+        model.addAttribute("recipePageCnt", recipePageCnt);
         model.addAttribute("imgPath", this.imgPath);
         return "index";
     }
 
     @GetMapping("/index/ajax")
-    @ResponseBody
     // TODO: 파라미터를 DTO로 변경, Validation 체크 로직 추가
-    public List<Recipe> indexAjax(@RequestParam int nextPage) {
+    public String indexAjax(Model model, @RequestParam int nextPage) {
         PageParam pageParam = new PageParam(nextPage, this.pageSize, this.sortField, this.isDescending);
-        return this.indexService.readRecipeList(pageParam);
+        List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParam);
+
+        model.addAttribute("newRecipeList", newRecipeList);
+        model.addAttribute("imgPath", this.imgPath);
+        return "index-ajax";
     }
 
     @GetMapping("/view")
