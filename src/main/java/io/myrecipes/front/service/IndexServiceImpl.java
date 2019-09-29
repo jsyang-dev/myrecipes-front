@@ -13,6 +13,9 @@ public class IndexServiceImpl implements IndexService {
     @Value("${app.api.recipe}")
     private String api;
 
+    @Value("${app.index.page-size}")
+    private int pageSize;
+
     private final RestTemplateHelperImpl restService;
 
     public IndexServiceImpl(RestTemplateHelperImpl restService) {
@@ -27,6 +30,14 @@ public class IndexServiceImpl implements IndexService {
                         + "&sortField=" + pageParam.getSortField()
                         + "&isDescending=" + pageParam.isDescending();
 
-        return restService.getForList(Recipe.class, url);
+        return this.restService.getForList(Recipe.class, url);
+    }
+
+    @Override
+    public long readRecipePageCnt() {
+        String url = api + "/recipes/cnt";
+        long recipeCnt = this.restService.getForObject(Long.class, url);
+
+        return Math.round((double) recipeCnt / pageSize);
     }
 }

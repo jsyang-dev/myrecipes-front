@@ -127,7 +127,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" id="newRecipeList">
                     <div class="col-md-4" th:each="recipe: ${newRecipeList}">
                         <div class="card mb-4 box-shadow">
                             <a th:href="@{/view(id=${recipe.getId()})}">
@@ -172,19 +172,27 @@
     <script src="dist/popper/popper.min.js" integrity=""></script>
     <script src="dist/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/main.min.js"></script>
-    <script>
+    <script type="text/javascript" th:inline="javascript">
         $("#more").click(function() {
             $.ajax({
                 type: "GET",
                 url : "/index/ajax?nextPage=" + $("#nextPage").val(),
                 // data: sendData,
+                dataType: "html",
                 async: true,
                 success : function(data, status, xhr) {
-                    console.log(data);
+                    $("#newRecipeList").append(data);
+
+                    const nextPage = $("#nextPage");
+                    nextPage.val(Number(nextPage.val()) + 1);
+
+                    if (nextPage.val() > [[${recipePageCnt}]]) {
+                        $("#more").toggle();
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseText);
-                    alert(jqXHR.responseText);
+                    console.log(jqXHR.responseJSON.message);
+                    alert(textStatus);
                 }
             });
         });

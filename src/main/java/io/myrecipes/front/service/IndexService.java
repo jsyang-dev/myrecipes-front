@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IndexService {
     List<Recipe> readRecipeList(PageParam pageParam);
+
+    long readRecipePageCnt();
 }
