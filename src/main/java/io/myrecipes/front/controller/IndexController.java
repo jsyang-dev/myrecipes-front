@@ -49,7 +49,6 @@ public class IndexController {
     }
 
     @GetMapping("/index/ajax")
-    // TODO: 파라미터를 DTO로 변경, Validation 체크 로직 추가
     public String indexAjax(Model model, @RequestParam int nextPage) {
         PageParam pageParam = new PageParam(nextPage, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParam);
