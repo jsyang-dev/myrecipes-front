@@ -16,6 +16,13 @@ spring:
   resources:
     static-locations: classpath:/static/
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: static.myrecipe.io
+
 app:
   img-path: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/img/
   api:

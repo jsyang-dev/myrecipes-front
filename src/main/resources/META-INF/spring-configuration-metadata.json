@@ -1,6 +1,10 @@
 {
   "properties": [
     {
+      "name": "cloud.aws.s3.bucket",
+      "type": "java.lang.String"
+    },
+    {
       "name": "app.img-path",
       "type": "java.lang.String"
     },

@@ -24,6 +24,7 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
     }
 
     @Override
+    // TODO: 반환값이 에러메시지인 경우에 대한 처리 ApiErrorInfo에 대한 매핑 처리
     public <T> T getForObject(Class<T> clazz, String url, Object... uriVariables) {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, uriVariables);
         JavaType type = objectMapper.getTypeFactory().constructType(clazz);
