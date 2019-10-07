@@ -4,7 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 
-aws.yml
+/aws.yml
 
 ### STS ###
 .apt_generated
@@ -248,4 +248,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
