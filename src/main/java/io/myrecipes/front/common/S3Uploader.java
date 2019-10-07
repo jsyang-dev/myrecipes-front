@@ -16,23 +16,23 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class S3Uploader {
-    private final AmazonS3Client amazonS3Client;
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    private final AmazonS3Client amazonS3Client;
+
+    public String upload(MultipartFile multipartFile, String path) throws IOException {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환이 실패했습니다."));
 
-        return upload(uploadFile, dirName);
+        return upload(uploadFile, path);
     }
 
-    private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+    private String upload(File uploadFile, String path) {
+        String fileName = path + "/" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -53,7 +53,6 @@ public class S3Uploader {
 
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-//        File convertFile = new File(file.getOriginalFilename());
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
