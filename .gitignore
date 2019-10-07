@@ -4,8 +4,6 @@ target/
 !**/src/main/**
 !**/src/test/**
 
-/aws.yml
-
 ### STS ###
 .apt_generated
 .classpath
@@ -248,3 +246,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Custom
+src/main/resources/aws.yml
