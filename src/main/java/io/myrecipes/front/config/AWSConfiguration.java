@@ -1,15 +1,14 @@
 package io.myrecipes.front.config;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3Client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
-//@Configuration
+@Configuration
 public class AWSConfiguration {
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
@@ -20,15 +19,16 @@ public class AWSConfiguration {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-//    @Bean
-    public BasicAWSCredentials basicAWSCredentials() {
-        return new BasicAWSCredentials(accessKey, secretKey);
+    @Bean
+    public AwsBasicCredentials awsBasicCredentials() {
+        return AwsBasicCredentials.create(accessKey, secretKey);
     }
 
-//    @Bean
-    public AmazonS3Client amazonS3Client(AWSCredentials awsCredentials) {
-        AmazonS3Client amazonS3Client = new AmazonS3Client(awsCredentials);
-        amazonS3Client.setRegion(Region.getRegion(Regions.fromName(region)));
-        return amazonS3Client;
+    @Bean
+    public S3Client sClient(AwsBasicCredentials awsBasicCredentials) {
+        return S3Client.builder()
+                .credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
+                .region(Region.of(region))
+                .build();
     }
 }
