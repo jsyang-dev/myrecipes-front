@@ -6,13 +6,13 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
 
-@Service
+@Component
 @Slf4j
 public class RestTemplateHelperImpl implements RestTemplateHelper {
     private final RestTemplate restTemplate;
