@@ -1,77 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
 
-<head>
-    <title>마이레시피</title>
-    <!-- Required meta tags always come first -->
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="">
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="dist/font-awesome/css/font-awesome.min.css" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
+<th:block layout:fragment="html_head">
+    <title>마이레시피 - 메인</title>
+</th:block>
 
-<body>
-    <div class="loader"></div>
-    <header id="header">
-        <div class="collapse" id="navbarHeader">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 py-4">
-                        <h4>About</h4>
-                        <p class="text-muted">Album is a contemporary template that's perfect for anyone looking to make a big first impression.
-                            With beautiful headline and navigation elements, Album ensures that your content always looks
-                            stunning.
-                        </p>
-                    </div>
-                    <div class="col-sm-4 offset-md-1 py-4" id="contact-info">
-                        <h4>Contact</h4>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="https://twitter.com/orbitThemes">
-                                    <i class="fa fa-twitter"></i> Follow on Twitter</a>
-                            </li>
-                            <li>
-                                <a href="https://facebook.com/orbitThemes">
-                                    <i class="fa fa-facebook"></i> Like on Facebook</a>
-                            </li>
-                            <li>
-                                <a href="mailto:themesorbit@gmail.com?Subject=Hello" target="_top">
-                                    <i class="fa fa-envelope"></i> Email me</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="navbar navbar-light box-shadow">
-            <div class="container d-flex justify-content-between">
-                <a class="navbar-brand" href="#" id="header-logo">
-                    <img src="https://raw.githubusercontent.com/orbitthemes/Orbit-Themes/master/assets/logo.png" class="img-fluid" alt="Orbit Themes">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-    </header>
-    <main id="main" role="main">
-<!--        <section class="jumbotron text-center" id="mainBanner">
-            <div class="container">
-                <h1 class="jumbotron-heading">Album Example</h1>
-                <p class="lead text-muted">Your gallery is an asset to your business. Use it to post examples of your photography, or your school's
-                    facilities and students work. Watermark your photos and enable sharing with the social options feature.</p>
-                <p>
-                    <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                </p>
-            </div>
-        </section>-->
+<th:block layout:fragment="custom_css">
+</th:block>
 
-        <div class="album py-5 bg-light">
+<th:block layout:fragment="content_body">
+    <div class="wrapper py-5 bg-light" id="main">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 collection-heading">
@@ -80,22 +21,6 @@
                 </div>
 
                 <div class="row">
-<!--                    <div class="col-md-4">-->
-<!--                        <div class="card mb-4 box-shadow">-->
-<!--                            <img class="card-img-top" src="img/thumbnail.png" alt="Card image cap">-->
-<!--                            <div class="card-body">-->
-<!--                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.-->
-<!--                                    This content is a little bit longer.</p>-->
-<!--                                <div class="d-flex justify-content-between align-items-center">-->
-<!--                                    <div class="btn-group">-->
-<!--                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
-<!--                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>-->
-<!--                                    </div>-->
-<!--                                    <small class="text-muted">12 mins</small>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="col-md-4" th:each="recipe: ${popularRecipeList}">
                         <div class="card mb-4 box-shadow">
                             <a th:href="@{/view(id=${recipe.getId()})}">
@@ -106,10 +31,6 @@
                             <div class="card-body">
                                 <p class="card-text" th:text="${recipe.getTitle()}"></p>
                                 <div class="d-flex justify-content-between align-items-center">
-<!--                                    <div class="btn-group">-->
-<!--                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
-<!--                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>-->
-<!--                                    </div>-->
                                     <small class="text-muted">
                                         <th:block th:each="recipeTag: ${recipe.getRecipeTagList()}">
                                             <span th:text="'#' + ${recipeTag.getTag()}"></span>
@@ -158,21 +79,17 @@
         <a href="#" class="btn btn-primary scrollUp">
             <i class="fa fa-arrow-circle-o-up"></i>
         </a>
-    </main>
-    <!-- Footer -->
-    <footer id="footer">
-        <p class="copyright">Made with
-            <i class="fa fa-heart"></i> By
-            <a target="_blank" title="Orbit Themes" href="http://www.orbitthemes.com">Orbit Themes</a> &copy;
-            <span id="currentYear"></span> All Rights Reserved.
-        </p>
-    </footer>
-    <!-- jQuery first, then Bootstrap JS. -->
-    <script src="dist/jquery/jquery.min.js"></script>
-    <script src="dist/popper/popper.min.js" integrity=""></script>
-    <script src="dist/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/main.min.js"></script>
+    </div>
+</th:block>
+
+<th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function() {
+            if ([[${recipePageCnt}]] <= 1) {
+                $("#more").toggle();
+            }
+        });
+
         $("#more").click(function() {
             $.ajax({
                 type: "GET",
@@ -197,6 +114,6 @@
             });
         });
     </script>
-</body>
+</th:block>
 
 </html>

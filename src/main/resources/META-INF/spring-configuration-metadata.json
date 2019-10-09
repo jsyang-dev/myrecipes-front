@@ -5,11 +5,27 @@
       "type": "java.lang.String"
     },
     {
+      "name": "cloud.aws.region.static",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "cloud.aws.s3.bucket",
+      "type": "java.lang.String"
+    },
+    {
       "name": "app.img-path",
       "type": "java.lang.String"
     },
     {
-      "name": "app.api.recipe",
+      "name": "app.api.recipe.scheme",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe.host",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe.port",
       "type": "java.lang.String"
     },
     {
