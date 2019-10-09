@@ -3,45 +3,24 @@ package io.myrecipes.front;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 @RunWith(SpringRunner.class)
-@SpringBootTest(
-        properties = {
-                "value=test",
-                "property.value=propertyTest"
-        },
-        classes = {MyRecipesFrontApplication.class}
+@SpringBootTest(properties = "spring.config.location="
+        + "classpath:/application.yml,"
+        + "classpath:/aws.yml"
 )
-@TestPropertySource(locations = {"classpath:application.yml", "classpath:aws.yml"})
 public class MyRecipesFrontApplicationTests {
     @Autowired
     DefaultListableBeanFactory beanFactory;
 
-    @Value("${value}")
-    private String value;
-
-    @Value("${property.value}")
-    private String propertyValue;
-
     @Test
     public void main_메소드_정상_확인() {
         MyRecipesFrontApplication.main(new String[]{"--server.port=9999"});
-    }
-
-    @Test
-    public void property_로드_정상_확인() {
-        assertThat(value, is("test"));
-        assertThat(propertyValue, is("propertyTest"));
     }
 
     @Test

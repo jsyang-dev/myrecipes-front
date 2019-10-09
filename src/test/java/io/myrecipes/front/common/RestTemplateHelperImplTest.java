@@ -12,7 +12,10 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.config.location="
+        + "classpath:/application.yml,"
+        + "classpath:/aws.yml"
+)
 public class RestTemplateHelperImplTest {
     @Autowired
     private RestTemplateHelperImpl restTemplateHelper;

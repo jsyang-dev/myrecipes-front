@@ -46,16 +46,18 @@ public class IndexControllerTest {
     @Test
     public void 메인_페이지_호출() throws Exception {
         Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
-        PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
+        PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
+        given(this.indexService.readRecipePageCnt()).willReturn(1);
 
         final ResultActions actions = this.mockMvc.perform(get("/index"));
 
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "imgPath"))
+                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "imgPath"))
                 .andExpect(model().attribute("popularRecipeList", contains(recipe)))
                 .andExpect(model().attribute("newRecipeList", contains(recipe)))
+                .andExpect(model().attribute("recipePageCnt", 1))
                 .andExpect(model().attribute("imgPath", this.imgPath));
     }
 

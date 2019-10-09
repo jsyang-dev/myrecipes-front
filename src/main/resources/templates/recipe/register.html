@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+
+<th:block layout:fragment="html_head">
+    <title>마이레시피 - 레시피 등록</title>
+</th:block>
+
+<th:block layout:fragment="custom_css">
+</th:block>
+
+<th:block layout:fragment="content_body">
+    <div class="wrapper py-5 bg-light">
+        <div class="container">
+            <div class="card card-register mx-auto mt-5">
+                <div class="card-header">레시피 등록</div>
+                <div class="card-body">
+                    <form class="needs-validation" id="form_register" novalidate>
+                        <div class="form-group">
+                            <label for="title" class="title">레시피 제목</label>
+                            <div class="input-group">
+                                <input type="text" name="title" id="title" class="form-control" required="" autofocus="autofocus"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">@lotte.net</span>
+                                </div>
+                                <div class="invalid-feedback">
+                                    레시피 제목을 입력해주세요.
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">
+                                에러문구
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="estimatedTime" class="title">소요시간</label>
+                            <select class="custom-select d-block w-100" id="estimatedTime">
+                                <option value="">5분</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-header pt-3">요리 재료</div>
+                <div class="card-body">
+                    <button class="btn btn-primary btn-block" type="submit" id="save" data-loading-text="등록중..">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="custom_js">
+    <script type="text/javascript" th:inline="javascript">
+    </script>
+</th:block>
+
+</html>

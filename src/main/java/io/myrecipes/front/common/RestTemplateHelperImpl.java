@@ -26,12 +26,12 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
     @Override
     // TODO: 반환값이 에러메시지인 경우에 대한 처리 ApiErrorInfo에 대한 매핑 처리
     public <T> T getForObject(Class<T> clazz, String url, Object... uriVariables) {
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, uriVariables);
-        JavaType type = objectMapper.getTypeFactory().constructType(clazz);
+        ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
+        JavaType type =this. objectMapper.getTypeFactory().constructType(clazz);
         T result = null;
 
         try {
-            result = objectMapper.readValue(response.getBody(), type);
+            result = this.objectMapper.readValue(response.getBody(), type);
         } catch (IOException e) {
             log.info(e.getMessage());
         }
@@ -41,12 +41,12 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
 
     @Override
     public <T> List<T> getForList(Class<T> clazz, String url, Object... uriVariables) {
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, uriVariables);
-        CollectionType type = objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
+        ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
+        CollectionType type = this.objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
         List<T> result = null;
 
         try {
-            result = objectMapper.readValue(response.getBody(), type);
+            result = this.objectMapper.readValue(response.getBody(), type);
         } catch (IOException e) {
             log.info(e.getMessage());
         }
