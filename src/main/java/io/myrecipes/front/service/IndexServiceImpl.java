@@ -54,7 +54,7 @@ public class IndexServiceImpl implements IndexService {
                 .port(this.port)
                 .path("/recipes/cnt")
                 .build(true);
-        long recipeCnt = this.restTemplateHelper.getForObject(Long.class, uriComponents.toUriString());
+        long recipeCnt = this.restTemplateHelper.getForEntity(Long.class, uriComponents.toUriString());
 
         return (int) Math.ceil((double) recipeCnt / pageSize);
     }

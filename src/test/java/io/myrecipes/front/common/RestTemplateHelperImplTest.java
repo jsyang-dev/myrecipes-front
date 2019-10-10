@@ -26,7 +26,7 @@ public class RestTemplateHelperImplTest {
     @Test
     public void API_호출_테스트() {
         String url = api + "/health";
-        Object recipe = restTemplateHelper.getForObject(Recipe.class, url);
+        Object recipe = restTemplateHelper.getForEntity(Recipe.class, url);
 
         assertThat(recipe, instanceOf(Recipe.class));
     }

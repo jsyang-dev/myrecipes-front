@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -25,7 +26,7 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
 
     @Override
     // TODO: 반환값이 에러메시지인 경우에 대한 처리 ApiErrorInfo에 대한 매핑 처리
-    public <T> T getForObject(Class<T> clazz, String url, Object... uriVariables) {
+    public <T> T getForEntity(Class<T> clazz, String url, Object... uriVariables) {
         ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
         JavaType type =this. objectMapper.getTypeFactory().constructType(clazz);
         T result = null;
@@ -44,6 +45,22 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
         ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
         CollectionType type = this.objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
         List<T> result = null;
+
+        try {
+            result = this.objectMapper.readValue(response.getBody(), type);
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+
+        return result;
+    }
+
+    @Override
+    public <T, R> T postForEntity(Class<T> clazz, String url, R body, Object... uriVariables) {
+        HttpEntity<R> request = new HttpEntity<>(body);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class, uriVariables);
+        JavaType type = objectMapper.getTypeFactory().constructType(clazz);
+        T result = null;
 
         try {
             result = this.objectMapper.readValue(response.getBody(), type);
