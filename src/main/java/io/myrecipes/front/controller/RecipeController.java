@@ -6,10 +6,8 @@ import io.myrecipes.front.dto.RecipeRequest;
 import io.myrecipes.front.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,5 +32,11 @@ public class RecipeController {
     @PostMapping("/register/ajax")
     public Recipe registerAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
         return this.recipeService.createRecipe(recipeRequest);
+    }
+
+    @PostMapping("/upload/ajax")
+    @ResponseBody
+    public String uploadAjax(@RequestParam MultipartFile file, @RequestParam String path) {
+        return this.recipeService.uploadImage(file, path);
     }
 }

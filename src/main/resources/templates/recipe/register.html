@@ -20,7 +20,7 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="title" placeholder="">
+                            <input type="text" class="form-control" id="title" placeholder=""/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -30,11 +30,11 @@
                             <select class="form-control" id="estimatedTime1">
                                 <option>시간</option>
                                 <option value="0">0시간</option>
-                                <option value="1">1시간</option>
-                                <option value="2">2시간</option>
-                                <option value="3">3시간</option>
-                                <option value="4">4시간</option>
-                                <option value="5">5시간</option>
+                                <option value="60">1시간</option>
+                                <option value="120">2시간</option>
+                                <option value="180">3시간</option>
+                                <option value="240">4시간</option>
+                                <option value="300">5시간</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-5">
@@ -61,25 +61,19 @@
                         <div class="col-sm-10">
                             <select class="form-control" id="difficulty">
                                 <option>난이도 선택</option>
-                                <option value="1">*</option>
-                                <option value="2">**</option>
-                                <option value="3">***</option>
-                                <option value="4">****</option>
-                                <option value="5">*****</option>
+                                <option value="1">★☆☆☆☆</option>
+                                <option value="2">★★☆☆☆</option>
+                                <option value="3">★★★☆☆</option>
+                                <option value="4">★★★★☆</option>
+                                <option value="5">★★★★★</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="difficulty" class="col-sm-2 col-form-label">레시피 이미지</label>
+                        <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="difficulty">
-                                <option>난이도 선택</option>
-                                <option value="1">*</option>
-                                <option value="2">**</option>
-                                <option value="3">***</option>
-                                <option value="4">****</option>
-                                <option value="5">*****</option>
-                            </select>
+                            <input type="file" accept="image/*" class="form-control" id="imageFile"/>
+                            <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
                         </div>
                     </div>
                 </div>
@@ -107,6 +101,44 @@
 
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
+        $("#imageFile").on("change", function () {
+            alert("test");
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                $("#imagePreview").attr("src", e.target.result)
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+
+            uploadImage("recipe");
+        });
+
+        function uploadImage(path) {
+            const file = $('#imageFile')[0].files[0];
+            const sendData = new FormData();
+            sendData.append("file", file);
+            sendData.append("path", path);
+
+            $.ajax({
+                type: "POST",
+                url : "/recipe/upload/ajax",
+                data: sendData,
+                // dataType: "html",
+                processData: false,
+                contentType: false,
+                async: true,
+                success : function(data, status, xhr) {
+                    $('#imagePreview').attr("src", data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseJSON.message);
+                    alert(textStatus);
+                }
+            });
+        }
     </script>
 </th:block>
 
