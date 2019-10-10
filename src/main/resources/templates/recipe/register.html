@@ -14,38 +14,92 @@
 <th:block layout:fragment="content_body">
     <div class="wrapper py-5 bg-light">
         <div class="container">
-            <div class="card card-register mx-auto mt-5">
-                <div class="card-header">레시피 등록</div>
+            <div class="card card-register">
+                <div class="card-header">레시피 기본정보</div>
                 <div class="card-body">
-                    <form class="needs-validation" id="form_register" novalidate>
-                        <div class="form-group">
-                            <label for="title" class="title">레시피 제목</label>
-                            <div class="input-group">
-                                <input type="text" name="title" id="title" class="form-control" required="" autofocus="autofocus"/>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">@lotte.net</span>
-                                </div>
-                                <div class="invalid-feedback">
-                                    레시피 제목을 입력해주세요.
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">
-                                에러문구
-                            </small>
+                    <div class="form-group row">
+                        <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="title" placeholder="">
                         </div>
-                        <div class="form-group">
-                            <label for="estimatedTime" class="title">소요시간</label>
-                            <select class="custom-select d-block w-100" id="estimatedTime">
-                                <option value="">5분</option>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">예상시간</label>
+                        <div class="form-group col-sm-5">
+                            <label for="estimatedTime1" class="sr-only">시간</label>
+                            <select class="form-control" id="estimatedTime1">
+                                <option>시간</option>
+                                <option value="0">0시간</option>
+                                <option value="1">1시간</option>
+                                <option value="2">2시간</option>
+                                <option value="3">3시간</option>
+                                <option value="4">4시간</option>
+                                <option value="5">5시간</option>
                             </select>
                         </div>
-                    </form>
+                        <div class="form-group col-sm-5">
+                            <label for="estimatedTime2" class="sr-only">분</label>
+                            <select class="form-control" id="estimatedTime2">
+                                <option>분</option>
+                                <option value="0">0분</option>
+                                <option value="5">5분</option>
+                                <option value="10">10분</option>
+                                <option value="15">15분</option>
+                                <option value="20">20분</option>
+                                <option value="25">25분</option>
+                                <option value="30">30분</option>
+                                <option value="35">35분</option>
+                                <option value="40">40분</option>
+                                <option value="45">45분</option>
+                                <option value="50">50분</option>
+                                <option value="55">55분</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="difficulty" class="col-sm-2 col-form-label">난이도</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="difficulty">
+                                <option>난이도 선택</option>
+                                <option value="1">*</option>
+                                <option value="2">**</option>
+                                <option value="3">***</option>
+                                <option value="4">****</option>
+                                <option value="5">*****</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="difficulty" class="col-sm-2 col-form-label">레시피 이미지</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="difficulty">
+                                <option>난이도 선택</option>
+                                <option value="1">*</option>
+                                <option value="2">**</option>
+                                <option value="3">***</option>
+                                <option value="4">****</option>
+                                <option value="5">*****</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
+            <div class="card card-register mx-auto mt-2">
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
-                    <button class="btn btn-primary btn-block" type="submit" id="save" data-loading-text="등록중..">등록</button>
                 </div>
+            </div>
+
+            <div class="card card-register mx-auto mt-2">
+                <div class="card-header pt-3">요리 순서</div>
+                <div class="card-body">
+                </div>
+            </div>
+
+            <div class=" mt-2">
+                <button class="btn btn-primary" type="submit" id="save" data-loading-text="저장중..">저장</button>
+                <button class="btn btn-secondary" type="button">취소</button>
             </div>
         </div>
     </div>

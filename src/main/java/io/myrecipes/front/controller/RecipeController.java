@@ -1,12 +1,17 @@
 package io.myrecipes.front.controller;
 
 import io.myrecipes.front.dto.Material;
+import io.myrecipes.front.dto.Recipe;
+import io.myrecipes.front.dto.RecipeRequest;
 import io.myrecipes.front.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -24,5 +29,10 @@ public class RecipeController {
         model.addAttribute("materialList", materialList);
 
         return "recipe/register";
+    }
+
+    @PostMapping("/register/ajax")
+    public Recipe registerAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
+        return this.recipeService.createRecipe(recipeRequest);
     }
 }
