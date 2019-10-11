@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ public class RecipeRequest {
     private Integer estimatedTime;
 
     @NotBlank(message = "난이도를 선택해주세요.")
+    @Min(1)
+    @Max(5)
     private Integer difficulty;
 
     private List<RecipeMaterial> recipeMaterialList = new ArrayList<>();

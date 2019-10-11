@@ -20,7 +20,7 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="title" placeholder=""/>
+                            <input type="text" class="form-control" name="title" id="title" placeholder=""/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -73,6 +73,7 @@
                         <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                         <div class="col-sm-10">
                             <input type="file" accept="image/*" class="form-control" id="imageFile"/>
+                            <input type="hidden" name="image" id="image"/>
                             <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
                         </div>
                     </div>
@@ -82,17 +83,50 @@
             <div class="card card-register mx-auto mt-2">
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
+                    <div class="form-group row">
+                        <div class="form-group col-sm-6">
+                            <label for="materialName" class="sr-only">시간</label>
+                            <select class="form-control" id="materialName">
+                                <option>재료 선택</option>
+                                <th:block th:each="material: ${materialList}">
+                                    <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="materialUnitName" class="sr-only">단위</label>
+                            <input type="text" class="form-control" name="materialQuantity" id="materialUnitName" placeholder="" readonly/>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="materialQuantity" class="sr-only">수량</label>
+                            <input type="number" class="form-control" name="materialQuantity" id="materialQuantity" placeholder="수량"/>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card card-register mx-auto mt-2">
                 <div class="card-header pt-3">요리 순서</div>
                 <div class="card-body">
+                    <div class="form-group row">
+                        <div class="form-group col-sm-9">
+                            <label for="stepContent" class="sr-only">단계</label>
+                            <textarea class="form-control" id="stepContent" rows="6"></textarea>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="stepImageFile" class="sr-only">단계이미지</label>
+                            <div class="col-sm-10">
+                                <input type="file" accept="image/*" class="form-control" id="stepImageFile"/>
+                                <input type="hidden" name="image" id="stepImage"/>
+                                <img class="pt-2" id="stepImagePreview" th:width="140" th:height="100" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class=" mt-2">
-                <button class="btn btn-primary" type="submit" id="save" data-loading-text="저장중..">저장</button>
+                <button class="btn btn-primary" type="button" id="save" data-loading-text="저장중..">저장</button>
                 <button class="btn btn-secondary" type="button">취소</button>
             </div>
         </div>
@@ -101,19 +135,38 @@
 
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
-        $("#imageFile").on("change", function () {
-            alert("test");
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                // get loaded data and render thumbnail.
-                $("#imagePreview").attr("src", e.target.result)
+        $("#save").on("click", function () {
+            const request = {
+                title: $("#title").val(),
+                image: $("#image").val(),
+                estimatedTime: Number($("#estimatedTime1").val()) + Number($("#estimatedTime2").val()),
+                difficulty: $("#difficulty").val()
             };
 
-            // read the image file as a data URL.
-            reader.readAsDataURL(this.files[0]);
+            $.ajax({
+                type: "POST",
+                url : "/recipe/register/ajax",
+                data: JSON.stringify(request),
+                dataType: "json",
+                accept: "application/json",
+                contentType: "application/json; charset=utf-8",
+                async: true,
+                success : function(data, status, xhr) {
+                    alert("success");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseJSON.message);
+                    alert(textStatus);
+                }
+            });
+        });
 
+        $("#imageFile").on("change", function () {
             uploadImage("recipe");
+        });
+
+        $("#materialName").on("change", function () {
+            $("#materialUnitName").val($("#materialName option:selected").data("unit"));
         });
 
         function uploadImage(path) {
@@ -126,12 +179,13 @@
                 type: "POST",
                 url : "/recipe/upload/ajax",
                 data: sendData,
-                // dataType: "html",
                 processData: false,
                 contentType: false,
                 async: true,
                 success : function(data, status, xhr) {
-                    $('#imagePreview').attr("src", data);
+                    $("#image").val(data);
+                    $("#imagePreview").attr("src", data);
+                    alert("레시피 사진이 등록되었습니다.");
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseJSON.message);
