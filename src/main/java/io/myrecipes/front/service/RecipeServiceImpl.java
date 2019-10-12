@@ -52,6 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .host(this.host)
                 .port(this.port)
                 .path("/recipes")
+                .queryParam("userId", 10001)
                 .build(true);
 
         return this.restTemplateHelper.postForEntity(Recipe.class, uriComponents.toUriString(), recipeRequest);

@@ -13,8 +13,8 @@ import java.util.List;
 
 @Controller
 public class IndexController {
-    @Value("${app.img-path}")
-    private String imgPath;
+    @Value("${app.image-path.recipe}")
+    private String recipeImagePath;
 
     @Value("${app.index.page-size}")
     private int pageSize;
@@ -44,7 +44,7 @@ public class IndexController {
         model.addAttribute("popularRecipeList", popularRecipeList);
         model.addAttribute("newRecipeList", newRecipeList);
         model.addAttribute("recipePageCnt", recipePageCnt);
-        model.addAttribute("imgPath", this.imgPath);
+        model.addAttribute("recipeImagePath", this.recipeImagePath);
         return "index";
     }
 
@@ -54,7 +54,7 @@ public class IndexController {
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParam);
 
         model.addAttribute("newRecipeList", newRecipeList);
-        model.addAttribute("imgPath", this.imgPath);
+        model.addAttribute("recipeImagePath", this.recipeImagePath);
         return "index-ajax";
     }
 

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 public class RecipeMaterial {
     private Integer materialId;
 
-    @NotBlank(message = "요리재료의 수량을 선택해주세요.")
+//    @NotBlank(message = "요리재료의 수량을 선택해주세요.")
     private Integer quantity;
 
     @Builder

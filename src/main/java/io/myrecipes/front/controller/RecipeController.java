@@ -30,6 +30,7 @@ public class RecipeController {
     }
 
     @PostMapping("/register/ajax")
+    @ResponseBody
     public Recipe registerAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
         return this.recipeService.createRecipe(recipeRequest);
     }

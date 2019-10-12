@@ -17,115 +17,156 @@
             <div class="card card-register">
                 <div class="card-header">레시피 기본정보</div>
                 <div class="card-body">
-                    <div class="form-group row">
-                        <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="title" id="title" placeholder=""/>
+                    <form id="formMain">
+                        <div class="form-group row">
+                            <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="title" id="title" placeholder=""/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">예상시간</label>
-                        <div class="form-group col-sm-5">
-                            <label for="estimatedTime1" class="sr-only">시간</label>
-                            <select class="form-control" id="estimatedTime1">
-                                <option>시간</option>
-                                <option value="0">0시간</option>
-                                <option value="60">1시간</option>
-                                <option value="120">2시간</option>
-                                <option value="180">3시간</option>
-                                <option value="240">4시간</option>
-                                <option value="300">5시간</option>
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">예상시간</label>
+                            <div class="form-group col-sm-5">
+                                <label for="estimatedTime1" class="sr-only">시간</label>
+                                <select class="form-control" id="estimatedTime1" name="estimatedTime1">
+                                    <option>시간</option>
+                                    <option value="0">0시간</option>
+                                    <option value="60">1시간</option>
+                                    <option value="120">2시간</option>
+                                    <option value="180">3시간</option>
+                                    <option value="240">4시간</option>
+                                    <option value="300">5시간</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="estimatedTime2" class="sr-only">분</label>
+                                <select class="form-control" id="estimatedTime2" name="estimatedTime2">
+                                    <option>분</option>
+                                    <option value="0">0분</option>
+                                    <option value="5">5분</option>
+                                    <option value="10">10분</option>
+                                    <option value="15">15분</option>
+                                    <option value="20">20분</option>
+                                    <option value="25">25분</option>
+                                    <option value="30">30분</option>
+                                    <option value="35">35분</option>
+                                    <option value="40">40분</option>
+                                    <option value="45">45분</option>
+                                    <option value="50">50분</option>
+                                    <option value="55">55분</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-5">
-                            <label for="estimatedTime2" class="sr-only">분</label>
-                            <select class="form-control" id="estimatedTime2">
-                                <option>분</option>
-                                <option value="0">0분</option>
-                                <option value="5">5분</option>
-                                <option value="10">10분</option>
-                                <option value="15">15분</option>
-                                <option value="20">20분</option>
-                                <option value="25">25분</option>
-                                <option value="30">30분</option>
-                                <option value="35">35분</option>
-                                <option value="40">40분</option>
-                                <option value="45">45분</option>
-                                <option value="50">50분</option>
-                                <option value="55">55분</option>
-                            </select>
+                        <div class="form-group row">
+                            <label for="difficulty" class="col-sm-2 col-form-label">난이도</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="difficulty" name="difficulty">
+                                    <option>난이도 선택</option>
+                                    <option value="1">★☆☆☆☆</option>
+                                    <option value="2">★★☆☆☆</option>
+                                    <option value="3">★★★☆☆</option>
+                                    <option value="4">★★★★☆</option>
+                                    <option value="5">★★★★★</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="difficulty" class="col-sm-2 col-form-label">난이도</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="difficulty">
-                                <option>난이도 선택</option>
-                                <option value="1">★☆☆☆☆</option>
-                                <option value="2">★★☆☆☆</option>
-                                <option value="3">★★★☆☆</option>
-                                <option value="4">★★★★☆</option>
-                                <option value="5">★★★★★</option>
-                            </select>
+                        <div class="form-group row">
+                            <label for="tag" class="col-sm-2 col-form-label">태그</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="tag" id="tag" placeholder="예) 술안주,찌개,볶음,소고기"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
-                        <div class="col-sm-10">
-                            <input type="file" accept="image/*" class="form-control" id="imageFile"/>
-                            <input type="hidden" name="image" id="image"/>
-                            <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
+                        <div class="form-group row">
+                            <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
+                            <div class="col-sm-10">
+                                <input type="file" accept="image/*" class="form-control" id="imageFile"/>
+                                <input type="hidden" name="image" id="image"/>
+                                <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
             <div class="card card-register mx-auto mt-2">
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
-                    <div class="form-group row">
-                        <div class="form-group col-sm-6">
-                            <label for="materialName" class="sr-only">시간</label>
-                            <select class="form-control" id="materialName">
-                                <option>재료 선택</option>
-                                <th:block th:each="material: ${materialList}">
-                                    <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
-                                </th:block>
-                            </select>
+                    <form id="formMaterial">
+                        <div class="form-group row">
+                            <div class="form-group col-sm-1">
+                                <label class="mt-1">재료1</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="material1" class="sr-only">시간</label>
+                                <select class="form-control" id="material1" name="material">
+                                    <option>재료 선택</option>
+                                    <th:block th:each="material: ${materialList}">
+                                        <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="materialUnitName1" class="sr-only">단위</label>
+                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1" readonly/>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="materialQuantity1" class="sr-only">수량</label>
+                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity1" placeholder="수량"/>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="materialUnitName" class="sr-only">단위</label>
-                            <input type="text" class="form-control" name="materialQuantity" id="materialUnitName" placeholder="" readonly/>
+
+                        <div class="form-group row">
+                            <div class="form-group col-sm-1">
+                                <label class="mt-1">재료2</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="material2" class="sr-only">시간</label>
+                                <select class="form-control" id="material2" name="material">
+                                    <option>재료 선택</option>
+                                    <th:block th:each="material: ${materialList}">
+                                        <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="materialUnitName2" class="sr-only">단위</label>
+                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName2" readonly/>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="materialQuantity2" class="sr-only">수량</label>
+                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity2" placeholder="수량"/>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="materialQuantity" class="sr-only">수량</label>
-                            <input type="number" class="form-control" name="materialQuantity" id="materialQuantity" placeholder="수량"/>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
             <div class="card card-register mx-auto mt-2">
                 <div class="card-header pt-3">요리 순서</div>
                 <div class="card-body">
-                    <div class="form-group row">
-                        <div class="form-group col-sm-9">
-                            <label for="stepContent" class="sr-only">단계</label>
-                            <textarea class="form-control" id="stepContent" rows="6"></textarea>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label for="stepImageFile" class="sr-only">단계이미지</label>
-                            <div class="col-sm-10">
-                                <input type="file" accept="image/*" class="form-control" id="stepImageFile"/>
-                                <input type="hidden" name="image" id="stepImage"/>
-                                <img class="pt-2" id="stepImagePreview" th:width="140" th:height="100" />
+                    <form id="formStep">
+                        <div class="form-group row">
+                            <div class="form-group col-sm-1">
+                                <label class="mt-1">순서1</label>
+                            </div>
+                            <div class="form-group col-sm-8">
+                                <label for="stepContent1" class="sr-only">단계</label>
+                                <textarea class="form-control" id="stepContent1" name="stepContent" rows="6"></textarea>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="stepImageFile1" class="sr-only">단계이미지</label>
+                                <div class="col-sm-10">
+                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1"/>
+                                    <input type="hidden" name="stepImage" id="stepImage1"/>
+                                    <img class="pt-2 stepImagePreview" id="stepImagePreview1" th:width="140" th:height="100" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
-            <div class=" mt-2">
+            <div class="mt-2">
                 <button class="btn btn-primary" type="button" id="save" data-loading-text="저장중..">저장</button>
                 <button class="btn btn-secondary" type="button">취소</button>
             </div>
@@ -136,12 +177,59 @@
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
         $("#save").on("click", function () {
-            const request = {
-                title: $("#title").val(),
-                image: $("#image").val(),
-                estimatedTime: Number($("#estimatedTime1").val()) + Number($("#estimatedTime2").val()),
-                difficulty: $("#difficulty").val()
-            };
+            const mainJson = $("#formMain").serializeObject();
+            const materialJson = $("#formMaterial").serializeObject();
+            const stepJson = $("#formStep").serializeObject();
+            const request = {};
+
+            // 기본정보
+            request.title = mainJson.title;
+            request.image = mainJson.image;
+            request.estimatedTime = Number(mainJson.estimatedTime1) + Number(mainJson.estimatedTime2);
+            request.difficulty = Number(mainJson.difficulty);
+
+            // 요리재료
+            request.recipeMaterialList = [];
+            if (Array.isArray(materialJson.material)) {
+                for (let i = 0; i < materialJson.material.length; i++) {
+                    const material = {};
+                    material.materialId = Number(materialJson.material[i]);
+                    material.quantity = Number(materialJson.materialQuantity[i]);
+                    request.recipeMaterialList.push(material);
+                }
+            } else {
+                const material = {};
+                material.materialId = Number(materialJson.material);
+                material.quantity = Number(materialJson.materialQuantity);
+                request.recipeMaterialList.push(material);
+            }
+
+            // 요리순서
+            request.recipeStepList = [];
+            if (Array.isArray(stepJson.stepContent)) {
+                for (let i = 0; i < stepJson.stepContent.length; i++) {
+                    const step = {};
+                    step.step = i + 1;
+                    step.content = stepJson.stepContent[i];
+                    step.image = stepJson.stepImage[i];
+                    request.recipeStepList.push(step);
+                }
+            } else {
+                const step = {};
+                step.step = 1;
+                step.content = stepJson.stepContent;
+                step.image = stepJson.stepImage;
+                request.recipeStepList.push(step);
+            }
+
+            // 태그
+            request.recipeTagList = [];
+            const tagList = $("#tag").val().split(",");
+            for (let i = 0; i < tagList.length; i++) {
+                const tag = {};
+                tag.tag = $.trim(tagList[i]);
+                request.recipeTagList.push(tag);
+            }
 
             $.ajax({
                 type: "POST",
@@ -162,14 +250,19 @@
         });
 
         $("#imageFile").on("change", function () {
-            uploadImage("recipe");
+            uploadImage("recipe", $("#image"), $("#imagePreview"));
         });
 
-        $("#materialName").on("change", function () {
-            $("#materialUnitName").val($("#materialName option:selected").data("unit"));
+        $("select[name=material]").on("change", function () {
+            const unit = $(this).find("option:selected").data("unit");
+            $(this).parents(".row").find("input[name=materialUnitName]").val(unit);
         });
 
-        function uploadImage(path) {
+        $(".stepImageFile").on("change", function () {
+            uploadImage("step", $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
+        });
+
+        function uploadImage(path, $image, $imagePreview) {
             const file = $('#imageFile')[0].files[0];
             const sendData = new FormData();
             sendData.append("file", file);
@@ -183,15 +276,34 @@
                 contentType: false,
                 async: true,
                 success : function(data, status, xhr) {
-                    $("#image").val(data);
-                    $("#imagePreview").attr("src", data);
-                    alert("레시피 사진이 등록되었습니다.");
+                    $image.val(data);
+                    $imagePreview.attr("src", data);
+                    alert("사진이 등록되었습니다.");
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseJSON.message);
-                    alert(textStatus);
+                    alert("사진이 등록이 실패하였습니다.");
                 }
             });
+        }
+
+        $.fn.serializeObject = function() {
+            const result = {};
+            const extend = function (i, element) {
+                const node = result[element.name];
+                if ("undefined" !== typeof node && node !== null) {
+                    if ($.isArray(node)) {
+                        node.push(element.value)
+                    } else {
+                        result[element.name] = [node, element.value]
+                    }
+                } else {
+                    result[element.name] = element.value
+                }
+            };
+
+            $.each(this.serializeArray(), extend);
+            return result
         }
     </script>
 </th:block>

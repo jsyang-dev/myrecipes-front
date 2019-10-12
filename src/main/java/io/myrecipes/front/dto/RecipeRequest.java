@@ -13,18 +13,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RecipeRequest {
-    @NotBlank(message = "레시피 제목을 입력해주세요.")
+//    @NotBlank(message = "레시피 제목을 입력해주세요.")
     private String title;
 
-    @NotBlank(message = "레시피 이미지를 등록해주세요.")
+//    @NotBlank(message = "레시피 이미지를 등록해주세요.")
     private String image;
 
-    @NotBlank(message = "예상시간을 선택해주세요.")
+//    @NotBlank(message = "예상시간을 선택해주세요.")
     private Integer estimatedTime;
 
-    @NotBlank(message = "난이도를 선택해주세요.")
-    @Min(1)
-    @Max(5)
+//    @NotBlank(message = "난이도를 선택해주세요.")
+//    @Min(1)
+//    @Max(5)
     private Integer difficulty;
 
     private List<RecipeMaterial> recipeMaterialList = new ArrayList<>();
