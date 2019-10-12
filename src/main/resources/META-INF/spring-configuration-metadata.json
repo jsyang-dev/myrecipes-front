@@ -13,7 +13,11 @@
       "type": "java.lang.String"
     },
     {
-      "name": "app.img-path",
+      "name": "app.image-path.recipe",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.image-path.step",
       "type": "java.lang.String"
     },
     {

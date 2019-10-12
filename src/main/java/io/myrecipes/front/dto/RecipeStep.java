@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 public class RecipeStep {
     private Integer step;
 
-    @NotBlank(message = "요리 순서의 내용을 입력해주세요.")
+//    @NotBlank(message = "요리 순서의 내용을 입력해주세요.")
     private String content;
 
     private String image;

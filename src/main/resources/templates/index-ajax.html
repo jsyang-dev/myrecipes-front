@@ -2,7 +2,7 @@
                         <div class="card mb-4 box-shadow">
                             <a th:href="@{/view(id=${recipe.getId()})}">
                                 <img class="card-img-top" src="img/thumbnail.png" alt=""
-                                     th:src="${imgPath} + ${recipe.getImage()}"
+                                     th:src="${recipeImagePath} + ${recipe.getImage()}"
                                      th:alt="${recipe.getTitle()}"/>
                             </a>
                             <div class="card-body">
