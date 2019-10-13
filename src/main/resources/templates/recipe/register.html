@@ -73,13 +73,13 @@
                         <div class="form-group row">
                             <label for="tag" class="col-sm-2 col-form-label">태그</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="tag" id="tag" placeholder="예) 술안주,찌개,볶음,소고기"/>
+                                <input type="text" class="form-control" name="tag" id="tag" placeholder="콤마(,)로 구분 - 예) 술안주,볶음,소고기"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                             <div class="col-sm-10">
-                                <input type="file" accept="image/*" class="form-control" id="imageFile"/>
+                                <input type="file" accept="image/*" class="form-control" id="imageFile" style="display:none;"/>
                                 <input type="hidden" name="image" id="image"/>
                                 <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
                             </div>
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="card card-register mx-auto mt-2">
+            <div class="card card-register mx-auto mt-3">
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
                     <form id="formMaterial">
@@ -97,7 +97,7 @@
                                 <label class="mt-1">재료1</label>
                             </div>
                             <div class="form-group col-sm-6">
-                                <label for="material1" class="sr-only">시간</label>
+                                <label for="material1" class="sr-only">재료</label>
                                 <select class="form-control" id="material1" name="material">
                                     <option>재료 선택</option>
                                     <th:block th:each="material: ${materialList}">
@@ -106,42 +106,23 @@
                                 </select>
                             </div>
                             <div class="form-group col-sm-2">
-                                <label for="materialUnitName1" class="sr-only">단위</label>
-                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1" readonly/>
-                            </div>
-                            <div class="form-group col-sm-3">
                                 <label for="materialQuantity1" class="sr-only">수량</label>
                                 <input type="number" class="form-control" name="materialQuantity" id="materialQuantity1" placeholder="수량"/>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="form-group col-sm-1">
-                                <label class="mt-1">재료2</label>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="material2" class="sr-only">시간</label>
-                                <select class="form-control" id="material2" name="material">
-                                    <option>재료 선택</option>
-                                    <th:block th:each="material: ${materialList}">
-                                        <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
-                                    </th:block>
-                                </select>
-                            </div>
                             <div class="form-group col-sm-2">
-                                <label for="materialUnitName2" class="sr-only">단위</label>
-                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName2" readonly/>
-                            </div>
-                            <div class="form-group col-sm-3">
-                                <label for="materialQuantity2" class="sr-only">수량</label>
-                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity2" placeholder="수량"/>
+                                <label for="materialUnitName1" class="sr-only">단위</label>
+                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1" readonly/>
                             </div>
                         </div>
                     </form>
+                    <div class="text-center">
+                        <input type="hidden" id="seqMaterial" value="1"/>
+                        <button class="btn btn-secondary" type="button" id="addMaterial">추가</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="card card-register mx-auto mt-2">
+            <div class="card card-register mx-auto mt-3">
                 <div class="card-header pt-3">요리 순서</div>
                 <div class="card-body">
                     <form id="formStep">
@@ -149,26 +130,36 @@
                             <div class="form-group col-sm-1">
                                 <label class="mt-1">순서1</label>
                             </div>
-                            <div class="form-group col-sm-8">
+                            <div class="form-group col-sm-6">
                                 <label for="stepContent1" class="sr-only">단계</label>
                                 <textarea class="form-control" id="stepContent1" name="stepContent" rows="6"></textarea>
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-4">
                                 <label for="stepImageFile1" class="sr-only">단계이미지</label>
                                 <div class="col-sm-10">
-                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1"/>
+                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1" style="display:none;"/>
                                     <input type="hidden" name="stepImage" id="stepImage1"/>
-                                    <img class="pt-2 stepImagePreview" id="stepImagePreview1" th:width="140" th:height="100" />
+                                    <img class="pt-2 stepImagePreview" id="stepImagePreview1" th:width="200" th:height="150" />
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <div class="text-center">
+                        <input type="hidden" id="seqStep" value="1"/>
+                        <button class="btn btn-secondary" type="button" id="addStep">추가</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-2">
-                <button class="btn btn-primary" type="button" id="save" data-loading-text="저장중..">저장</button>
-                <button class="btn btn-secondary" type="button">취소</button>
+            <div class="mt-4">
+                <div class="form-group row">
+                    <div class="form-group col-sm-6">
+                        <button class="btn btn-primary btn-block btn-lg" type="button" id="save" data-loading-text="저장중..">저장</button>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <button class="btn btn-secondary btn-block btn-lg" type="button">취소</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -176,6 +167,101 @@
 
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
+        const materialList = [[${materialList}]];
+        const rowMaterial = `
+                        <div class="form-group row">
+                            <div class="form-group col-sm-1">
+                                <label class="mt-1">재료{seq}</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="material{seq}" class="sr-only">재료</label>
+                                <select class="form-control" id="material{seq}" name="material">
+                                    <option>재료 선택</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="materialQuantity{seq}" class="sr-only">수량</label>
+                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity{seq}" placeholder="수량"/>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="materialUnitName{seq}" class="sr-only">단위</label>
+                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName{seq}" readonly/>
+                            </div>
+                            <div class="form-group col-sm-1">
+                                <button class="btn btn-secondary delRow" type="button">X</button>
+                            </div>
+                        </div>`;
+        const rowStep = `<div class="form-group row">
+                            <div class="form-group col-sm-1">
+                                <label class="mt-1">순서{seq}</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="stepContent{seq}" class="sr-only">단계</label>
+                                <textarea class="form-control" id="stepContent{seq}" name="stepContent" rows="6"></textarea>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="stepImageFile{seq}" class="sr-only">단계이미지</label>
+                                <div class="col-sm-10">
+                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile{seq}" style="display:none;"/>
+                                    <input type="hidden" name="stepImage" id="stepImage{seq}"/>
+                                    <img class="pt-2 stepImagePreview" id="stepImagePreview{seq}" width="200" height="150" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-1">
+                                <button class="btn btn-secondary delRow" type="button">X</button>
+                            </div>
+                        </div>`;
+        
+        $("#addMaterial").on("click", function() {
+            const $seqMaterial = $("#seqMaterial");
+            const $formMaterial = $("#formMaterial");
+            const nextSeq = Number($seqMaterial.val()) + 1;
+            const row = rowMaterial.replace(/{seq}/gi, nextSeq);
+
+            $formMaterial.append(row);
+            $seqMaterial.val(nextSeq);
+
+            for (let i = 0; i < materialList.length; i++) {
+                const option = `<option value="${materialList[i].id}" data-unit="${materialList[i].unitName}">${materialList[i].name}</option>`;
+                $formMaterial.find("select:last").append(option);
+            }
+        });
+
+        $("#addStep").on("click", function() {
+            const $seqStep = $("#seqStep");
+            const nextSeq = Number($seqStep.val()) + 1;
+            const row = rowStep.replace(/{seq}/gi, nextSeq);
+
+            $("#formStep").append(row);
+            $seqStep.val(nextSeq);
+        });
+
+        $(document).on("click", ".delRow", function() {
+            $(this).parents(".row").remove();
+        });
+
+        $("#imagePreview").on("click", function() {
+            $("#imageFile").click();
+        });
+
+        $("#imageFile").on("change", function() {
+            uploadImage("recipe", $(this), $("#image"), $("#imagePreview"));
+        });
+
+        $(document).on("change", "select[name=material]", function() {
+            const unit = $(this).find("option:selected").data("unit");
+            $(this).parents(".row").find("input[name=materialUnitName]").val(unit);
+        });
+
+        $(document).on("click", ".stepImagePreview", function() {
+            $(this).siblings(".stepImageFile").click();
+        });
+
+        $(document).on("change", ".stepImageFile", function() {
+            uploadImage("step", $(this), $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
+        });
+
+        // TODO: 화면에서 입력값 검증
         $("#save").on("click", function () {
             const mainJson = $("#formMain").serializeObject();
             const materialJson = $("#formMaterial").serializeObject();
@@ -184,7 +270,7 @@
 
             // 기본정보
             request.title = mainJson.title;
-            request.image = mainJson.image;
+            request.image = mainJson.image.split("recipe/")[1];
             request.estimatedTime = Number(mainJson.estimatedTime1) + Number(mainJson.estimatedTime2);
             request.difficulty = Number(mainJson.difficulty);
 
@@ -211,24 +297,27 @@
                     const step = {};
                     step.step = i + 1;
                     step.content = stepJson.stepContent[i];
-                    step.image = stepJson.stepImage[i];
+                    step.image = stepJson.stepImage[i].split("step/")[1];
                     request.recipeStepList.push(step);
                 }
             } else {
                 const step = {};
                 step.step = 1;
                 step.content = stepJson.stepContent;
-                step.image = stepJson.stepImage;
+                step.image = stepJson.stepImage.split("step/")[1];
                 request.recipeStepList.push(step);
             }
 
             // 태그
             request.recipeTagList = [];
-            const tagList = $("#tag").val().split(",");
-            for (let i = 0; i < tagList.length; i++) {
-                const tag = {};
-                tag.tag = $.trim(tagList[i]);
-                request.recipeTagList.push(tag);
+            $tag = $("#tag");
+            if ($.trim($tag.val()) !== "") {
+                const tagList = $tag.val().split(",");
+                for (let i = 0; i < tagList.length; i++) {
+                    const tag = {};
+                    tag.tag = $.trim(tagList[i]);
+                    request.recipeTagList.push(tag);
+                }
             }
 
             $.ajax({
@@ -240,30 +329,23 @@
                 contentType: "application/json; charset=utf-8",
                 async: true,
                 success : function(data, status, xhr) {
-                    alert("success");
+                    alert("레시피가 저장되었습니다.");
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseJSON.message);
-                    alert(textStatus);
+                    console.log(jqXHR);
+
+                    if (jqXHR.responseJSON.status === 400) {
+                        showError(jqXHR);
+                        alert("레시피 저장에 실패하였습니다.\n입력하신 내용을 확인해주세요.");
+                    } else {
+                        alert("레시피 저장에 실패하였습니다.");
+                    }
                 }
             });
         });
 
-        $("#imageFile").on("change", function () {
-            uploadImage("recipe", $("#image"), $("#imagePreview"));
-        });
-
-        $("select[name=material]").on("change", function () {
-            const unit = $(this).find("option:selected").data("unit");
-            $(this).parents(".row").find("input[name=materialUnitName]").val(unit);
-        });
-
-        $(".stepImageFile").on("change", function () {
-            uploadImage("step", $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
-        });
-
-        function uploadImage(path, $image, $imagePreview) {
-            const file = $('#imageFile')[0].files[0];
+        const uploadImage = function(path, $imageFile, $image, $imagePreview) {
+            const file = $imageFile[0].files[0];
             const sendData = new FormData();
             sendData.append("file", file);
             sendData.append("path", path);
@@ -285,7 +367,28 @@
                     alert("사진이 등록이 실패하였습니다.");
                 }
             });
-        }
+        };
+
+        // TODO: 리스트에도 적용되도록 수정, 공통 파일로 추출
+        const showError = function(response) {
+            const errorFields = response.responseJSON.errors;
+
+            if(!errorFields){
+                alert(response.response.message);
+                return;
+            }
+
+            let $field, error;
+            for (let i = 0, length = errorFields.length; i < length; i++) {
+                error = errorFields[i];
+                $field = $("#" + error["field"]);
+
+                if ($field && $field.length > 0) {
+                    $field.siblings(".error-message").remove();
+                    $field.after("<span class=\"error-message taxt-small text-danger\">" + error.defaultMessage + "</span>");
+                }
+            }
+        };
 
         $.fn.serializeObject = function() {
             const result = {};
