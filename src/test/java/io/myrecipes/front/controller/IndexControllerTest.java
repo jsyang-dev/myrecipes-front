@@ -1,7 +1,7 @@
 package io.myrecipes.front.controller;
 
-import io.myrecipes.front.domain.PageParam;
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.dto.PageParam;
+import io.myrecipes.front.dto.Recipe;
 import io.myrecipes.front.service.IndexService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,8 +31,8 @@ public class IndexControllerTest {
     @MockBean
     private IndexService indexService;
 
-    @Value("${app.img-path}")
-    private String imgPath;
+    @Value("${app.image-path.recipe}")
+    private String recipeImagePath;
 
     @Value("${app.index.page-size}")
     private int pageSize;
@@ -45,18 +45,20 @@ public class IndexControllerTest {
 
     @Test
     public void 메인_페이지_호출() throws Exception {
-        Recipe recipe = new Recipe("test1", "test1.jpg", 30, "1", 1001);
-        PageParam pageParam = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
+        Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
+        PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
+        given(this.indexService.readRecipePageCnt()).willReturn(1);
 
         final ResultActions actions = this.mockMvc.perform(get("/index"));
 
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "imgPath"))
+                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "recipeImagePath"))
                 .andExpect(model().attribute("popularRecipeList", contains(recipe)))
                 .andExpect(model().attribute("newRecipeList", contains(recipe)))
-                .andExpect(model().attribute("imgPath", this.imgPath));
+                .andExpect(model().attribute("recipePageCnt", 1))
+                .andExpect(model().attribute("recipeImagePath", this.recipeImagePath));
     }
 
     static class PageParamMatcher implements ArgumentMatcher<PageParam> {

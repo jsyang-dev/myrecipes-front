@@ -1,24 +1,22 @@
 package io.myrecipes.front.service;
 
-import io.myrecipes.front.domain.PageParam;
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.common.RestTemplateHelperImpl;
+import io.myrecipes.front.dto.PageParam;
+import io.myrecipes.front.dto.Recipe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
@@ -28,7 +26,10 @@ public class IndexServiceImplTest {
     private IndexServiceImpl indexService;
 
     @Mock
-    private RestServiceImpl restService;
+    private RestTemplateHelperImpl restService;
+
+    @Mock
+    private RestTemplate restTemplate;
 
     @Value("${app.index.page-size}")
     private int pageSize;
@@ -41,37 +42,15 @@ public class IndexServiceImplTest {
 
     @Test
     public void Should_페이지_정상_반환_When_페이지_조회() {
-        Recipe recipe = new Recipe("test1", "test1.jpg", 30, "1", 1001);
+        Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
         List<Recipe> list = Collections.singletonList(recipe);
-        ResponseEntity<List<Recipe>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
-        PageParam pageParam = new PageParam(0, this.pageSize, this.sortField, this.isDescending);
-        given(this.restService.<List<Recipe>>callApi(argThat(new IndexServiceImplTest.UrlMatcher(pageParam)), eq(HttpMethod.GET))).willReturn(responseEntity);
+        PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
+
+        given(this.restService.getForList(eq(Recipe.class), any(String.class))).willReturn(list);
 
         final List<Recipe> recipeList = this.indexService.readRecipeList(pageParam);
 
         assertThat(recipeList.size(), is(1));
         assertThat(recipeList.get(0).equals(recipe), is(true));
     }
-
-    static class UrlMatcher implements ArgumentMatcher<String> {
-        private PageParam left;
-
-        @Value("${app.api.recipe}")
-        private String api;
-
-        UrlMatcher(PageParam left) {
-            this.left = left;
-        }
-
-        @Override
-        public boolean matches(String right) {
-            String url = api + "/recipes"
-                    + "?page=" + left.getPage()
-                    + "&size=" + left.getSize()
-                    + "&sortField=" + left.getSortField()
-                    + "&isDescending=" + left.isDescending();
-            return url.equals(right);
-        }
-    }
-
 }

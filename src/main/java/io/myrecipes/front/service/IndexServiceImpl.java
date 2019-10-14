@@ -1,37 +1,61 @@
 package io.myrecipes.front.service;
 
-import io.myrecipes.front.domain.PageParam;
-import io.myrecipes.front.domain.Recipe;
+import io.myrecipes.front.common.RestTemplateHelperImpl;
+import io.myrecipes.front.dto.PageParam;
+import io.myrecipes.front.dto.Recipe;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @Service
 public class IndexServiceImpl implements IndexService {
-    @Value("${app.api.recipe}")
-    private String api;
+    @Value("${app.api.recipe.scheme}")
+    private String scheme;
 
-    private final RestService restService;
+    @Value("${app.api.recipe.host}")
+    private String host;
 
-    public IndexServiceImpl(RestService restService) {
-        this.restService = restService;
+    @Value("${app.api.recipe.port}")
+    private String port;
+
+    @Value("${app.index.page-size}")
+    private int pageSize;
+
+    private final RestTemplateHelperImpl restTemplateHelper;
+
+    public IndexServiceImpl(RestTemplateHelperImpl restTemplateHelper) {
+        this.restTemplateHelper = restTemplateHelper;
     }
 
     @Override
     public List<Recipe> readRecipeList(PageParam pageParam) {
-        String url = api + "/recipes"
-                        + "?page=" + pageParam.getPage()
-                        + "&size=" + pageParam.getSize()
-                        + "&sortField=" + pageParam.getSortField()
-                        + "&isDescending=" + pageParam.isDescending();
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/recipes")
+                .queryParam("page", pageParam.getPage())
+                .queryParam("size", pageParam.getSize())
+                .queryParam("sortField", pageParam.getSortField())
+                .queryParam("isDescending", pageParam.isDescending())
+                .build(true);
 
-        ResponseEntity<List<Recipe>> responseEntity = this.restService.callApi(url, HttpMethod.GET);
-        return responseEntity.getBody();
+        return this.restTemplateHelper.getForList(Recipe.class, uriComponents.toUriString());
+    }
+
+    @Override
+    public int readRecipePageCnt() {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/recipes/cnt")
+                .build(true);
+        long recipeCnt = this.restTemplateHelper.getForEntity(Long.class, uriComponents.toUriString());
+
+        return (int) Math.ceil((double) recipeCnt / pageSize);
     }
 }
