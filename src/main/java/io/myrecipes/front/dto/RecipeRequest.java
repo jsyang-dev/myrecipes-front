@@ -21,22 +21,22 @@ public class RecipeRequest {
     @Length(max = 200, message = "레시피 이미지는 최대 200자까지 입력이 가능합니다.")
     private String image;
 
-    @NotNull(message = "예상시간을 선택해주세요.")
-    @Positive(message = "양수로 입력해주세요.")
+    @NotNull(message = "소요시간을 입력해주세요.")
+    @Positive(message = "소요시간을 양수로 입력해주세요.")
     private Integer estimatedTime;
 
-    @NotNull(message = "난이도를 선택해주세요.")
+    @NotNull(message = "난이도를 입력해주세요.")
     @Min(value = 1, message = "난이도는 최소 1부터 입력이 가능합니다.")
     @Max(value = 5, message = "난이도는 최대 5까지 입력이 가능합니다.")
     private Integer difficulty;
 
     @NotEmpty(message = "요리 재료를 1개 이상 입력해주세요.")
-    private List<@Valid RecipeMaterial> recipeMaterialList = new ArrayList<>();
+    private List<@Valid RecipeMaterialRequest> recipeMaterialRequestList = new ArrayList<>();
 
     @NotEmpty(message = "요리 순서를 1개 이상 입력해주세요.")
-    private List<@Valid RecipeStep> recipeStepList = new ArrayList<>();
+    private List<@Valid RecipeStepRequest> recipeStepRequestList = new ArrayList<>();
 
-    private List<@Valid RecipeTag> recipeTagList = new ArrayList<>();
+    private List<@Valid RecipeTagRequest> recipeTagRequestList = new ArrayList<>();
 
     @Builder
     public RecipeRequest(String title, String image, Integer estimatedTime, Integer difficulty) {

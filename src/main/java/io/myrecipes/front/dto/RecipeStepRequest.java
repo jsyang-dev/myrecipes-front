@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor
-public class RecipeStep {
+public class RecipeStepRequest {
     private Integer step;
 
     @NotBlank(message = "요리 순서의 내용을 입력해주세요.")
@@ -19,7 +19,7 @@ public class RecipeStep {
     private String image;
 
     @Builder
-    public RecipeStep(Integer step, String content, String image) {
+    public RecipeStepRequest(Integer step, String content, String image) {
         this.step = step;
         this.content = content;
         this.image = image;

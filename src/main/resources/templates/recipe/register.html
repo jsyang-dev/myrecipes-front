@@ -17,7 +17,7 @@
             <div class="card card-register">
                 <div class="card-header">레시피 기본정보</div>
                 <div class="card-body">
-                    <form id="formMain">
+                    <form id="main">
                         <div class="form-group row">
                             <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
                             <div class="col-sm-10">
@@ -25,35 +25,25 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">예상시간</label>
-                            <div class="form-group col-sm-5">
-                                <label for="estimatedTime1" class="sr-only">시간</label>
-                                <select class="form-control" id="estimatedTime1" name="estimatedTime1">
-                                    <option>시간</option>
-                                    <option value="0">0시간</option>
-                                    <option value="60">1시간</option>
-                                    <option value="120">2시간</option>
-                                    <option value="180">3시간</option>
-                                    <option value="240">4시간</option>
-                                    <option value="300">5시간</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-5">
-                                <label for="estimatedTime2" class="sr-only">분</label>
-                                <select class="form-control" id="estimatedTime2" name="estimatedTime2">
-                                    <option>분</option>
-                                    <option value="0">0분</option>
+                            <label for="estimatedTime" class="col-sm-2 col-form-label">소요시간</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="estimatedTime" name="estimatedTime">
+                                    <option>소요시간 선택</option>
                                     <option value="5">5분</option>
                                     <option value="10">10분</option>
                                     <option value="15">15분</option>
                                     <option value="20">20분</option>
-                                    <option value="25">25분</option>
                                     <option value="30">30분</option>
-                                    <option value="35">35분</option>
                                     <option value="40">40분</option>
-                                    <option value="45">45분</option>
                                     <option value="50">50분</option>
-                                    <option value="55">55분</option>
+                                    <option value="60">1시간</option>
+                                    <option value="90">1시간 30분</option>
+                                    <option value="120">2시간</option>
+                                    <option value="150">2시간 30분</option>
+                                    <option value="180">3시간</option>
+                                    <option value="210">3시간 30분</option>
+                                    <option value="240">4시간</option>
+                                    <option value="300">5시간</option>
                                 </select>
                             </div>
                         </div>
@@ -79,9 +69,9 @@
                         <div class="form-group row">
                             <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                             <div class="col-sm-10">
+                                <img th:src="${commonImagePath} + 'add_image.jpg'" id="imagePreview" width="300" height="200" style="border: 1px solid #ced4da"/><p>
                                 <input type="file" accept="image/*" class="form-control" id="imageFile" style="display:none;"/>
                                 <input type="hidden" name="image" id="image"/>
-                                <img class="pt-2" id="imagePreview" th:width="350" th:height="200" />
                             </div>
                         </div>
                     </form>
@@ -91,8 +81,8 @@
             <div class="card card-register mx-auto mt-3">
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
-                    <form id="formMaterial">
-                        <div class="form-group row">
+                    <form id="recipeMaterialRequestList">
+                        <div class="form-group row mb-0">
                             <div class="form-group col-sm-1">
                                 <label class="mt-1">재료1</label>
                             </div>
@@ -125,8 +115,8 @@
             <div class="card card-register mx-auto mt-3">
                 <div class="card-header pt-3">요리 순서</div>
                 <div class="card-body">
-                    <form id="formStep">
-                        <div class="form-group row">
+                    <form id="recipeStepRequestList">
+                        <div class="form-group row mb-0">
                             <div class="form-group col-sm-1">
                                 <label class="mt-1">순서1</label>
                             </div>
@@ -137,9 +127,9 @@
                             <div class="form-group col-sm-4">
                                 <label for="stepImageFile1" class="sr-only">단계이미지</label>
                                 <div class="col-sm-10">
+                                    <img th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview" id="stepImagePreview1" width="200" height="150" style="border: 1px solid #ced4da"/>
                                     <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1" style="display:none;"/>
                                     <input type="hidden" name="stepImage" id="stepImage1"/>
-                                    <img class="pt-2 stepImagePreview" id="stepImagePreview1" th:width="200" th:height="150" />
                                 </div>
                             </div>
                         </div>
@@ -157,11 +147,14 @@
                         <button class="btn btn-primary btn-block btn-lg" type="button" id="save" data-loading-text="저장중..">저장</button>
                     </div>
                     <div class="form-group col-sm-6">
-                        <button class="btn btn-secondary btn-block btn-lg" type="button">취소</button>
+                        <button class="btn btn-secondary btn-block btn-lg" type="button" id="cancel">취소</button>
                     </div>
                 </div>
             </div>
         </div>
+        <a href="#" class="btn btn-primary scrollUp">
+            <i class="fa fa-arrow-circle-o-up"></i>
+        </a>
     </div>
 </th:block>
 
@@ -169,7 +162,7 @@
     <script type="text/javascript" th:inline="javascript">
         const materialList = [[${materialList}]];
         const rowMaterial = `
-                        <div class="form-group row">
+                        <div class="form-group row mb-0 mt-3">
                             <div class="form-group col-sm-1">
                                 <label class="mt-1">재료{seq}</label>
                             </div>
@@ -188,10 +181,12 @@
                                 <input type="text" class="form-control" name="materialUnitName" id="materialUnitName{seq}" readonly/>
                             </div>
                             <div class="form-group col-sm-1">
-                                <button class="btn btn-secondary delRow" type="button">X</button>
+                                <button class="btn btn-light delRow" type="button">
+                                    <i class="fa fa-times-circle"/>
+                                </button>
                             </div>
                         </div>`;
-        const rowStep = `<div class="form-group row">
+        const rowStep = `<div class="form-group row mb-0 mt-3">
                             <div class="form-group col-sm-1">
                                 <label class="mt-1">순서{seq}</label>
                             </div>
@@ -208,13 +203,15 @@
                                 </div>
                             </div>
                             <div class="form-group col-sm-1">
-                                <button class="btn btn-secondary delRow" type="button">X</button>
+                                <button class="btn btn-light delRow" type="button">
+                                    <i class="fa fa-times-circle"/>
+                                </button>
                             </div>
                         </div>`;
         
         $("#addMaterial").on("click", function() {
             const $seqMaterial = $("#seqMaterial");
-            const $formMaterial = $("#formMaterial");
+            const $formMaterial = $("#recipeMaterialRequestList");
             const nextSeq = Number($seqMaterial.val()) + 1;
             const row = rowMaterial.replace(/{seq}/gi, nextSeq);
 
@@ -232,11 +229,12 @@
             const nextSeq = Number($seqStep.val()) + 1;
             const row = rowStep.replace(/{seq}/gi, nextSeq);
 
-            $("#formStep").append(row);
+            $("#recipeStepRequestList").append(row);
             $seqStep.val(nextSeq);
         });
 
-        $(document).on("click", ".delRow", function() {
+        $(document).on("click", ".delRow", function(e)
+        {
             $(this).parents(".row").remove();
         });
 
@@ -261,62 +259,66 @@
             uploadImage("step", $(this), $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
         });
 
-        // TODO: 화면에서 입력값 검증
         $("#save").on("click", function () {
-            const mainJson = $("#formMain").serializeObject();
-            const materialJson = $("#formMaterial").serializeObject();
-            const stepJson = $("#formStep").serializeObject();
+            const mainJson = $("#main").serializeObject();
+            const materialJson = $("#recipeMaterialRequestList").serializeObject();
+            const stepJson = $("#recipeStepRequestList").serializeObject();
             const request = {};
 
             // 기본정보
+            const splitImage = mainJson.image.split("/");
             request.title = mainJson.title;
-            request.image = mainJson.image.split("recipe/")[1];
+            request.image = splitImage[splitImage.length - 1];
             request.estimatedTime = Number(mainJson.estimatedTime1) + Number(mainJson.estimatedTime2);
             request.difficulty = Number(mainJson.difficulty);
 
             // 요리재료
-            request.recipeMaterialList = [];
+            request.recipeMaterialRequestList = [];
             if (Array.isArray(materialJson.material)) {
                 for (let i = 0; i < materialJson.material.length; i++) {
                     const material = {};
                     material.materialId = Number(materialJson.material[i]);
                     material.quantity = Number(materialJson.materialQuantity[i]);
-                    request.recipeMaterialList.push(material);
+                    request.recipeMaterialRequestList.push(material);
                 }
             } else {
                 const material = {};
                 material.materialId = Number(materialJson.material);
                 material.quantity = Number(materialJson.materialQuantity);
-                request.recipeMaterialList.push(material);
+                request.recipeMaterialRequestList.push(material);
             }
 
             // 요리순서
-            request.recipeStepList = [];
+            request.recipeStepRequestList = [];
             if (Array.isArray(stepJson.stepContent)) {
                 for (let i = 0; i < stepJson.stepContent.length; i++) {
                     const step = {};
+                    const splitStepImage = stepJson.stepImage[i].split("/");
+
                     step.step = i + 1;
                     step.content = stepJson.stepContent[i];
-                    step.image = stepJson.stepImage[i].split("step/")[1];
-                    request.recipeStepList.push(step);
+                    step.image = splitStepImage[splitStepImage.length - 1];
+                    request.recipeStepRequestList.push(step);
                 }
             } else {
                 const step = {};
+                const splitStepImage = stepJson.stepImage.split("/");
+
                 step.step = 1;
                 step.content = stepJson.stepContent;
-                step.image = stepJson.stepImage.split("step/")[1];
-                request.recipeStepList.push(step);
+                step.image = splitStepImage[splitStepImage.length - 1];
+                request.recipeStepRequestList.push(step);
             }
 
             // 태그
-            request.recipeTagList = [];
-            $tag = $("#tag");
+            request.recipeTagRequestList = [];
+            const $tag = $("#tag");
             if ($.trim($tag.val()) !== "") {
                 const tagList = $tag.val().split(",");
                 for (let i = 0; i < tagList.length; i++) {
                     const tag = {};
                     tag.tag = $.trim(tagList[i]);
-                    request.recipeTagList.push(tag);
+                    request.recipeTagRequestList.push(tag);
                 }
             }
 
@@ -335,7 +337,7 @@
                     console.log(jqXHR);
 
                     if (jqXHR.responseJSON.status === 400) {
-                        showError(jqXHR);
+                        showErrorMessage(jqXHR);
                         alert("레시피 저장에 실패하였습니다.\n입력하신 내용을 확인해주세요.");
                     } else {
                         alert("레시피 저장에 실패하였습니다.");
@@ -344,70 +346,9 @@
             });
         });
 
-        const uploadImage = function(path, $imageFile, $image, $imagePreview) {
-            const file = $imageFile[0].files[0];
-            const sendData = new FormData();
-            sendData.append("file", file);
-            sendData.append("path", path);
-
-            $.ajax({
-                type: "POST",
-                url : "/recipe/upload/ajax",
-                data: sendData,
-                processData: false,
-                contentType: false,
-                async: true,
-                success : function(data, status, xhr) {
-                    $image.val(data);
-                    $imagePreview.attr("src", data);
-                    alert("사진이 등록되었습니다.");
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseJSON.message);
-                    alert("사진이 등록이 실패하였습니다.");
-                }
-            });
-        };
-
-        // TODO: 리스트에도 적용되도록 수정, 공통 파일로 추출
-        const showError = function(response) {
-            const errorFields = response.responseJSON.errors;
-
-            if(!errorFields){
-                alert(response.response.message);
-                return;
-            }
-
-            let $field, error;
-            for (let i = 0, length = errorFields.length; i < length; i++) {
-                error = errorFields[i];
-                $field = $("#" + error["field"]);
-
-                if ($field && $field.length > 0) {
-                    $field.siblings(".error-message").remove();
-                    $field.after("<span class=\"error-message taxt-small text-danger\">" + error.defaultMessage + "</span>");
-                }
-            }
-        };
-
-        $.fn.serializeObject = function() {
-            const result = {};
-            const extend = function (i, element) {
-                const node = result[element.name];
-                if ("undefined" !== typeof node && node !== null) {
-                    if ($.isArray(node)) {
-                        node.push(element.value)
-                    } else {
-                        result[element.name] = [node, element.value]
-                    }
-                } else {
-                    result[element.name] = element.value
-                }
-            };
-
-            $.each(this.serializeArray(), extend);
-            return result
-        }
+        $("#cancel").on("click", function () {
+            history.back();
+        });
     </script>
 </th:block>
 
