@@ -31,8 +31,8 @@ public class IndexControllerTest {
     @MockBean
     private IndexService indexService;
 
-    @Value("${app.img-path}")
-    private String imgPath;
+    @Value("${app.image-path.recipe}")
+    private String recipeImagePath;
 
     @Value("${app.index.page-size}")
     private int pageSize;
@@ -54,11 +54,11 @@ public class IndexControllerTest {
 
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "imgPath"))
+                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "recipeImagePath"))
                 .andExpect(model().attribute("popularRecipeList", contains(recipe)))
                 .andExpect(model().attribute("newRecipeList", contains(recipe)))
                 .andExpect(model().attribute("recipePageCnt", 1))
-                .andExpect(model().attribute("imgPath", this.imgPath));
+                .andExpect(model().attribute("recipeImagePath", this.recipeImagePath));
     }
 
     static class PageParamMatcher implements ArgumentMatcher<PageParam> {

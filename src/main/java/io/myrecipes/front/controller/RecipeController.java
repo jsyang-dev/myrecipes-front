@@ -4,6 +4,7 @@ import io.myrecipes.front.dto.Material;
 import io.myrecipes.front.dto.Recipe;
 import io.myrecipes.front.dto.RecipeRequest;
 import io.myrecipes.front.service.RecipeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
+    @Value("${app.image-path.common}")
+    private String commonImagePath;
+
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -25,6 +29,7 @@ public class RecipeController {
     public String register(Model model) {
         List<Material> materialList = this.recipeService.readMaterialList();
         model.addAttribute("materialList", materialList);
+        model.addAttribute("commonImagePath", this.commonImagePath);
 
         return "recipe/register";
     }
