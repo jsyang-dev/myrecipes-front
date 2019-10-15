@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class RecipeTagRequest {
     @NotBlank(message = "태그를 정확히 입력해주세요.")
-    @Length(max = 200, message = "태그는 최대 20자까지 입력이 가능합니다.")
+    @Length(max = 20, message = "태그는 건당 최대 20자까지 입력이 가능합니다.")
     private String tag;
 
     @Builder

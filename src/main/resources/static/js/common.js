@@ -24,7 +24,7 @@ function attachTopScroller (elementId) {
     });
 }
 
-
+/******************************* Custom *******************************/
 $.fn.serializeObject = function() {
     const result = {};
     const extend = function (i, element) {
@@ -87,10 +87,15 @@ const showErrorMessage = function(response) {
             $field = $("#" + error.field);
             errorMessage = "<span class=\"error-message text-small text-danger\">" + error.defaultMessage + "</span>"
         } else {
-            const form = splitField[0].split("[")[0];
-            const seq = Number(splitField[0].split("[")[1].split("]")[0]) + 1;
-            $field = $("#" + form).find(".row:nth-child(" + seq + ")");
-            errorMessage = "<span class=\"error-message text-small text-danger text-center\"> └ " + error.defaultMessage + "</span>"
+            if (splitField[1] === "tag") {
+                $field = $("#" + splitField[1]);
+                errorMessage = "<span class=\"error-message text-small text-danger\">" + error.defaultMessage + "</span>"
+            } else {
+                const form = splitField[0].split("[")[0];
+                const seq = Number(splitField[0].split("[")[1].split("]")[0]) + 1;
+                $field = $("#" + form).find(".row:nth-child(" + seq + ")");
+                errorMessage = "<span class=\"error-message text-small text-danger text-center\"> └ " + error.defaultMessage + "</span>"
+            }
         }
 
         if ($field && $field.length > 0) {
