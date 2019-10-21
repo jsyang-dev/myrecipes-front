@@ -1,11 +1,39 @@
 {
   "properties": [
     {
-      "name": "app.img-path",
+      "name": "cloud.aws.s3.bucket",
       "type": "java.lang.String"
     },
     {
-      "name": "app.api.recipe",
+      "name": "cloud.aws.region.static",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "cloud.aws.s3.bucket",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.image-path.common",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.image-path.recipe",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.image-path.step",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe.scheme",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe.host",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.api.recipe.port",
       "type": "java.lang.String"
     },
     {

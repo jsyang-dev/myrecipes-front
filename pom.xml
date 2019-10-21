@@ -12,10 +12,11 @@
     <artifactId>myrecipes-front</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>myrecipes-front</name>
-    <description>Front project for Myrecipes Application</description>
+    <description>Front project for MyRecipes Application</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <spring-cloud.version>2.1.3.RELEASE</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -45,11 +46,47 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>auth</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>aws-core</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>s3</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.9.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

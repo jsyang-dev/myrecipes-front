@@ -16,11 +16,24 @@ spring:
   resources:
     static-locations: classpath:/static/
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: static.myrecipe.io
+
 app:
-  img-path: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/img/
+  image-path:
+    common: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/common/
+    recipe: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/recipe/
+    step: https://s3.ap-northeast-2.amazonaws.com/static.myrecipe.io/step/
   api:
-    recipe: http://localhost:8081
+    recipe:
+      scheme: http
+      host: localhost
+      port: 8081
   index:
-    page-size: 10
+    page-size: 9
     sort-field: registerDate
     is-descending: true
