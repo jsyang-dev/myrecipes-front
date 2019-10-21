@@ -33,6 +33,7 @@ public class RestTemplateHelperImplTest {
     private String port;
 
     @Test
+    @Ignore
     public void API_호출_테스트() {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
