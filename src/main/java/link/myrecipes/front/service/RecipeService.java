@@ -3,6 +3,7 @@ package link.myrecipes.front.service;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.RecipeRequest;
+import link.myrecipes.front.dto.RecipeView;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface RecipeService {
     Recipe createRecipe(RecipeRequest recipeRequest);
 
     String uploadImage(MultipartFile file, String path);
+
+    RecipeView readRecipe(int id);
 }

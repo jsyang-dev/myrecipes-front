@@ -3,6 +3,7 @@ package link.myrecipes.front.controller;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.RecipeRequest;
+import link.myrecipes.front.dto.RecipeView;
 import link.myrecipes.front.service.RecipeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,12 @@ import java.util.List;
 public class RecipeController {
     @Value("${app.image-path.common}")
     private String commonImagePath;
+
+    @Value("${app.image-path.recipe}")
+    private String recipeImagePath;
+
+    @Value("${app.image-path.step}")
+    private String stepImagePath;
 
     private final RecipeService recipeService;
 
@@ -44,5 +51,15 @@ public class RecipeController {
     @ResponseBody
     public String uploadAjax(@RequestParam MultipartFile file, @RequestParam String path) {
         return this.recipeService.uploadImage(file, path);
+    }
+
+    @GetMapping("/view/{id}")
+    public String view(Model model, @PathVariable int id) {
+        RecipeView recipeView = this.recipeService.readRecipe(id);
+        model.addAttribute("recipeView", recipeView);
+        model.addAttribute("recipeImagePath", this.recipeImagePath);
+        model.addAttribute("stepImagePath", this.stepImagePath);
+
+        return "recipe/view";
     }
 }
