@@ -27,7 +27,7 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-      bucket: static.myrecipe.io
+      bucket: local.static.myrecipes.link
 
 app:
   image-path:
@@ -61,7 +61,41 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-      bucket: static.myrecipe.io
+      bucket: dev.static.myrecipes.link
+
+app:
+  image-path:
+    common: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/common/
+    recipe: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/recipe/
+    step: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/step/
+  api:
+    recipe:
+      scheme: http
+      host: localhost
+      port: 8081
+  index:
+    page-size: 9
+    sort-field: registerDate
+    is-descending: true
+
+---
+spring:
+  profiles: prod
+  thymeleaf:
+    cache: true
+  resources:
+    static-locations: classpath:/static/
+
+logging:
+  level:
+    org.springframework.web: TRACE
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: static.myrecipes.link
 
 app:
   image-path:
