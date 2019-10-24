@@ -5,7 +5,7 @@ import link.myrecipes.front.common.S3HelperImpl;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.RecipeRequest;
-import link.myrecipes.front.dto.RecipeView;
+import link.myrecipes.front.dto.view.RecipeView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,9 +79,8 @@ public class RecipeServiceImpl implements RecipeService {
                 .host(this.host)
                 .port(this.port)
                 .path("/recipes")
-                .path("/{id}")
-                .build(true)
-                .expand(id);
+                .path("/" + id)
+                .build(true);
 
         return this.restTemplateHelper.getForEntity(RecipeView.class, uriComponents.toUriString());
     }
