@@ -26,10 +26,7 @@ public class IndexServiceImplTest {
     private IndexServiceImpl indexService;
 
     @Mock
-    private RestTemplateHelperImpl restService;
-
-    @Mock
-    private RestTemplate restTemplate;
+    private RestTemplateHelperImpl restTemplateHelper;
 
     @Value("${app.index.page-size}")
     private int pageSize;
@@ -46,7 +43,7 @@ public class IndexServiceImplTest {
         List<Recipe> list = Collections.singletonList(recipe);
         PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
-        given(this.restService.getForList(eq(Recipe.class), any(String.class))).willReturn(list);
+        given(this.restTemplateHelper.getForList(eq(Recipe.class), any(String.class))).willReturn(list);
 
         final List<Recipe> recipeList = this.indexService.readRecipeList(pageParam);
 
