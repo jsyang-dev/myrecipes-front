@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,10 +42,13 @@ public class IndexServiceImplTest {
         List<Recipe> list = Collections.singletonList(recipe);
         PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
+        //given
         given(this.restTemplateHelper.getForList(eq(Recipe.class), any(String.class))).willReturn(list);
 
+        //when
         final List<Recipe> recipeList = this.indexService.readRecipeList(pageParam);
 
+        //then
         assertThat(recipeList.size(), is(1));
         assertThat(recipeList.get(0).equals(recipe), is(true));
     }

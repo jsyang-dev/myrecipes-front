@@ -9,7 +9,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SystemController.class)
@@ -19,18 +20,11 @@ public class SystemControllerTest {
 
     @Test
     public void Should_정상_응답_When_컨트롤러_호출() throws Exception {
+        //when
         final ResultActions actions = this.mockMvc.perform(get("/health"));
 
+        //then
         actions.andExpect(status().isOk())
                 .andExpect(view().name("health"));
     }
-
-//    @Test
-//    public void Shuod_Advice_예외_처리_When_예외_발생_컨트롤러_호출() throws Exception {
-//        final ResultActions actions = this.mockMvc.perform(get("/exception"));
-//
-//        actions.andExpect(status().isInternalServerError())
-//                .andExpect(content().contentType("application/json;charset=UTF-8"))
-//                .andExpect(content().json("{\"message\":\"java.lang.NullPointerException\"}"));
-//    }
 }
