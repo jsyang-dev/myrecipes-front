@@ -4,7 +4,7 @@ import link.myrecipes.front.common.RestTemplateHelperImpl;
 import link.myrecipes.front.common.S3HelperImpl;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
-import link.myrecipes.front.dto.RecipeRequest;
+import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.view.RecipeView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

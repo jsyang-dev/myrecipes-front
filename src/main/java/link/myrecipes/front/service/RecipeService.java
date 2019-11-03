@@ -2,7 +2,7 @@ package link.myrecipes.front.service;
 
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
-import link.myrecipes.front.dto.RecipeRequest;
+import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.view.RecipeView;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -2,7 +2,7 @@ package link.myrecipes.front.controller;
 
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
-import link.myrecipes.front.dto.RecipeRequest;
+import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.view.RecipeView;
 import link.myrecipes.front.service.RecipeService;
 import org.springframework.beans.factory.annotation.Value;
