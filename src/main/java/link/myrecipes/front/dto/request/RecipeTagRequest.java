@@ -1,4 +1,4 @@
-package link.myrecipes.front.dto;
+package link.myrecipes.front.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
