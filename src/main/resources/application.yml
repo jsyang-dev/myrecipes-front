@@ -17,7 +17,9 @@ spring:
     cache: false
   resources:
     static-locations: classpath:/static/
-
+  redis:
+    host: localhost
+    port: 6379
 logging:
   level:
     org.springframework.web: TRACE
@@ -51,6 +53,9 @@ spring:
     cache: false
   resources:
     static-locations: classpath:/static/
+  redis:
+    host: localhost
+    port: 6379
 
 logging:
   level:
