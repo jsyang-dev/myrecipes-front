@@ -6,6 +6,7 @@ import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.view.RecipeView;
+import link.myrecipes.front.repository.RecipeRedisRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -28,10 +30,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RestTemplateHelperImpl restTemplateHelper;
     private final S3HelperImpl s3Helper;
+    private final RecipeRedisRepository recipeRedisRepository;
 
-    public RecipeServiceImpl(RestTemplateHelperImpl restTemplateHelper, S3HelperImpl s3Helper) {
+    public RecipeServiceImpl(RestTemplateHelperImpl restTemplateHelper, S3HelperImpl s3Helper, RecipeRedisRepository recipeRedisRepository) {
         this.restTemplateHelper = restTemplateHelper;
         this.s3Helper = s3Helper;
+        this.recipeRedisRepository = recipeRedisRepository;
     }
 
     @Override
@@ -74,6 +78,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeView readRecipe(int id) {
+        // TODO: Redis 장애에 영향이 없어야 한다!!
+        Optional<RecipeView> recipeRedisOptional = recipeRedisRepository.findById(id);
+        return recipeRedisOptional.orElseGet(() -> getRecipeView(id));
+    }
+
+    private RecipeView getRecipeView(int id) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)

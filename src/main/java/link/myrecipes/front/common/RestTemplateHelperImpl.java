@@ -27,25 +27,6 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
     }
 
     @Override
-    public <T> T getForEntity(Class<T> clazz, String url, Object... uriVariables) {
-        ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
-        JavaType type = this.objectMapper.getTypeFactory().constructType(clazz);
-        T result = null;
-
-        try {
-            if (clazz == String.class) {
-                result = (T) response.getBody();
-            } else {
-                result = this.objectMapper.readValue(response.getBody(), type);
-            }
-        } catch (IOException e) {
-            log.info(e.getMessage());
-        }
-
-        return result;
-    }
-
-    @Override
     public <T> List<T> getForList(Class<T> clazz, String url, Object... uriVariables) {
         ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
         CollectionType type = this.objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
@@ -61,29 +42,26 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
     }
 
     @Override
+    public <T> T getForEntity(Class<T> clazz, String url, Object... uriVariables) {
+        ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class, uriVariables);
+        return getResult(clazz, response);
+    }
+
+    @Override
     public <T, R> T postForEntity(Class<T> clazz, String url, R body, Object... uriVariables) {
         HttpEntity<R> request = new HttpEntity<>(body);
         ResponseEntity<String> response = this.restTemplate.postForEntity(url, request, String.class, uriVariables);
-        JavaType type = this.objectMapper.getTypeFactory().constructType(clazz);
-        T result = null;
-
-        try {
-            if (clazz == String.class) {
-                result = (T) response.getBody();
-            } else {
-                result = this.objectMapper.readValue(Objects.requireNonNull(response.getBody()), type);
-            }
-        } catch (IOException e) {
-            log.info(e.getMessage());
-        }
-
-        return result;
+        return getResult(clazz, response);
     }
 
     @Override
     public <T, R> T putForEntity(Class<T> clazz, String url, R body, Object... uriVariables) {
         HttpEntity<R> request = new HttpEntity<>(body);
         ResponseEntity<String> response = this.restTemplate.exchange(url, HttpMethod.PUT, request, String.class, uriVariables);
+        return getResult(clazz, response);
+    }
+
+    private <T> T getResult(Class<T> clazz, ResponseEntity<String> response) {
         JavaType type = this.objectMapper.getTypeFactory().constructType(clazz);
         T result = null;
 
@@ -96,7 +74,6 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
         } catch (IOException e) {
             log.info(e.getMessage());
         }
-
         return result;
     }
 }
