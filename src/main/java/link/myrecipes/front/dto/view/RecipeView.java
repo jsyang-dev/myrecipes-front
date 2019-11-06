@@ -3,15 +3,14 @@ package link.myrecipes.front.dto.view;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@RedisHash(timeToLive = 3600)
-public class RecipeView {
+public class RecipeView implements Serializable {
     private Integer id;
 
     private String title;
