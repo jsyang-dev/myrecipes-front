@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 @Profile({"dev", "prod"})
-public class AWSConfiguration {
+public class AWSConfig {
     @Value("${cloud.aws.region.static}")
     private String region;
 

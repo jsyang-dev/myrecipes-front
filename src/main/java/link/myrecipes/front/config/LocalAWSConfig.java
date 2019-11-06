@@ -11,7 +11,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 @Profile("local")
-public class LocalAWSConfiguration {
+public class LocalAWSConfig {
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
 
