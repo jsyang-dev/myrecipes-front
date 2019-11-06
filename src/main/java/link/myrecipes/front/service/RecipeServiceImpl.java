@@ -1,5 +1,6 @@
 package link.myrecipes.front.service;
 
+import link.myrecipes.front.common.RedisTemplateHelper;
 import link.myrecipes.front.common.RestTemplateHelperImpl;
 import link.myrecipes.front.common.S3HelperImpl;
 import link.myrecipes.front.dto.Material;
@@ -30,11 +31,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RestTemplateHelperImpl restTemplateHelper;
     private final S3HelperImpl s3Helper;
+    private final RedisTemplateHelper<RecipeView> redisTemplateHelper;
     private final RecipeRedisRepository recipeRedisRepository;
 
-    public RecipeServiceImpl(RestTemplateHelperImpl restTemplateHelper, S3HelperImpl s3Helper, RecipeRedisRepository recipeRedisRepository) {
+    public RecipeServiceImpl(RestTemplateHelperImpl restTemplateHelper, S3HelperImpl s3Helper, RedisTemplateHelper<RecipeView> redisTemplateHelper, RecipeRedisRepository recipeRedisRepository) {
         this.restTemplateHelper = restTemplateHelper;
         this.s3Helper = s3Helper;
+        this.redisTemplateHelper = redisTemplateHelper;
         this.recipeRedisRepository = recipeRedisRepository;
     }
 
@@ -78,9 +81,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeView readRecipe(int id) {
-        // TODO: Redis 장애에 영향이 없어야 한다!!
-        Optional<RecipeView> recipeRedisOptional = recipeRedisRepository.findById(id);
-        return recipeRedisOptional.orElseGet(() -> getRecipeView(id));
+        Optional<RecipeView> recipeViewOptional = Optional.of(redisTemplateHelper.getValue(
+                redisTemplateHelper.makeKey(RecipeView.class, String.valueOf(id))
+        ));
+        return recipeViewOptional.orElseGet(() -> getRecipeView(id));
     }
 
     private RecipeView getRecipeView(int id) {
