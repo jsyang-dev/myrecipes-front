@@ -9,11 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface RecipeService {
+    RecipeView readRecipe(int id);
+
     List<Material> readMaterialList();
 
     Recipe createRecipe(RecipeRequest recipeRequest);
 
-    String uploadImage(MultipartFile file, String path);
+    Recipe updateRecipe(RecipeRequest recipeRequest);
 
-    RecipeView readRecipe(int id);
+    void deleteRecipe(int id);
+
+    String uploadImage(MultipartFile file, String path);
 }
