@@ -4,6 +4,7 @@ import link.myrecipes.front.common.RestTemplateHelperImpl;
 import link.myrecipes.front.dto.PageParam;
 import link.myrecipes.front.dto.Recipe;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,6 +32,8 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
+    @Cacheable(value = "myrecipe:front:recipeList",
+            key = "#pageParam.page + ':' + #pageParam.size + ':' + #pageParam.sortField + ':' + #pageParam.descending")
     public List<Recipe> readRecipeList(PageParam pageParam) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)

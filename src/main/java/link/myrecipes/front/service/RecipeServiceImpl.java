@@ -36,6 +36,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Cacheable(value = "myrecipe:front:materialList")
     public List<Material> readMaterialList() {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
@@ -74,7 +75,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Cacheable(value = "myrecipe:api:recipeView", key = "#id", cacheManager = "cacheManager")
+    @Cacheable(value = "myrecipe:front:recipeView", key = "#id")
     public RecipeView readRecipe(int id) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
