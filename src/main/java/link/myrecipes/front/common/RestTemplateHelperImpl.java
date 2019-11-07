@@ -35,7 +35,7 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
         try {
             result = this.objectMapper.readValue(Objects.requireNonNull(response.getBody()), type);
         } catch (IOException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return result;
@@ -61,6 +61,11 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
         return getResult(clazz, response);
     }
 
+    @Override
+    public void delete(String url) {
+        this.restTemplate.delete(url);
+    }
+
     private <T> T getResult(Class<T> clazz, ResponseEntity<String> response) {
         JavaType type = this.objectMapper.getTypeFactory().constructType(clazz);
         T result = null;
@@ -72,7 +77,7 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
                 result = this.objectMapper.readValue(Objects.requireNonNull(response.getBody()), type);
             }
         } catch (IOException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return result;
     }

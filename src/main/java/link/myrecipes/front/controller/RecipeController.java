@@ -32,6 +32,16 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    @GetMapping("/view/{id}")
+    public String view(Model model, @PathVariable int id) {
+        RecipeView recipeView = this.recipeService.readRecipe(id);
+        model.addAttribute("recipeView", recipeView);
+        model.addAttribute("recipeImagePath", this.recipeImagePath);
+        model.addAttribute("stepImagePath", this.stepImagePath);
+
+        return "recipe/view";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
         List<Material> materialList = this.recipeService.readMaterialList();
@@ -47,19 +57,33 @@ public class RecipeController {
         return this.recipeService.createRecipe(recipeRequest);
     }
 
+    @GetMapping("/modify/{id}")
+    public String modify(Model model, @PathVariable int id) {
+        RecipeView recipeView = this.recipeService.readRecipe(id);
+        List<Material> materialList = this.recipeService.readMaterialList();
+
+        model.addAttribute("recipeView", recipeView);
+        model.addAttribute("materialList", materialList);
+        model.addAttribute("commonImagePath", this.commonImagePath);
+
+        return "recipe/register";
+    }
+
+    @PostMapping("/modify/ajax")
+    @ResponseBody
+    public Recipe modifyAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
+        return this.recipeService.updateRecipe(recipeRequest);
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        this.recipeService.deleteRecipe(id);
+        return "redirect:/";
+    }
+
     @PostMapping("/upload/ajax")
     @ResponseBody
     public String uploadAjax(@RequestParam MultipartFile file, @RequestParam String path) {
         return this.recipeService.uploadImage(file, path);
-    }
-
-    @GetMapping("/view/{id}")
-    public String view(Model model, @PathVariable int id) {
-        RecipeView recipeView = this.recipeService.readRecipe(id);
-        model.addAttribute("recipeView", recipeView);
-        model.addAttribute("recipeImagePath", this.recipeImagePath);
-        model.addAttribute("stepImagePath", this.stepImagePath);
-
-        return "recipe/view";
     }
 }
