@@ -96,6 +96,9 @@
 
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
+        $("#modify").on("click", function () {
+            window.location = "/recipe/modify/" + "[[${recipeView.getId()}]]";
+        });
     </script>
 </th:block>
 

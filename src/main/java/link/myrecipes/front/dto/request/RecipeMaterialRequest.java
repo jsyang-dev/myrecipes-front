@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public class RecipeMaterialRequest {
+public class RecipeMaterialRequest implements Serializable {
     @Positive(message = "요리 재료를 입력해주세요.")
     private Integer materialId;
 

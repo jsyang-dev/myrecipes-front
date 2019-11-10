@@ -4,9 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
-public class Material {
+public class Material implements Serializable {
     private Integer id;
 
     private String name;
