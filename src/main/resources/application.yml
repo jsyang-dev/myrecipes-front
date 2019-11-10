@@ -63,7 +63,7 @@ spring:
     redis:
       time-to-live: 60000
   redis:
-    host: localhost
+    host: 10.0.10.206
     port: 6379
 
 logging:
@@ -85,8 +85,8 @@ app:
   api:
     recipe:
       scheme: http
-      host: localhost
-      port: 8081
+      host: api.myrecipes.link
+      port: 80
   index:
     page-size: 9
     sort-field: registerDate
@@ -104,7 +104,7 @@ spring:
     redis:
       time-to-live: 10000
   redis:
-    host: localhost
+    host: 10.0.10.206
     port: 6379
 
 logging:
@@ -126,8 +126,8 @@ app:
   api:
     recipe:
       scheme: http
-      host: localhost
-      port: 8081
+      host: api.myrecipes.link
+      port: 80
   index:
     page-size: 9
     sort-field: registerDate
