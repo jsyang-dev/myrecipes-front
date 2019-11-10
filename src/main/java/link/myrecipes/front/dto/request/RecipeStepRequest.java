@@ -8,10 +8,11 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public class RecipeStepRequest {
+public class RecipeStepRequest implements Serializable {
     @NotNull(message = "단계를 입력해주세요.")
     @Positive(message = "단계를 양수로 입력해주세요.")
     private Integer step;

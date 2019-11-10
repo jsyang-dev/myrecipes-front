@@ -5,7 +5,7 @@
       layout:decorator="layout/layout">
 
 <th:block layout:fragment="html_head">
-    <title>마이레시피 - 레시피 등록</title>
+    <title>마이레시피 - 레시피 수정</title>
 </th:block>
 
 <th:block layout:fragment="custom_css">
@@ -21,7 +21,8 @@
                         <div class="form-group row">
                             <label for="title" class="col-sm-2 col-form-label">레시피 제목</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="title" id="title" placeholder=""/>
+                                <input type="text" class="form-control" name="title" id="title"
+                                       th:value="${recipeView.getTitle()}"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -63,17 +64,23 @@
                         <div class="form-group row">
                             <label for="tag" class="col-sm-2 col-form-label">태그</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="tag" id="tag" placeholder="콤마(,)로 구분 - 예) 술안주,볶음,소고기"/>
+                                <input type="text" class="form-control" name="tag" id="tag"
+                                       placeholder="콤마(,)로 구분 - 예) 술안주,볶음,소고기"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                             <div class="col-sm-10">
-                                <img th:src="${commonImagePath} + 'add_image.jpg'" id="imagePreview" width="300" height="200" style="border: 1px solid #ced4da"/><p>
-                                <input type="file" accept="image/*" class="form-control" id="imageFile" style="display:none;"/>
-                                <input type="hidden" name="image" id="image"/>
+                                <img th:src="${recipeImagePath} + ${recipeView.getImage()}" id="imagePreview"
+                                     width="300" height="200" style="border: 1px solid #ced4da"/>
+                                <p>
+                                    <input type="file" accept="image/*" class="form-control" id="imageFile"
+                                           style="display:none;"/>
+                                    <input type="hidden" name="image" id="image"
+                                           th:value="${recipeImagePath} + ${recipeView.getImage()}"/>
                             </div>
                         </div>
+                        <input type="hidden" name="id" th:value="${recipeView.getId()}"/>
                     </form>
                 </div>
             </div>
@@ -82,28 +89,45 @@
                 <div class="card-header pt-3">요리 재료</div>
                 <div class="card-body">
                     <form id="recipeMaterialRequestList">
-                        <div class="form-group row mb-0">
-                            <div class="form-group col-sm-1">
-                                <label class="mt-1">재료1</label>
+                        <th:block th:each="recipeMaterialView, row: ${recipeView.getRecipeMaterialViewList()}">
+                            <div class="form-group row mb-0">
+                                <div class="form-group col-sm-1">
+                                    <label class="mt-1" th:text="${'재료' + row.count}">재료</label>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="material1" class="sr-only">재료</label>
+                                    <select class="form-control" id="material1" name="material">
+                                        <option th:value="${recipeMaterialView.getMaterialId()}"
+                                                th:attr="data-unit=${recipeMaterialView.getMaterialUnitName()}"
+                                                th:text="${recipeMaterialView.getMaterialName()}"></option>
+                                        <th:block th:each="material: ${materialList}">
+                                            <option th:value="${material.getId()}"
+                                                    th:attr="data-unit=${material.getUnitName()}"
+                                                    th:text="${material.getName()}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <label for="materialQuantity1" class="sr-only">수량</label>
+                                    <input type="number" class="form-control" name="materialQuantity"
+                                           id="materialQuantity1" placeholder="수량"
+                                           th:value="${recipeMaterialView.getQuantity()}"/>
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <label for="materialUnitName1" class="sr-only">단위</label>
+                                    <input type="text" class="form-control" name="materialUnitName"
+                                           id="materialUnitName1" readonly
+                                           th:value="${recipeMaterialView.getMaterialUnitName()}"/>
+                                </div>
+                                <th:block th:if="${row.count > 1}">
+                                    <div class="form-group col-sm-1">
+                                        <button class="btn btn-link delRow" type="button">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </div>
+                                </th:block>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <label for="material1" class="sr-only">재료</label>
-                                <select class="form-control" id="material1" name="material">
-                                    <option>재료 선택</option>
-                                    <th:block th:each="material: ${materialList}">
-                                        <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <label for="materialQuantity1" class="sr-only">수량</label>
-                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity1" placeholder="수량"/>
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <label for="materialUnitName1" class="sr-only">단위</label>
-                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1" readonly/>
-                            </div>
-                        </div>
+                        </th:block>
                     </form>
                     <div class="text-center">
                         <input type="hidden" id="seqMaterial" value="1"/>
@@ -116,23 +140,42 @@
                 <div class="card-header pt-3">요리 순서</div>
                 <div class="card-body">
                     <form id="recipeStepRequestList">
-                        <div class="form-group row mb-0">
-                            <div class="form-group col-sm-1">
-                                <label class="mt-1">순서1</label>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="stepContent1" class="sr-only">단계</label>
-                                <textarea class="form-control" id="stepContent1" name="stepContent" rows="6"></textarea>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="stepImageFile1" class="sr-only">단계이미지</label>
-                                <div class="col-sm-10">
-                                    <img th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview" id="stepImagePreview1" width="240" height="160" style="border: 1px solid #ced4da"/>
-                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1" style="display:none;"/>
-                                    <input type="hidden" name="stepImage" id="stepImage1"/>
+                        <th:block th:each="recipeStepView, row: ${recipeView.getRecipeStepViewList()}">
+                            <div class="form-group row mb-0">
+                                <div class="form-group col-sm-1">
+                                    <label class="mt-1" th:text="${'순서' + row.count}">순서</label>
                                 </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="stepContent1" class="sr-only">단계</label>
+                                    <textarea class="form-control" id="stepContent1" name="stepContent" rows="6"
+                                              th:text="${recipeStepView.getContent()}"></textarea>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="stepImageFile1" class="sr-only">단계이미지</label>
+                                    <div class="col-sm-10">
+                                        <img th:src="${stepImagePath} + ${recipeStepView.getImage()}"
+                                             class="stepImagePreview" id="stepImagePreview1" width="240" height="160"
+                                             style="border: 1px solid #ced4da"
+                                             th:if="${not #strings.isEmpty(recipeStepView.getImage())}"/>
+                                        <img th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview"
+                                             id="stepImagePreview1" width="240" height="160"
+                                             style="border: 1px solid #ced4da"
+                                             th:if="${#strings.isEmpty(recipeStepView.getImage())}"/>
+                                        <input type="file" accept="image/*" class="form-control stepImageFile"
+                                               id="stepImageFile1" style="display:none;"/>
+                                        <input type="hidden" name="stepImage" id="stepImage1"
+                                               th:value="${stepImagePath} + ${recipeStepView.getImage()}"/>
+                                    </div>
+                                </div>
+                                <th:block th:if="${row.count > 1}">
+                                    <div class="form-group col-sm-1">
+                                        <button class="btn btn-link delRow" type="button">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </div>
+                                </th:block>
                             </div>
-                        </div>
+                        </th:block>
                     </form>
                     <div class="text-center">
                         <input type="hidden" id="seqStep" value="1"/>
@@ -209,8 +252,8 @@
                                 </button>
                             </div>
                         </div>`;
-        
-        $("#addMaterial").on("click", function() {
+
+        $("#addMaterial").on("click", function () {
             const $seqMaterial = $("#seqMaterial");
             const $formMaterial = $("#recipeMaterialRequestList");
             const nextSeq = Number($seqMaterial.val()) + 1;
@@ -225,7 +268,7 @@
             }
         });
 
-        $("#addStep").on("click", function() {
+        $("#addStep").on("click", function () {
             const $seqStep = $("#seqStep");
             const nextSeq = Number($seqStep.val()) + 1;
             const row = rowStep.replace(/{seq}/gi, nextSeq);
@@ -234,29 +277,28 @@
             $seqStep.val(nextSeq);
         });
 
-        $(document).on("click", ".delRow", function(e)
-        {
+        $(document).on("click", ".delRow", function (e) {
             $(this).parents(".row").remove();
         });
 
-        $("#imagePreview").on("click", function() {
+        $("#imagePreview").on("click", function () {
             $("#imageFile").click();
         });
 
-        $("#imageFile").on("change", function() {
+        $("#imageFile").on("change", function () {
             uploadImage("recipe", $(this), $("#image"), $("#imagePreview"));
         });
 
-        $(document).on("change", "select[name=material]", function() {
+        $(document).on("change", "select[name=material]", function () {
             const unit = $(this).find("option:selected").data("unit");
             $(this).parents(".row").find("input[name=materialUnitName]").val(unit);
         });
 
-        $(document).on("click", ".stepImagePreview", function() {
+        $(document).on("click", ".stepImagePreview", function () {
             $(this).siblings(".stepImageFile").click();
         });
 
-        $(document).on("change", ".stepImageFile", function() {
+        $(document).on("change", ".stepImageFile", function () {
             uploadImage("step", $(this), $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
         });
 
@@ -325,13 +367,13 @@
 
             $.ajax({
                 type: "POST",
-                url : "/recipe/register/ajax",
+                url: "/recipe/register/ajax",
                 data: JSON.stringify(request),
                 dataType: "json",
                 accept: "application/json",
                 contentType: "application/json; charset=utf-8",
                 async: true,
-                success : function(data, status, xhr) {
+                success: function (data, status, xhr) {
                     alert("레시피가 저장되었습니다.");
 
                     // 폼 초기화
@@ -342,7 +384,7 @@
                     $("#imagePreview").attr("src", commonImagePath + "add_image.jpg");
                     $(".stepImagePreview").attr("src", commonImagePath + "add_image.jpg");
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
 
                     if (jqXHR.responseJSON.status === 400) {

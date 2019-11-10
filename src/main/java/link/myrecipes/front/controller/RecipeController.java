@@ -65,8 +65,10 @@ public class RecipeController {
         model.addAttribute("recipeView", recipeView);
         model.addAttribute("materialList", materialList);
         model.addAttribute("commonImagePath", this.commonImagePath);
+        model.addAttribute("recipeImagePath", this.recipeImagePath);
+        model.addAttribute("stepImagePath", this.stepImagePath);
 
-        return "recipe/register";
+        return "recipe/modify";
     }
 
     @PostMapping("/modify/ajax")

@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public class RecipeTagRequest {
+public class RecipeTagRequest implements Serializable {
     @NotBlank(message = "태그를 정확히 입력해주세요.")
     @Length(max = 20, message = "태그는 건당 최대 20자까지 입력이 가능합니다.")
     private String tag;

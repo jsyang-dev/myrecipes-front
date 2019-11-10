@@ -7,12 +7,13 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class RecipeRequest {
+public class RecipeRequest implements Serializable {
     @NotBlank(message = "레시피 제목을 입력해주세요.")
     @Length(max = 60, message = "레시피 제목은 최대 60자까지 입력이 가능합니다.")
     private String title;
