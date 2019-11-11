@@ -97,11 +97,15 @@
                                 <div class="form-group col-sm-6">
                                     <label for="material1" class="sr-only">재료</label>
                                     <select class="form-control" id="material1" name="material">
-                                        <option th:value="${recipeMaterialView.getMaterialId()}"
-                                                th:attr="data-unit=${recipeMaterialView.getMaterialUnitName()}"
-                                                th:text="${recipeMaterialView.getMaterialName()}"></option>
+                                        <option>재료 선택</option>
                                         <th:block th:each="material: ${materialList}">
-                                            <option th:value="${material.getId()}"
+                                            <option th:if="${material.getId() == recipeMaterialView.getMaterialId()}"
+                                                    th:value="${material.getId()}"
+                                                    th:attr="data-unit=${material.getUnitName()}"
+                                                    th:text="${material.getName()}"
+                                                    selected></option>
+                                            <option th:if="${material.getId() != recipeMaterialView.getMaterialId()}"
+                                                    th:value="${material.getId()}"
                                                     th:attr="data-unit=${material.getUnitName()}"
                                                     th:text="${material.getName()}"></option>
                                         </th:block>
@@ -253,6 +257,21 @@
                             </div>
                         </div>`;
 
+        $(document).ready(function () {
+            const recipeTagViewList = [[${recipeView.getRecipeTagViewList()}]];
+            let tags = "";
+            if (recipeTagViewList.length >= 1) {
+                tags = recipeTagViewList[0]["tag"];
+                for (let i = 1; i < recipeTagViewList.length; i++) {
+                    tags += "," + recipeTagViewList[i]["tag"];
+                }
+            }
+
+            $("#estimatedTime").val("[[${recipeView.getEstimatedTime()}]]");
+            $("#difficulty").val("[[${recipeView.getDifficulty()}]]");
+            $("#tag").val(tags);
+        });
+
         $("#addMaterial").on("click", function () {
             const $seqMaterial = $("#seqMaterial");
             const $formMaterial = $("#recipeMaterialRequestList");
@@ -367,38 +386,32 @@
 
             $.ajax({
                 type: "POST",
-                url: "/recipe/register/ajax",
+                url: "/recipe/modify/ajax/" + "[[${recipeView.getId()}]]",
                 data: JSON.stringify(request),
                 dataType: "json",
                 accept: "application/json",
                 contentType: "application/json; charset=utf-8",
                 async: true,
                 success: function (data, status, xhr) {
-                    alert("레시피가 저장되었습니다.");
+                    alert("레시피가 수정되었습니다.");
 
-                    // 폼 초기화
-                    $("#main")[0].reset();
-                    $("#recipeMaterialRequestList")[0].reset();
-                    $("#recipeStepRequestList")[0].reset();
-                    $(".new-row").remove();
-                    $("#imagePreview").attr("src", commonImagePath + "add_image.jpg");
-                    $(".stepImagePreview").attr("src", commonImagePath + "add_image.jpg");
+                    window.location = "/recipe/view/" + "[[${recipeView.getId()}]]";
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
 
                     if (jqXHR.responseJSON.status === 400) {
                         showErrorMessage(jqXHR);
-                        alert("레시피 저장에 실패하였습니다.\n입력하신 내용을 확인해주세요.");
+                        alert("레시피 수정에 실패하였습니다.\n입력하신 내용을 확인해주세요.");
                     } else {
-                        alert("레시피 저장에 실패하였습니다.");
+                        alert("레시피 수정에 실패하였습니다.");
                     }
                 }
             });
         });
 
         $("#cancel").on("click", function () {
-            history.back();
+            window.location = "/";
         });
     </script>
 </th:block>

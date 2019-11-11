@@ -15,7 +15,7 @@ public interface RecipeService {
 
     Recipe createRecipe(RecipeRequest recipeRequest);
 
-    Recipe updateRecipe(RecipeRequest recipeRequest);
+    Recipe updateRecipe(int id, RecipeRequest recipeRequest);
 
     void deleteRecipe(int id);
 
