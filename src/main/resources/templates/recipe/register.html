@@ -261,6 +261,10 @@
         });
 
         $("#save").on("click", function () {
+            if (!confirm("정말로 레시피를 저장하시겠습니까?")) {
+                return;
+            }
+
             const mainJson = $("#main").serializeObject();
             const materialJson = $("#recipeMaterialRequestList").serializeObject();
             const stepJson = $("#recipeStepRequestList").serializeObject();
@@ -334,13 +338,15 @@
                 success : function(data, status, xhr) {
                     alert("레시피가 저장되었습니다.");
 
+                    window.location = "/";
+
                     // 폼 초기화
-                    $("#main")[0].reset();
-                    $("#recipeMaterialRequestList")[0].reset();
-                    $("#recipeStepRequestList")[0].reset();
-                    $(".new-row").remove();
-                    $("#imagePreview").attr("src", commonImagePath + "add_image.jpg");
-                    $(".stepImagePreview").attr("src", commonImagePath + "add_image.jpg");
+                    // $("#main")[0].reset();
+                    // $("#recipeMaterialRequestList")[0].reset();
+                    // $("#recipeStepRequestList")[0].reset();
+                    // $(".new-row").remove();
+                    // $("#imagePreview").attr("src", commonImagePath + "add_image.jpg");
+                    // $(".stepImagePreview").attr("src", commonImagePath + "add_image.jpg");
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
