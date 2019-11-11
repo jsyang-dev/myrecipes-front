@@ -78,12 +78,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe updateRecipe(RecipeRequest recipeRequest) {
+    public Recipe updateRecipe(int id, RecipeRequest recipeRequest) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
                 .path("/recipes")
+                .path("/" + id)
                 .queryParam("userId", 10001)
                 .build(true);
 

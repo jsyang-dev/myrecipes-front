@@ -77,13 +77,16 @@
 
             <div class="mt-4">
                 <div class="form-group row">
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-4">
                         <button class="btn btn-primary btn-block btn-lg" type="button" id="modify">수정</button>
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-4">
                         <form th:action="@{/recipe/delete/{id}(id=${recipeView.getId()})}" method="post">
                             <button class="btn btn-secondary btn-block btn-lg" type="submit" id="delete">삭제</button>
                         </form>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <button class="btn btn-secondary btn-block btn-lg" type="button" id="cancel">취소</button>
                     </div>
                 </div>
             </div>
@@ -98,6 +101,10 @@
     <script type="text/javascript" th:inline="javascript">
         $("#modify").on("click", function () {
             window.location = "/recipe/modify/" + "[[${recipeView.getId()}]]";
+        });
+
+        $("#cancel").on("click", function () {
+            window.location = "/";
         });
     </script>
 </th:block>

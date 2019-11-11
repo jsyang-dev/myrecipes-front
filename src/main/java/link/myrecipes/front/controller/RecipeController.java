@@ -71,10 +71,10 @@ public class RecipeController {
         return "recipe/modify";
     }
 
-    @PostMapping("/modify/ajax")
+    @PostMapping("/modify/ajax/{id}")
     @ResponseBody
-    public Recipe modifyAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
-        return this.recipeService.updateRecipe(recipeRequest);
+    public Recipe modifyAjax(@PathVariable int id, @RequestBody @Valid RecipeRequest recipeRequest) {
+        return this.recipeService.updateRecipe(id, recipeRequest);
     }
 
     @PostMapping("/delete/{id}")
