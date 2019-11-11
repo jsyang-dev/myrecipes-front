@@ -28,21 +28,23 @@
                             </small>
                         </div>
                     </div>
-                    <div class="row my-3">
+                    <div class="row my-4">
                         <div class="col-md-12 text-center">
-                            <span>요리설명 추가</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 my-3 text-center">
                             <span th:text="${'[소요시간] ' + recipeView.getEstimatedTime() + ' 분'}"></span>
                         </div>
-                        <div class="col-md-6 my-2 text-center">
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12 text-center">
                             <span th:if="${recipeView.getDifficulty() == 1}">[난이도] ★☆☆☆☆</span>
                             <span th:if="${recipeView.getDifficulty() == 2}">[난이도] ★★☆☆☆</span>
                             <span th:if="${recipeView.getDifficulty() == 3}">[난이도] ★★★☆☆</span>
                             <span th:if="${recipeView.getDifficulty() == 4}">[난이도] ★★★★☆</span>
                             <span th:if="${recipeView.getDifficulty() == 5}">[난이도] ★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12 text-center">
+                            <span>요리설명 추가</span>
                         </div>
                     </div>
                 </div>
@@ -65,12 +67,13 @@
                 <div class="card-body text-center">
                     <h4 class="mt-3 mb-4">요리순서</h4>
                     <th:block th:each="recipeStepView: ${recipeView.getRecipeStepViewList()}">
-                        <div class="col-md-12 mt-3 mb-1 text-center">
-                            <span th:text="${recipeStepView.getStep() + '단계: '}"></span>
+                        <div class="col-md-12 mt-4 mb-1 text-center">
+                            <span th:text="'[' + ${recipeStepView.getStep() + '단계] '}"></span>
                             <span th:text="${recipeStepView.getContent()}"></span>
                         </div>
-                        <img class="mt-1 mb-3" th:src="${stepImagePath} + ${recipeStepView.getImage()}" width="450"
-                             height="300" style="border: 1px solid #ced4da"/>
+                        <img th:if="${not #strings.isEmpty(recipeStepView.getImage())}"
+                             th:src="${stepImagePath} + ${recipeStepView.getImage()}"
+                             class="mt-1 mb-3" width="450" height="300" style="border: 1px solid #ced4da"/>
                     </th:block>
                 </div>
             </div>
@@ -81,8 +84,9 @@
                         <button class="btn btn-primary btn-block btn-lg" type="button" id="modify">수정</button>
                     </div>
                     <div class="form-group col-sm-4">
-                        <form th:action="@{/recipe/delete/{id}(id=${recipeView.getId()})}" method="post">
-                            <button class="btn btn-secondary btn-block btn-lg" type="submit" id="delete">삭제</button>
+                        <form th:action="@{/recipe/delete/{id}(id=${recipeView.getId()})}" method="post"
+                              onsubmit="return doDelete()">
+                            <button class="btn btn-secondary btn-block btn-lg" type="submit">삭제</button>
                         </form>
                     </div>
                     <div class="form-group col-sm-4">
@@ -106,6 +110,10 @@
         $("#cancel").on("click", function () {
             window.location = "/";
         });
+
+        function doDelete() {
+            return confirm("정말로 레시피를 삭제하시겠습니까?");
+        }
     </script>
 </th:block>
 

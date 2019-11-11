@@ -157,14 +157,14 @@
                                 <div class="form-group col-sm-4">
                                     <label for="stepImageFile1" class="sr-only">단계이미지</label>
                                     <div class="col-sm-10">
-                                        <img th:src="${stepImagePath} + ${recipeStepView.getImage()}"
+                                        <img th:if="${not #strings.isEmpty(recipeStepView.getImage())}"
+                                             th:src="${stepImagePath} + ${recipeStepView.getImage()}"
                                              class="stepImagePreview" id="stepImagePreview1" width="240" height="160"
-                                             style="border: 1px solid #ced4da"
-                                             th:if="${not #strings.isEmpty(recipeStepView.getImage())}"/>
-                                        <img th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview"
+                                             style="border: 1px solid #ced4da"/>
+                                        <img th:if="${#strings.isEmpty(recipeStepView.getImage())}"
+                                             th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview"
                                              id="stepImagePreview1" width="240" height="160"
-                                             style="border: 1px solid #ced4da"
-                                             th:if="${#strings.isEmpty(recipeStepView.getImage())}"/>
+                                             style="border: 1px solid #ced4da"/>
                                         <input type="file" accept="image/*" class="form-control stepImageFile"
                                                id="stepImageFile1" style="display:none;"/>
                                         <input type="hidden" name="stepImage" id="stepImage1"
@@ -322,6 +322,10 @@
         });
 
         $("#save").on("click", function () {
+            if (!confirm("정말로 레시피를 저장하시겠습니까?")) {
+                return;
+            }
+
             const mainJson = $("#main").serializeObject();
             const materialJson = $("#recipeMaterialRequestList").serializeObject();
             const stepJson = $("#recipeStepRequestList").serializeObject();

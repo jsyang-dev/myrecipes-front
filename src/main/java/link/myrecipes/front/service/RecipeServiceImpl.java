@@ -8,6 +8,7 @@ import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.view.RecipeView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,6 +79,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CacheEvict(value = "myrecipe:front:recipeView", key = "#id")
     public Recipe updateRecipe(int id, RecipeRequest recipeRequest) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
@@ -92,6 +94,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CacheEvict(value = "myrecipe:front:recipeView", key = "#id")
     public void deleteRecipe(int id) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
