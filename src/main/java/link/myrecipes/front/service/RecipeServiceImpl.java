@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
@@ -53,7 +54,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Cacheable(value = "myrecipe:front:materialList")
     public List<Material> readMaterialList() {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
@@ -66,6 +66,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
     public Recipe createRecipe(RecipeRequest recipeRequest) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
@@ -79,7 +80,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @CacheEvict(value = "myrecipe:front:recipeView", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "myrecipe:front:recipeView", key = "#id"),
+            @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
+    })
     public Recipe updateRecipe(int id, RecipeRequest recipeRequest) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
@@ -94,7 +98,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @CacheEvict(value = "myrecipe:front:recipeView", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "myrecipe:front:recipeView", key = "#id"),
+            @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
+    })
     public void deleteRecipe(int id) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
