@@ -115,7 +115,7 @@
                                     <label for="materialQuantity1" class="sr-only">수량</label>
                                     <input type="number" class="form-control" name="materialQuantity"
                                            id="materialQuantity1" placeholder="수량"
-                                           th:value="${recipeMaterialView.getQuantity()}"/>
+                                           th:value="${#strings.replace(recipeMaterialView.getQuantity(), '.0', '')}"/>
                                 </div>
                                 <div class="form-group col-sm-2">
                                     <label for="materialUnitName1" class="sr-only">단위</label>
