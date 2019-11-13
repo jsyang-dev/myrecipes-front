@@ -8,6 +8,9 @@ server:
 ---
 spring:
   profiles: local
+  http:
+    encoding:
+      force: true
   devtools:
     livereload:
       enabled: true
@@ -54,6 +57,9 @@ app:
 ---
 spring:
   profiles: dev
+  http:
+    encoding:
+      force: true
   thymeleaf:
     cache: false
   resources:
@@ -95,6 +101,9 @@ app:
 ---
 spring:
   profiles: prod
+  http:
+    encoding:
+      force: true
   thymeleaf:
     cache: true
   resources:
