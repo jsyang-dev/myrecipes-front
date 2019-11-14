@@ -1,5 +1,8 @@
 package link.myrecipes.front.dto.security;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class UserAuthoritySecurity {
     private String authority;
 
