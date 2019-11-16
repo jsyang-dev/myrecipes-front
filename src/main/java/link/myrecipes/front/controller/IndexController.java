@@ -57,4 +57,9 @@ public class IndexController {
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         return "index-ajax";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }

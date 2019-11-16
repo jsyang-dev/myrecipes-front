@@ -1,14 +1,17 @@
 package link.myrecipes.front.dto.security;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Getter
 @NoArgsConstructor
 public class UserSecurity implements UserDetails {
     private String username;
@@ -57,10 +60,8 @@ public class UserSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.getPassword());
+        return userAuthoritySecurityList.stream()
+                .map(x -> new SimpleGrantedAuthority("ROLE_" + x.getAuthority()))
+                .collect(Collectors.toSet());
     }
 }

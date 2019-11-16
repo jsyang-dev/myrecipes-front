@@ -396,6 +396,9 @@
                 accept: "application/json",
                 contentType: "application/json; charset=utf-8",
                 async: true,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+                },
                 success: function (data, status, xhr) {
                     alert("레시피가 수정되었습니다.");
 

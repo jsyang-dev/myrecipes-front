@@ -1,8 +1,11 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelperImpl;
+import link.myrecipes.front.dto.User;
+import link.myrecipes.front.dto.request.UserRequest;
 import link.myrecipes.front.dto.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -19,21 +22,37 @@ public class MemberServiceImpl implements MemberService {
     private String port;
 
     private final RestTemplateHelperImpl restTemplateHelper;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberServiceImpl(RestTemplateHelperImpl restTemplateHelper) {
+    public MemberServiceImpl(RestTemplateHelperImpl restTemplateHelper, PasswordEncoder passwordEncoder) {
         this.restTemplateHelper = restTemplateHelper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserSecurity readUserSecurity(String username) {
+    public UserSecurity login(String username) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/users")
+                .path("/login")
                 .path("/" + username)
                 .build(true);
 
         return this.restTemplateHelper.getForEntity(UserSecurity.class, uriComponents.toUriString());
+    }
+
+    @Override
+    public User createMember(UserRequest userRequest) {
+        userRequest.encodePassword(passwordEncoder);
+
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/members")
+                .build(true);
+
+        return this.restTemplateHelper.postForEntity(User.class, uriComponents.toUriString(), userRequest);
     }
 }
