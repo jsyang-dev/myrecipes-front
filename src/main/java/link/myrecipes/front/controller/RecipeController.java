@@ -38,7 +38,6 @@ public class RecipeController {
         model.addAttribute("recipeView", recipeView);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         model.addAttribute("stepImagePath", this.stepImagePath);
-
         return "recipe/view";
     }
 
@@ -47,7 +46,6 @@ public class RecipeController {
         List<Material> materialList = this.recipeService.readMaterialList();
         model.addAttribute("materialList", materialList);
         model.addAttribute("commonImagePath", this.commonImagePath);
-
         return "recipe/register";
     }
 
@@ -67,7 +65,6 @@ public class RecipeController {
         model.addAttribute("commonImagePath", this.commonImagePath);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         model.addAttribute("stepImagePath", this.stepImagePath);
-
         return "recipe/modify";
     }
 

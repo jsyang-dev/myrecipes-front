@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserSecurity userSecurity = this.memberService.readUserSecurity(username);
+        UserSecurity userSecurity = this.memberService.login(username);
 
         if (userSecurity == null) {
             throw new UsernameNotFoundException(username);
