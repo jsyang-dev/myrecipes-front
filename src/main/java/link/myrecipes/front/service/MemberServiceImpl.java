@@ -5,6 +5,8 @@ import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
 import link.myrecipes.front.dto.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
@@ -43,6 +45,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public User readMember() {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/members")
+                .path("/" + getUserId())
+                .build(true);
+
+        return this.restTemplateHelper.getForEntity(User.class, uriComponents.toUriString());
+    }
+
+    @Override
     public User createMember(UserRequest userRequest) {
         userRequest.encodePassword(passwordEncoder);
 
@@ -54,5 +69,27 @@ public class MemberServiceImpl implements MemberService {
                 .build(true);
 
         return this.restTemplateHelper.postForEntity(User.class, uriComponents.toUriString(), userRequest);
+    }
+
+    @Override
+    public User updateMember(int id, UserRequest userRequest) {
+        userRequest.encodePassword(passwordEncoder);
+
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/members")
+                .path("/" + id)
+                .queryParam("userId", getUserId())
+                .build(true);
+
+        return this.restTemplateHelper.putForEntity(User.class, uriComponents.toUriString(), userRequest);
+    }
+
+    private int getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
+        return userSecurity.getId();
     }
 }

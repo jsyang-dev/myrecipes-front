@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -38,6 +35,25 @@ public class MemberController {
 
         User user = memberService.createMember(userRequest);
         log.info("joined user = " + user.toString());
+        return "redirect:/";
+    }
+
+    @GetMapping("/modify")
+    public String modify(Model model) {
+        User user = this.memberService.readMember();
+        model.addAttribute("userRequest", user.toRequestDTO());
+        model.addAttribute("userId", user.getId());
+        return "member/modify";
+    }
+
+    @PostMapping("/modify/{id}")
+    public String modifyProcess(@PathVariable int id, @ModelAttribute @Valid UserRequest userRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "member/modify";
+        }
+
+        User user = memberService.updateMember(id, userRequest);
+        log.info("updated user = " + user.toString());
         return "redirect:/";
     }
 }

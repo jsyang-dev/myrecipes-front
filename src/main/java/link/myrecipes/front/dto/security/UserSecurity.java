@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class UserSecurity implements UserDetails {
+    private Integer id;
+
     private String username;
 
     private String password;
