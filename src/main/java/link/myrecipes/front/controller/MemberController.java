@@ -33,7 +33,7 @@ public class MemberController {
             return "member/register";
         }
 
-        User user = memberService.createMember(userRequest);
+        User user = this.memberService.createMember(userRequest);
         log.info("joined user = " + user.toString());
         return "redirect:/";
     }
@@ -52,7 +52,7 @@ public class MemberController {
             return "member/modify";
         }
 
-        User user = memberService.updateMember(id, userRequest);
+        User user = this.memberService.updateMember(id, userRequest);
         log.info("updated user = " + user.toString());
         return "redirect:/";
     }

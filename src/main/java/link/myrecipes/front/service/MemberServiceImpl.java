@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
                 .host(this.host)
                 .port(this.port)
                 .path("/members")
-                .path("/" + getUserId())
+                .path("/" + getLoginUserId())
                 .build(true);
 
         return this.restTemplateHelper.getForEntity(User.class, uriComponents.toUriString());
@@ -81,13 +81,13 @@ public class MemberServiceImpl implements MemberService {
                 .port(this.port)
                 .path("/members")
                 .path("/" + id)
-                .queryParam("userId", getUserId())
+                .queryParam("userId", getLoginUserId())
                 .build(true);
 
         return this.restTemplateHelper.putForEntity(User.class, uriComponents.toUriString(), userRequest);
     }
 
-    private int getUserId() {
+    private int getLoginUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
         return userSecurity.getId();
