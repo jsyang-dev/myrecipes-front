@@ -1,5 +1,6 @@
 package link.myrecipes.front.dto.security;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -65,5 +66,16 @@ public class UserSecurity implements UserDetails {
         return userAuthoritySecurityList.stream()
                 .map(x -> new SimpleGrantedAuthority("ROLE_" + x.getAuthority()))
                 .collect(Collectors.toSet());
+    }
+
+    @Builder
+    public UserSecurity(Integer id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     }
 }

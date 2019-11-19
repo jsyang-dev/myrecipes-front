@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class RecipeControllerTest {
     @Value("${app.image-path.step}")
     private String stepImagePath;
 
-    @Value("classpath:recipeRequest.json")
-    private Resource recipeRequestFile;
+    @Value("classpath:/json/recipeRequest.json")
+    private Resource recipeRequestResource;
 
     @Autowired
     private MockMvc mockMvc;
@@ -128,17 +129,82 @@ public class RecipeControllerTest {
     @WithMockUser
     public void Should_정상_리턴_When_레시피_등록_Ajax() throws Exception {
         //given
+        String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
         given(this.recipeService.createRecipe(any(RecipeRequest.class))).willReturn(this.recipe);
 
         //when
         final ResultActions actions = this.mockMvc.perform(post("/recipe/register/ajax")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("")
+                .content(recipeRequestJson)
                 .with(csrf()));
 
         //then
         actions.andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("\"id\":1")))
+                .andExpect(content().string(containsString("\"title\":\"레시피\"")))
+                .andExpect(content().string(containsString("\"image\":\"recipe.jpg\"")))
+                .andExpect(content().string(containsString("\"estimatedTime\":30")))
+                .andExpect(content().string(containsString("\"difficulty\":1")));
     }
 
+    @Test
+    @WithMockUser
+    public void Should_정상_리턴_When_레시피_수정_페이지_조회() throws Exception {
+        //given
+        given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
+        given(this.recipeService.readMaterialList()).willReturn(this.materialList);
+
+        //when
+        final ResultActions actions = this.mockMvc.perform(get("/recipe/modify/" + this.recipe.getId()));
+
+        //then
+        actions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/modify"))
+                .andExpect(model().attribute("recipeView", this.recipeView))
+                .andExpect(model().attribute("materialList", this.materialList))
+                .andExpect(model().attribute("commonImagePath", this.commonImagePath))
+                .andExpect(model().attribute("recipeImagePath", this.recipeImagePath))
+                .andExpect(model().attribute("stepImagePath", this.stepImagePath))
+                .andExpect(content().string(containsString("_csrf")));
+    }
+
+    @Test
+    @WithMockUser
+    public void Should_정상_리턴_When_레시피_수정_Ajax() throws Exception {
+        //given
+        String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
+        given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class))).willReturn(this.recipe);
+
+        //when
+        final ResultActions actions = this.mockMvc.perform(post("/recipe/modify/ajax/" + this.recipe.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(recipeRequestJson)
+                .with(csrf()));
+
+        //then
+        actions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("\"id\":1")))
+                .andExpect(content().string(containsString("\"title\":\"레시피\"")))
+                .andExpect(content().string(containsString("\"image\":\"recipe.jpg\"")))
+                .andExpect(content().string(containsString("\"estimatedTime\":30")))
+                .andExpect(content().string(containsString("\"difficulty\":1")));
+    }
+
+    @Test
+    @WithMockUser
+    public void Should_정상_리턴_When_레시피_삭제_호출() throws Exception {
+        //when
+        final ResultActions actions = this.mockMvc.perform(post("/recipe/delete/" + this.recipe.getId()));
+
+        //then
+        actions.andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("/"))
+                .andExpect(content().string(containsString("_csrf")));
+    }
 }
