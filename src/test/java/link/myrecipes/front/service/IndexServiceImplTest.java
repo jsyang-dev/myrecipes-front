@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
@@ -38,12 +38,12 @@ public class IndexServiceImplTest {
 
     @Test
     public void Should_페이지_정상_반환_When_페이지_조회() {
+        //given
         Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
         List<Recipe> list = Collections.singletonList(recipe);
         PageParam pageParam = PageParam.builder().page(0).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
-        //given
-        given(this.restTemplateHelper.getForList(eq(Recipe.class), any(String.class))).willReturn(list);
+        given(this.restTemplateHelper.getForList(eq(Recipe.class), contains("/recipes"))).willReturn(list);
 
         //when
         final List<Recipe> recipeList = this.indexService.readRecipeList(pageParam);
