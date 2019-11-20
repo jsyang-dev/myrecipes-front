@@ -57,6 +57,9 @@ const uploadImage = function(path, $imageFile, $image, $imagePreview) {
         processData: false,
         contentType: false,
         async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+        },
         success : function(data, status, xhr) {
             $image.val(data);
             $imagePreview.attr("src", data);

@@ -58,8 +58,8 @@ public class IndexController {
         return "index-ajax";
     }
 
-    @GetMapping("/view")
-    public String view(Model model) {
-        return "index";
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }

@@ -30,12 +30,14 @@ public class S3HelperTest {
     private S3Helper s3Helper;
 
     @Test
-    public void Should_URL_리턴_When_S3_업로드_성공() throws IOException {
+    public void When_S3_업로드_성공_Then_URL_리턴() throws IOException {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", "test.txt", "text/plain", "test data".getBytes());
         String path = "img";
 
+        //when
         final String imageUrl = this.s3Helper.upload(mockMultipartFile, path);
 
+        //then
         assertThat(imageUrl, startsWith("https://s3." + this.region + ".amazonaws.com/" + this.bucket + "/" + path + "/"));
         assertThat(imageUrl, endsWith(".txt"));
     }

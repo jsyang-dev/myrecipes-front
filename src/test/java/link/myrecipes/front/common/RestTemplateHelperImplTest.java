@@ -42,8 +42,10 @@ public class RestTemplateHelperImplTest {
                 .path("/health")
                 .build(true);
 
-        Object recipe = restTemplateHelper.getForEntity(Recipe.class, uriComponents.toUriString());
+        //when
+        final Object recipe = this.restTemplateHelper.getForEntity(Recipe.class, uriComponents.toUriString());
 
+        //then
         assertThat(recipe, instanceOf(Recipe.class));
     }
 }

@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +24,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(IndexController.class)
+@SpringBootTest(properties = "spring.config.location="
+        + "classpath:/application.yml,"
+        + "classpath:/aws.yml"
+)
+@AutoConfigureMockMvc
 public class IndexControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -47,11 +52,15 @@ public class IndexControllerTest {
     public void 메인_페이지_호출() throws Exception {
         Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
         PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
+
+        //given
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
         given(this.indexService.readRecipePageCnt()).willReturn(1);
 
+        //when
         final ResultActions actions = this.mockMvc.perform(get("/index"));
 
+        //then
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "recipeImagePath"))

@@ -8,6 +8,9 @@ server:
 ---
 spring:
   profiles: local
+  http:
+    encoding:
+      force: true
   devtools:
     livereload:
       enabled: true
@@ -17,6 +20,13 @@ spring:
     cache: false
   resources:
     static-locations: classpath:/static/
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+  redis:
+    host: localhost
+    port: 6379
 
 logging:
   level:
@@ -39,6 +49,10 @@ app:
       scheme: http
       host: localhost
       port: 8081
+    member:
+      scheme: http
+      host: localhost
+      port: 8081
   index:
     page-size: 9
     sort-field: registerDate
@@ -47,10 +61,20 @@ app:
 ---
 spring:
   profiles: dev
+  http:
+    encoding:
+      force: true
   thymeleaf:
     cache: false
   resources:
     static-locations: classpath:/static/
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+  redis:
+    host: 10.0.10.206
+    port: 6379
 
 logging:
   level:
@@ -71,8 +95,12 @@ app:
   api:
     recipe:
       scheme: http
-      host: localhost
-      port: 8081
+      host: api.myrecipes.link
+      port: 80
+    member:
+      scheme: http
+      host: api.myrecipes.link
+      port: 80
   index:
     page-size: 9
     sort-field: registerDate
@@ -81,10 +109,20 @@ app:
 ---
 spring:
   profiles: prod
+  http:
+    encoding:
+      force: true
   thymeleaf:
     cache: true
   resources:
     static-locations: classpath:/static/
+  cache:
+    type: redis
+    redis:
+      time-to-live: 10000
+  redis:
+    host: 10.0.10.206
+    port: 6379
 
 logging:
   level:
@@ -105,8 +143,12 @@ app:
   api:
     recipe:
       scheme: http
-      host: localhost
-      port: 8081
+      host: api.myrecipes.link
+      port: 80
+    member:
+      scheme: http
+      host: api.myrecipes.link
+      port: 80
   index:
     page-size: 9
     sort-field: registerDate

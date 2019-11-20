@@ -3,13 +3,12 @@ package link.myrecipes.front.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public class RecipeTag {
+public class RecipeTag implements Serializable {
     private String tag;
 
     @Builder

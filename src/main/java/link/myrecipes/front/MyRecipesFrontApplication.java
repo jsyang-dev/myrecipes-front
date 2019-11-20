@@ -2,8 +2,10 @@ package link.myrecipes.front;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
+@EnableCaching
 public class MyRecipesFrontApplication {
     private static final String PROPERTIES_LOCATIONS = "spring.config.location="
             + "classpath:/application.yml,"

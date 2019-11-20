@@ -3,8 +3,10 @@ package link.myrecipes.front.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class PageParam {
+public class PageParam implements Serializable {
     private int page;
     private int size;
     private String sortField;

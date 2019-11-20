@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-md-4" th:each="recipe: ${popularRecipeList}">
                         <div class="card mb-4 box-shadow">
-                            <a th:href="@{/view(id=${recipe.getId()})}">
+                            <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
                                 <img class="card-img-top" src="img/thumbnail.png" alt=""
                                      th:src="${recipeImagePath} + ${recipe.getImage()}"
                                      th:alt="${recipe.getTitle()}"/>
@@ -51,7 +51,7 @@
                 <div class="row" id="newRecipeList">
                     <div class="col-md-4" th:each="recipe: ${newRecipeList}">
                         <div class="card mb-4 box-shadow">
-                            <a th:href="@{/view(id=${recipe.getId()})}">
+                            <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
                                 <img class="card-img-top" src="img/thumbnail.png" alt=""
                                      th:src="${recipeImagePath} + ${recipe.getImage()}"
                                      th:alt="${recipe.getTitle()}"/>
