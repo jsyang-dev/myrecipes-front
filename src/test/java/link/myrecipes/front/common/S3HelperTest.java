@@ -30,7 +30,7 @@ public class S3HelperTest {
     private S3Helper s3Helper;
 
     @Test
-    public void Should_URL_리턴_When_S3_업로드_성공() throws IOException {
+    public void When_S3_업로드_성공_Then_URL_리턴() throws IOException {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", "test.txt", "text/plain", "test data".getBytes());
         String path = "img";
 

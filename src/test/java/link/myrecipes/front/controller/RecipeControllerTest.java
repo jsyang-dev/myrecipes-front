@@ -90,7 +90,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void Should_정상_리턴_When_레시피_상세정보_페이지_조회() throws Exception {
+    public void When_레시피_상세정보_페이지_조회_Then_정상_리턴() throws Exception {
         //given
         given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
 
@@ -109,7 +109,7 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_레시피_등록_페이지_조회() throws Exception {
+    public void When_레시피_등록_페이지_조회_Then_정상_리턴() throws Exception {
         //given
         given(this.recipeService.readMaterialList()).willReturn(this.materialList);
 
@@ -127,7 +127,7 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_레시피_등록_Ajax() throws Exception {
+    public void When_레시피_등록_Ajax_Then_정상_리턴() throws Exception {
         //given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
         given(this.recipeService.createRecipe(any(RecipeRequest.class))).willReturn(this.recipe);
@@ -151,7 +151,7 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_레시피_수정_페이지_조회() throws Exception {
+    public void When_레시피_수정_페이지_조회_Then_정상_리턴() throws Exception {
         //given
         given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
         given(this.recipeService.readMaterialList()).willReturn(this.materialList);
@@ -173,7 +173,7 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_레시피_수정_Ajax() throws Exception {
+    public void When_레시피_수정_Ajax_Then_정상_리턴() throws Exception {
         //given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
         given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class))).willReturn(this.recipe);
@@ -197,14 +197,14 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_레시피_삭제_호출() throws Exception {
+    public void When_레시피_삭제_호출_Then_정상_리턴() throws Exception {
         //when
-        final ResultActions actions = this.mockMvc.perform(post("/recipe/delete/" + this.recipe.getId()));
+        final ResultActions actions = this.mockMvc.perform(post("/recipe/delete/" + this.recipe.getId())
+                .with(csrf()));
 
         //then
         actions.andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("/"))
-                .andExpect(content().string(containsString("_csrf")));
+                .andExpect(view().name("redirect:/"));
     }
 }

@@ -1,6 +1,6 @@
 package link.myrecipes.front.service;
 
-import link.myrecipes.front.common.RestTemplateHelperImpl;
+import link.myrecipes.front.common.RestTemplateHelper;
 import link.myrecipes.front.dto.PageParam;
 import link.myrecipes.front.dto.Recipe;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +25,9 @@ public class IndexServiceImpl implements IndexService {
     @Value("${app.index.page-size}")
     private int pageSize;
 
-    private final RestTemplateHelperImpl restTemplateHelper;
+    private final RestTemplateHelper restTemplateHelper;
 
-    public IndexServiceImpl(RestTemplateHelperImpl restTemplateHelper) {
+    public IndexServiceImpl(RestTemplateHelper restTemplateHelper) {
         this.restTemplateHelper = restTemplateHelper;
     }
 

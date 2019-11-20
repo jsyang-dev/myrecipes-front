@@ -24,7 +24,7 @@ public class SystemControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void Should_정상_응답_When_컨트롤러_호출() throws Exception {
+    public void When_컨트롤러_호출_Then_정상_응답() throws Exception {
         //when
         final ResultActions actions = this.mockMvc.perform(get("/health"));
 

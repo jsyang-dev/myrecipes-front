@@ -1,6 +1,7 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelperImpl;
+import link.myrecipes.front.common.SecurityHelperImpl;
 import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
 import link.myrecipes.front.dto.security.UserSecurity;
@@ -10,13 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.any;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,6 +28,12 @@ public class MemberServiceImplTest {
 
     @Mock
     private RestTemplateHelperImpl restTemplateHelper;
+
+    @Mock
+    private SecurityHelperImpl securityHelper;
+
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Before
     public void setUp() {
@@ -72,12 +78,49 @@ public class MemberServiceImplTest {
     }
 
     @Test
+    public void When_회원정보_조회_Then_정상_반환() {
+        //given
+        given(this.restTemplateHelper.getForEntity(eq(User.class), contains("/members"))).willReturn(this.user);
+        given(this.securityHelper.getLoginUserId()).willReturn(1);
+
+        //when
+        final User selectedUser = this.memberService.readMember();
+
+        //then
+        assertThat(selectedUser, instanceOf(User.class));
+        assertThat(selectedUser.getId(), is(this.user.getId()));
+        assertThat(selectedUser.getUsername(), is(this.user.getUsername()));
+        assertThat(selectedUser.getPassword(), is(this.user.getPassword()));
+        assertThat(selectedUser.getName(), is(this.user.getName()));
+        assertThat(selectedUser.getPhone(), is(this.user.getPhone()));
+        assertThat(selectedUser.getEmail(), is(this.user.getEmail()));
+    }
+
+    @Test
     public void When_회원정보_저장_Then_정상_반환() {
         //given
         given(this.restTemplateHelper.postForEntity(eq(User.class), contains("/members"), any(UserRequest.class))).willReturn(this.user);
 
         //when
         final User selectedUser = this.memberService.createMember(user.toRequestDTO());
+
+        //then
+        assertThat(selectedUser, instanceOf(User.class));
+        assertThat(selectedUser.getId(), is(this.user.getId()));
+        assertThat(selectedUser.getUsername(), is(this.user.getUsername()));
+        assertThat(selectedUser.getPassword(), is(this.user.getPassword()));
+        assertThat(selectedUser.getName(), is(this.user.getName()));
+        assertThat(selectedUser.getPhone(), is(this.user.getPhone()));
+        assertThat(selectedUser.getEmail(), is(this.user.getEmail()));
+    }
+
+    @Test
+    public void When_회원정보_수정_Then_정상_반환() {
+        //given
+        given(this.restTemplateHelper.putForEntity(eq(User.class), contains("/members"), any(UserRequest.class))).willReturn(this.user);
+
+        //when
+        final User selectedUser = this.memberService.updateMember(this.user.getId(), user.toRequestDTO());
 
         //then
         assertThat(selectedUser, instanceOf(User.class));
