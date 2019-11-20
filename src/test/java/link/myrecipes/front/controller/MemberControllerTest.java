@@ -54,7 +54,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void Should_정상_리턴_When_회원가입_페이지_조회() throws Exception {
+    public void When_회원가입_페이지_조회_Then_정상_리턴() throws Exception {
         //when
         final ResultActions actions = this.mockMvc.perform(get("/member/register"));
 
@@ -67,7 +67,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void Should_리다이렉트_When_회원가입_저장() throws Exception {
+    public void When_회원가입_저장_Then_리다이렉트() throws Exception {
         //given
         given(this.memberService.createMember(any(UserRequest.class))).willReturn(this.user);
 
@@ -87,7 +87,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void Should_리다이렉트_When_회원가입_파라미터없이_저장() throws Exception {
+    public void When_회원가입_파라미터없이_저장_Then_리다이렉트() throws Exception {
         //when
         final ResultActions actions = this.mockMvc.perform(post("/member/register")
                 .with(csrf()));
@@ -103,7 +103,7 @@ public class MemberControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_정상_리턴_When_회원정보수정_페이지_조회() throws Exception {
+    public void When_회원정보수정_페이지_조회_Then_정상_리턴() throws Exception {
         //given
         given(this.memberService.readMember()).willReturn(this.user);
 
@@ -125,7 +125,7 @@ public class MemberControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_리다이렉트_When_회원정보수정_저장() throws Exception {
+    public void When_회원정보수정_저장_Then_리다이렉트() throws Exception {
         //given
         given(this.memberService.updateMember(eq(this.user.getId()), any(UserRequest.class))).willReturn(this.user);
 
@@ -146,7 +146,7 @@ public class MemberControllerTest {
 
     @Test
     @WithMockUser
-    public void Should_리다이렉트_When_회원정보수정_파라미터없이_저장() throws Exception {
+    public void When_회원정보수정_파라미터없이_저장_Then_리다이렉트() throws Exception {
         //when
         final ResultActions actions = this.mockMvc.perform(post("/member/modify/" + this.user.getId())
                 .with(csrf()));

@@ -37,7 +37,7 @@ public class IndexServiceImplTest {
     private boolean isDescending;
 
     @Test
-    public void Should_페이지_정상_반환_When_페이지_조회() {
+    public void When_메인_페이지_조회_Then_페이지_정상_반환() {
         //given
         Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
         List<Recipe> list = Collections.singletonList(recipe);
