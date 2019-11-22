@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <sonar.projectKey>mycat83_myrecipes-front</sonar.projectKey>
+        <sonar.organization>myrecipes</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>84e0ea9c42aab7eb44e86400dd148ea959568748</sonar.login>
     </properties>
 
     <dependencies>
