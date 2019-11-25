@@ -1,6 +1,10 @@
 {
   "properties": [
     {
+      "name": "app.artifactId",
+      "type": "java.lang.String"
+    },
+    {
       "name": "cloud.aws.s3.bucket",
       "type": "java.lang.String"
     },
@@ -59,6 +63,18 @@
     {
       "name": "app.index.is-descending",
       "type": "java.lang.Boolean"
+    },
+    {
+      "name": "app.rabbitmq.exchange",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.rabbitmq.routing.call",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.rabbitmq.routing.fail",
+      "type": "java.lang.String"
     }
   ]
 }
