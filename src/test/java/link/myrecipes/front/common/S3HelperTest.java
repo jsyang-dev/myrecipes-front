@@ -31,6 +31,7 @@ public class S3HelperTest {
 
     @Test
     public void When_S3_업로드_성공_Then_URL_리턴() throws IOException {
+        //given
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", "test.txt", "text/plain", "test data".getBytes());
         String path = "img";
 

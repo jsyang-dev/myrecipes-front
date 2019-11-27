@@ -35,6 +35,7 @@ public class RestTemplateHelperImplTest {
     @Test
     @Ignore
     public void API_호출_테스트() {
+        //given
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
