@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:fragment="mainHead">
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
 
     <!-- html head 추가부 -->
     <th:block layout:fragment="html_head"></th:block>
 
     <!-- Css lib -->
-    <link rel="stylesheet" th:href="@{/dist/font-awesome/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/dist/font-awesome/css/font-awesome.min.css}"/>
 
     <!-- Css custom -->
     <link rel="stylesheet" th:href="@{/css/common.css}">

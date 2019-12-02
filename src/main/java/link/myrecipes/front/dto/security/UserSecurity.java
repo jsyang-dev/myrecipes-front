@@ -29,7 +29,7 @@ public class UserSecurity implements UserDetails {
 
     private boolean enabled;
 
-    private List<UserAuthoritySecurity> userAuthoritySecurityList = new ArrayList<>();
+    private final List<UserRoleSecurity> userRoleSecurityList = new ArrayList<>();
 
     @Override
     public String getUsername() {
@@ -63,8 +63,8 @@ public class UserSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userAuthoritySecurityList.stream()
-                .map(x -> new SimpleGrantedAuthority("ROLE_" + x.getAuthority()))
+        return userRoleSecurityList.stream()
+                .map(x -> new SimpleGrantedAuthority("ROLE_" + x.getRole()))
                 .collect(Collectors.toSet());
     }
 
