@@ -20,6 +20,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecipeServiceImplTest {
@@ -138,5 +140,8 @@ public class RecipeServiceImplTest {
     public void When_레시피_삭제_Then_정상_반환() {
         //when
         this.recipeService.deleteRecipe(this.recipeView.getId());
+
+        //then
+        verify((this.restTemplateHelper), times(1)).delete(any(String.class));
     }
 }
