@@ -17,6 +17,7 @@ spring:
   devtools:
     livereload:
       enabled: true
+      port: 35730
     restart:
       enabled: true
   thymeleaf:
