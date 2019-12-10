@@ -114,11 +114,11 @@ app:
   api:
     recipe:
       scheme: http
-      host: service.myrecipes.link
+      host: 10.0.20.156
       port: 8081
     member:
       scheme: http
-      host: service.myrecipes.link
+      host: 10.0.20.156
       port: 8081
   index:
     page-size: 9
