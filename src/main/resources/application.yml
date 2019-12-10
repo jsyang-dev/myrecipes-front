@@ -114,12 +114,12 @@ app:
   api:
     recipe:
       scheme: http
-      host: api.myrecipes.link
-      port: 80
+      host: service.myrecipes.link
+      port: 8081
     member:
       scheme: http
-      host: api.myrecipes.link
-      port: 80
+      host: service.myrecipes.link
+      port: 8081
   index:
     page-size: 9
     sort-field: registerDate
@@ -172,12 +172,12 @@ app:
   api:
     recipe:
       scheme: http
-      host: api.myrecipes.link
-      port: 80
+      host: service.myrecipes.link
+      port: 8081
     member:
       scheme: http
-      host: api.myrecipes.link
-      port: 80
+      host: service.myrecipes.link
+      port: 8081
   index:
     page-size: 9
     sort-field: registerDate
