@@ -1,7 +1,5 @@
 package link.myrecipes.front.config;
 
-import link.myrecipes.front.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,9 +14,11 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
-    private CustomUserDetailsService customUserDetailsService;
+//    private final CustomUserDetailsService customUserDetailsService;
+//
+//    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+//        this.customUserDetailsService = customUserDetailsService;
+//    }
 
     @Override
     public void configure(WebSecurity web) {
@@ -42,11 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
 
-                .rememberMe()
-                .rememberMeParameter("auto-login")
-                .userDetailsService(this.customUserDetailsService)
-                .key("auto-login-key")
-                .and()
+//                .rememberMe()
+//                .rememberMeParameter("auto-login")
+//                .userDetailsService(this.customUserDetailsService)
+//                .key("auto-login-key")
+//                .and()
 
                 .addFilterBefore(characterEncodingFilter(), WebAsyncManagerIntegrationFilter.class);
     }
