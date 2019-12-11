@@ -17,9 +17,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
-    @Value("${app.image-path.common}")
-    private String commonImagePath;
-
     @Value("${app.image-path.recipe}")
     private String recipeImagePath;
 
@@ -45,7 +42,6 @@ public class RecipeController {
     public String register(Model model) {
         List<Material> materialList = this.recipeService.readMaterialList();
         model.addAttribute("materialList", materialList);
-        model.addAttribute("commonImagePath", this.commonImagePath);
         return "recipe/register";
     }
 
@@ -62,7 +58,6 @@ public class RecipeController {
 
         model.addAttribute("recipeView", recipeView);
         model.addAttribute("materialList", materialList);
-        model.addAttribute("commonImagePath", this.commonImagePath);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         model.addAttribute("stepImagePath", this.stepImagePath);
         return "recipe/modify";

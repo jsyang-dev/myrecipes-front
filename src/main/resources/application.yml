@@ -23,7 +23,9 @@ spring:
   thymeleaf:
     cache: false
   resources:
-    static-locations: classpath:/static/
+    static-locations:
+      - classpath:/static/
+      - https://s3.ap-northeast-2.amazonaws.com/local.static.myrecipes.link/static/
   cache:
     type: redis
     redis:
@@ -50,7 +52,6 @@ cloud:
 
 app:
   image-path:
-    common: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/common/
     recipe: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/recipe/
     step: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/step/
   api:
@@ -81,7 +82,9 @@ spring:
   thymeleaf:
     cache: false
   resources:
-    static-locations: classpath:/static/
+    static-locations:
+      - classpath:/static/
+      - https://s3.ap-northeast-2.amazonaws.com/dev.static.myrecipes.link/static/
   cache:
     type: redis
     redis:
@@ -108,7 +111,6 @@ cloud:
 
 app:
   image-path:
-    common: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/common/
     recipe: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/recipe/
     step: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/step/
   api:
@@ -139,7 +141,9 @@ spring:
   thymeleaf:
     cache: true
   resources:
-    static-locations: classpath:/static/
+    static-locations:
+      - classpath:/static/
+      - https://s3.ap-northeast-2.amazonaws.com/static.myrecipes.link/static/
   cache:
     type: redis
     redis:
@@ -166,7 +170,6 @@ cloud:
 
 app:
   image-path:
-    common: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/common/
     recipe: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/recipe/
     step: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/step/
   api:

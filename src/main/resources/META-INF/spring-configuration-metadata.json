@@ -17,10 +17,6 @@
       "type": "java.lang.String"
     },
     {
-      "name": "app.image-path.common",
-      "type": "java.lang.String"
-    },
-    {
       "name": "app.image-path.recipe",
       "type": "java.lang.String"
     },

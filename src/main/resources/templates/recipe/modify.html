@@ -147,7 +147,7 @@
                         <th:block th:each="recipeStepView, row: ${recipeView.getRecipeStepViewList()}">
                             <div class="form-group row mb-0">
                                 <div class="form-group col-sm-1">
-                                    <label class="mt-1" th:text="${'순서' + row.count}">순서</label>
+                                    <label class="mt-1" th:text="${row.count + '단계'}">단계</label>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="stepContent1" class="sr-only">단계</label>
@@ -162,9 +162,9 @@
                                              class="stepImagePreview" id="stepImagePreview1" width="240" height="160"
                                              style="border: 1px solid #ced4da"/>
                                         <img th:if="${#strings.isEmpty(recipeStepView.getImage())}"
-                                             th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview"
+                                             src="/img/add_image.jpg" class="stepImagePreview"
                                              id="stepImagePreview1" width="240" height="160"
-                                             style="border: 1px solid #ced4da"/>
+                                             style="border: 1px solid #ced4da" alt="단 이미지 등록하기"/>
                                         <input type="file" accept="image/*" class="form-control stepImageFile"
                                                id="stepImageFile1" style="display:none;"/>
                                         <input type="hidden" name="stepImage" id="stepImage1"
@@ -208,7 +208,6 @@
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
         const materialList = [[${materialList}]];
-        const commonImagePath = [[${commonImagePath}]];
         const rowMaterial = `
                         <div class="form-group row new-row mb-0 mt-3">
                             <div class="form-group col-sm-1">
@@ -236,7 +235,7 @@
                         </div>`;
         const rowStep = `<div class="form-group row new-row mb-0 mt-3">
                             <div class="form-group col-sm-1">
-                                <label class="mt-1">순서{seq}</label>
+                                <label class="mt-1">{seq}단계</label>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="stepContent{seq}" class="sr-only">단계</label>
@@ -245,7 +244,8 @@
                             <div class="form-group col-sm-4">
                                 <label for="stepImageFile{seq}" class="sr-only">단계이미지</label>
                                 <div class="col-sm-10">
-                                    <img src="${commonImagePath}add_image.jpg" class="stepImagePreview" id="stepImagePreview{seq}" width="240" height="160" style="border: 1px solid #ced4da"/>
+                                    <img src="/img/add_image.jpg" class="stepImagePreview" id="stepImagePreview{seq}"
+                                        width="240" height="160" style="border: 1px solid #ced4da" alt="단계 이미지 등록하기"/>
                                     <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile{seq}" style="display:none;"/>
                                     <input type="hidden" name="stepImage" id="stepImage{seq}"/>
                                 </div>
