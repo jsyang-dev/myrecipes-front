@@ -45,9 +45,6 @@ public class RecipeControllerTest {
     private RecipeView recipeView;
     private List<Material> materialList;
 
-    @Value("${app.image-path.common}")
-    private String commonImagePath;
-
     @Value("${app.image-path.recipe}")
     private String recipeImagePath;
 
@@ -121,7 +118,6 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/register"))
                 .andExpect(model().attribute("materialList", this.materialList))
-                .andExpect(model().attribute("commonImagePath", this.commonImagePath))
                 .andExpect(content().string(containsString("_csrf")));
     }
 
@@ -165,7 +161,6 @@ public class RecipeControllerTest {
                 .andExpect(view().name("recipe/modify"))
                 .andExpect(model().attribute("recipeView", this.recipeView))
                 .andExpect(model().attribute("materialList", this.materialList))
-                .andExpect(model().attribute("commonImagePath", this.commonImagePath))
                 .andExpect(model().attribute("recipeImagePath", this.recipeImagePath))
                 .andExpect(model().attribute("stepImagePath", this.stepImagePath))
                 .andExpect(content().string(containsString("_csrf")));
