@@ -4,7 +4,6 @@ import link.myrecipes.front.common.RestTemplateHelper;
 import link.myrecipes.front.common.SecurityHelper;
 import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
-import link.myrecipes.front.dto.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,19 +29,6 @@ public class MemberServiceImpl implements MemberService {
         this.restTemplateHelper = restTemplateHelper;
         this.passwordEncoder = passwordEncoder;
         this.securityHelper = securityHelper;
-    }
-
-    @Override
-    public UserSecurity login(String username) {
-        UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme(this.scheme)
-                .host(this.host)
-                .port(this.port)
-                .path("/login")
-                .path("/" + username)
-                .build(true);
-
-        return this.restTemplateHelper.getForEntity(UserSecurity.class, uriComponents.toUriString());
     }
 
     @Override

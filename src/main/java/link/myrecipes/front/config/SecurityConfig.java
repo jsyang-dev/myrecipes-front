@@ -1,5 +1,6 @@
 package link.myrecipes.front.config;
 
+import link.myrecipes.front.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,11 +15,11 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//    private final CustomUserDetailsService customUserDetailsService;
-//
-//    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
-//        this.customUserDetailsService = customUserDetailsService;
-//    }
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Override
     public void configure(WebSecurity web) {
@@ -31,23 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .mvcMatchers("/member/modify", "/recipe/register/**", "/recipe/modify/**", "/recipe/delete/**").authenticated()
                 .anyRequest().permitAll()
-                .and()
 
+                .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .and()
 
+                .and()
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
+
                 .and()
+                .rememberMe()
+                .rememberMeParameter("auto-login")
+                .userDetailsService(this.customUserDetailsService)
+                .key("auto-login-key")
 
-//                .rememberMe()
-//                .rememberMeParameter("auto-login")
-//                .userDetailsService(this.customUserDetailsService)
-//                .key("auto-login-key")
-//                .and()
-
+                .and()
                 .addFilterBefore(characterEncodingFilter(), WebAsyncManagerIntegrationFilter.class);
     }
 
