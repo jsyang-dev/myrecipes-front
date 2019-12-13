@@ -2,6 +2,7 @@ package link.myrecipes.front.controller;
 
 import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
+import link.myrecipes.front.dto.security.UserSecurity;
 import link.myrecipes.front.service.MemberServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -105,7 +110,7 @@ public class MemberControllerTest {
     @WithMockUser
     public void When_회원정보수정_페이지_조회_Then_정상_리턴() throws Exception {
         //given
-        given(this.memberService.readMember()).willReturn(this.user);
+        given(this.memberService.readMember(any(Integer.class))).willReturn(this.user);
 
         //when
         final ResultActions actions = this.mockMvc.perform(get("/member/modify"));
@@ -124,10 +129,10 @@ public class MemberControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithUserDetails
     public void When_회원정보수정_저장_Then_리다이렉트() throws Exception {
         //given
-        given(this.memberService.updateMember(eq(this.user.getId()), any(UserRequest.class))).willReturn(this.user);
+        given(this.memberService.updateMember(eq(this.user.getId()), any(UserRequest.class), any(Integer.class))).willReturn(this.user);
 
         //when
         final ResultActions actions = this.mockMvc.perform(post("/member/modify/" + this.user.getId())
@@ -158,5 +163,17 @@ public class MemberControllerTest {
                 .andExpect(model().hasErrors())
                 .andExpect(content().string(containsString("_csrf")))
                 .andExpect(content().string(containsString("error-message")));
+    }
+
+    @Configuration
+    static class TestBeanConfig {
+        @Bean
+        public UserDetailsService userDetailsService() {
+            return username -> UserSecurity.builder()
+                    .id(1)
+                    .username("user12")
+                    .password("123456")
+                    .build();
+        }
     }
 }

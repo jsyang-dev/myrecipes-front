@@ -108,3 +108,6 @@ const showErrorMessage = function (response) {
     }
 };
 
+const logout = function () {
+    $("#logoutForm")[0].submit();
+};

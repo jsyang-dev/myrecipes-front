@@ -1,16 +1,21 @@
-<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header id="header">
     <div class="navbar navbar-light box-shadow">
         <div class="container d-flex justify-content-between">
             <a class="navbar-brand" href="/" id="header-logo">
                 <img src="/img/logo.png" class="img-fluid" alt="My.레시피">
             </a>
-            <div sec:authorize-expr="!isAuthenticated()">
-                <a href="/login"><img src="/img/login.png" alt="Login" style="width: 55px"></a>
-                <a href="/member/register"><img src="/img/join.png" alt="Join" style="width: 46px"></a>
-            </div>
             <div sec:authorize-expr="isAuthenticated()">
-                <a href="javascript:logout()"><img src="/img/logout.png" alt="Logout" style="width: 75px"></a>
+                <a href="/recipe/register"><img src="/img/register.png" alt="레시피등록" style="width: 93px"></a>
+                <a href="javascript:logout()"><img src="/img/logout.png" onclick="logout()" alt="로그아웃"
+                                                   style="width: 78px"></a>
+                <form action="/logout" method="post" th:action="@{/logout}" id="logoutForm"></form>
+            </div>
+            <div sec:authorize-expr="!isAuthenticated()">
+                <a href="/member/register"><img src="/img/join.png" alt="회원가입" style="width: 78px"></a>
+                <a href="/login"><img src="/img/login.png" alt="로그인" style="width: 58px"></a>
             </div>
         </div>
     </div>

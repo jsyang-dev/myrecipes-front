@@ -1,7 +1,6 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelper;
-import link.myrecipes.front.common.SecurityHelper;
 import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,22 +22,20 @@ public class MemberServiceImpl implements MemberService {
 
     private final RestTemplateHelper restTemplateHelper;
     private final PasswordEncoder passwordEncoder;
-    private final SecurityHelper securityHelper;
 
-    public MemberServiceImpl(RestTemplateHelper restTemplateHelper, PasswordEncoder passwordEncoder, SecurityHelper securityHelper) {
+    public MemberServiceImpl(RestTemplateHelper restTemplateHelper, PasswordEncoder passwordEncoder) {
         this.restTemplateHelper = restTemplateHelper;
         this.passwordEncoder = passwordEncoder;
-        this.securityHelper = securityHelper;
     }
 
     @Override
-    public User readMember() {
+    public User readMember(int loginUserId) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
                 .path("/members")
-                .path("/" + securityHelper.getLoginUserId())
+                .path("/" + loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.getForEntity(User.class, uriComponents.toUriString());
@@ -59,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public User updateMember(int id, UserRequest userRequest) {
+    public User updateMember(int id, UserRequest userRequest, int loginUserId) {
         userRequest.encodePassword(passwordEncoder);
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
@@ -68,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
                 .port(this.port)
                 .path("/members")
                 .path("/" + id)
-                .queryParam("userId", securityHelper.getLoginUserId())
+                .queryParam("userId", loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.putForEntity(User.class, uriComponents.toUriString(), userRequest);
