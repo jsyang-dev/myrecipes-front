@@ -63,15 +63,19 @@
                         <div class="form-group row">
                             <label for="tag" class="col-sm-2 col-form-label">태그</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="tag" id="tag" placeholder="콤마(,)로 구분 - 예) 술안주,볶음,소고기"/>
+                                <input type="text" class="form-control" name="tag" id="tag"
+                                       placeholder="콤마(,)로 구분 - 예) 술안주,볶음,소고기"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="imageFile" class="col-sm-2 col-form-label">레시피 이미지</label>
                             <div class="col-sm-10">
-                                <img th:src="${commonImagePath} + 'add_image.jpg'" id="imagePreview" width="300" height="200" style="border: 1px solid #ced4da"/><p>
-                                <input type="file" accept="image/*" class="form-control" id="imageFile" style="display:none;"/>
-                                <input type="hidden" name="image" id="image"/>
+                                <img src="/img/add_image.jpg" id="imagePreview" width="300"
+                                     height="200" style="border: 1px solid #ced4da" alt="레시피 이미지 등록하기"/>
+                                <p>
+                                    <input type="file" accept="image/*" class="form-control" id="imageFile"
+                                           style="display:none;"/>
+                                    <input type="hidden" name="image" id="image"/>
                             </div>
                         </div>
                     </form>
@@ -91,17 +95,21 @@
                                 <select class="form-control" id="material1" name="material">
                                     <option>재료 선택</option>
                                     <th:block th:each="material: ${materialList}">
-                                        <option th:value="${material.getId()}" th:attr="data-unit=${material.getUnitName()}" th:text="${material.getName()}"></option>
+                                        <option th:value="${material.getId()}"
+                                                th:attr="data-unit=${material.getUnitName()}"
+                                                th:text="${material.getName()}"></option>
                                     </th:block>
                                 </select>
                             </div>
                             <div class="form-group col-sm-2">
                                 <label for="materialQuantity1" class="sr-only">수량</label>
-                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity1" placeholder="수량"/>
+                                <input type="number" class="form-control" name="materialQuantity" id="materialQuantity1"
+                                       placeholder="수량"/>
                             </div>
                             <div class="form-group col-sm-2">
                                 <label for="materialUnitName1" class="sr-only">단위</label>
-                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1" readonly/>
+                                <input type="text" class="form-control" name="materialUnitName" id="materialUnitName1"
+                                       readonly/>
                             </div>
                         </div>
                     </form>
@@ -118,7 +126,7 @@
                     <form id="recipeStepRequestList">
                         <div class="form-group row mb-0">
                             <div class="form-group col-sm-1">
-                                <label class="mt-1">순서1</label>
+                                <label class="mt-1">1단계</label>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="stepContent1" class="sr-only">단계</label>
@@ -127,8 +135,11 @@
                             <div class="form-group col-sm-4">
                                 <label for="stepImageFile1" class="sr-only">단계이미지</label>
                                 <div class="col-sm-10">
-                                    <img th:src="${commonImagePath} + 'add_image.jpg'" class="stepImagePreview" id="stepImagePreview1" width="240" height="160" style="border: 1px solid #ced4da"/>
-                                    <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile1" style="display:none;"/>
+                                    <img src="/img/add_image.jpg" class="stepImagePreview"
+                                         id="stepImagePreview1" width="240" height="160"
+                                         style="border: 1px solid #ced4da" alt="단계 이미지 등록하기"/>
+                                    <input type="file" accept="image/*" class="form-control stepImageFile"
+                                           id="stepImageFile1" style="display:none;"/>
                                     <input type="hidden" name="stepImage" id="stepImage1"/>
                                 </div>
                             </div>
@@ -161,7 +172,6 @@
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
         const materialList = [[${materialList}]];
-        const commonImagePath = [[${commonImagePath}]];
         const rowMaterial = `
                         <div class="form-group row new-row mb-0 mt-3">
                             <div class="form-group col-sm-1">
@@ -189,7 +199,7 @@
                         </div>`;
         const rowStep = `<div class="form-group row new-row mb-0 mt-3">
                             <div class="form-group col-sm-1">
-                                <label class="mt-1">순서{seq}</label>
+                                <label class="mt-1">{seq}단계</label>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="stepContent{seq}" class="sr-only">단계</label>
@@ -198,7 +208,8 @@
                             <div class="form-group col-sm-4">
                                 <label for="stepImageFile{seq}" class="sr-only">단계이미지</label>
                                 <div class="col-sm-10">
-                                    <img src="${commonImagePath}add_image.jpg" class="stepImagePreview" id="stepImagePreview{seq}" width="240" height="160" style="border: 1px solid #ced4da"/>
+                                    <img src="/img/add_image.jpg" class="stepImagePreview" id="stepImagePreview{seq}"
+                                        width="240" height="160" style="border: 1px solid #ced4da" alt="단계 이미지 등록하기"/>
                                     <input type="file" accept="image/*" class="form-control stepImageFile" id="stepImageFile{seq}" style="display:none;"/>
                                     <input type="hidden" name="stepImage" id="stepImage{seq}"/>
                                 </div>
@@ -209,8 +220,8 @@
                                 </button>
                             </div>
                         </div>`;
-        
-        $("#addMaterial").on("click", function() {
+
+        $("#addMaterial").on("click", function () {
             const $seqMaterial = $("#seqMaterial");
             const $formMaterial = $("#recipeMaterialRequestList");
             const nextSeq = Number($seqMaterial.val()) + 1;
@@ -225,7 +236,7 @@
             }
         });
 
-        $("#addStep").on("click", function() {
+        $("#addStep").on("click", function () {
             const $seqStep = $("#seqStep");
             const nextSeq = Number($seqStep.val()) + 1;
             const row = rowStep.replace(/{seq}/gi, nextSeq);
@@ -234,29 +245,28 @@
             $seqStep.val(nextSeq);
         });
 
-        $(document).on("click", ".delRow", function(e)
-        {
+        $(document).on("click", ".delRow", function (e) {
             $(this).parents(".row").remove();
         });
 
-        $("#imagePreview").on("click", function() {
+        $("#imagePreview").on("click", function () {
             $("#imageFile").click();
         });
 
-        $("#imageFile").on("change", function() {
+        $("#imageFile").on("change", function () {
             uploadImage("recipe", $(this), $("#image"), $("#imagePreview"));
         });
 
-        $(document).on("change", "select[name=material]", function() {
+        $(document).on("change", "select[name=material]", function () {
             const unit = $(this).find("option:selected").data("unit");
             $(this).parents(".row").find("input[name=materialUnitName]").val(unit);
         });
 
-        $(document).on("click", ".stepImagePreview", function() {
+        $(document).on("click", ".stepImagePreview", function () {
             $(this).siblings(".stepImageFile").click();
         });
 
-        $(document).on("change", ".stepImageFile", function() {
+        $(document).on("change", ".stepImageFile", function () {
             uploadImage("step", $(this), $(this).siblings("input[name=stepImage]"), $(this).siblings(".stepImagePreview"));
         });
 
@@ -329,7 +339,7 @@
 
             $.ajax({
                 type: "POST",
-                url : "/recipe/register/ajax",
+                url: "/recipe/register/ajax",
                 data: JSON.stringify(request),
                 dataType: "json",
                 accept: "application/json",
@@ -338,20 +348,12 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
                 },
-                success : function(data, status, xhr) {
+                success: function (data, status, xhr) {
                     alert("레시피가 저장되었습니다.");
 
                     window.location = "/";
-
-                    // 폼 초기화
-                    // $("#main")[0].reset();
-                    // $("#recipeMaterialRequestList")[0].reset();
-                    // $("#recipeStepRequestList")[0].reset();
-                    // $(".new-row").remove();
-                    // $("#imagePreview").attr("src", commonImagePath + "add_image.jpg");
-                    // $(".stepImagePreview").attr("src", commonImagePath + "add_image.jpg");
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
 
                     if (jqXHR.responseJSON.status === 400) {

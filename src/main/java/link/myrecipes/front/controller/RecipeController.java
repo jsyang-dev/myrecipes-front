@@ -3,9 +3,12 @@ package link.myrecipes.front.controller;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.request.RecipeRequest;
+import link.myrecipes.front.dto.security.UserSecurity;
 import link.myrecipes.front.dto.view.RecipeView;
 import link.myrecipes.front.service.RecipeService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +20,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
-    @Value("${app.image-path.common}")
-    private String commonImagePath;
-
     @Value("${app.image-path.recipe}")
     private String recipeImagePath;
 
@@ -33,11 +33,17 @@ public class RecipeController {
     }
 
     @GetMapping("/view/{id}")
-    public String view(Model model, @PathVariable int id) {
+    public String view(Model model, @PathVariable int id, @AuthenticationPrincipal UserSecurity userSecurity) {
         RecipeView recipeView = this.recipeService.readRecipe(id);
+        boolean isRegisteredUser = false;
+        if (userSecurity != null) {
+            isRegisteredUser = (recipeView.getRegisterUserId().intValue() == userSecurity.getId());
+        }
+
         model.addAttribute("recipeView", recipeView);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         model.addAttribute("stepImagePath", this.stepImagePath);
+        model.addAttribute("isRegisteredUser", isRegisteredUser);
         return "recipe/view";
     }
 
@@ -45,7 +51,6 @@ public class RecipeController {
     public String register(Model model) {
         List<Material> materialList = this.recipeService.readMaterialList();
         model.addAttribute("materialList", materialList);
-        model.addAttribute("commonImagePath", this.commonImagePath);
         return "recipe/register";
     }
 
@@ -56,13 +61,21 @@ public class RecipeController {
     }
 
     @GetMapping("/modify/{id}")
-    public String modify(Model model, @PathVariable int id) {
+    public String modify(Model model, @PathVariable int id, @AuthenticationPrincipal UserSecurity userSecurity) {
         RecipeView recipeView = this.recipeService.readRecipe(id);
         List<Material> materialList = this.recipeService.readMaterialList();
 
+        if (userSecurity == null) {
+            return "redirect:/";
+        } else {
+            boolean isRegisteredUser = (recipeView.getRegisterUserId().intValue() == userSecurity.getId());
+            if (!isRegisteredUser && !userSecurity.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                return "redirect:/";
+            }
+        }
+
         model.addAttribute("recipeView", recipeView);
         model.addAttribute("materialList", materialList);
-        model.addAttribute("commonImagePath", this.commonImagePath);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         model.addAttribute("stepImagePath", this.stepImagePath);
         return "recipe/modify";

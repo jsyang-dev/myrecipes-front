@@ -1,7 +1,6 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelperImpl;
-import link.myrecipes.front.common.SecurityHelperImpl;
 import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
 import link.myrecipes.front.dto.security.UserSecurity;
@@ -26,11 +25,11 @@ public class MemberServiceImplTest {
     @InjectMocks
     private MemberServiceImpl memberService;
 
-    @Mock
-    private RestTemplateHelperImpl restTemplateHelper;
+    @InjectMocks
+    private LoginServiceImpl loginService;
 
     @Mock
-    private SecurityHelperImpl securityHelper;
+    private RestTemplateHelperImpl restTemplateHelper;
 
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
@@ -39,11 +38,11 @@ public class MemberServiceImplTest {
     public void setUp() {
         this.user = User.builder()
                 .id(1)
-                .username("user12")
+                .username("test_user")
                 .password("123456")
-                .name("유저")
+                .name("테스트유저")
                 .phone("01012345678")
-                .email("user@domain.com")
+                .email("test_user@domain.com")
                 .build();
     }
 
@@ -52,7 +51,7 @@ public class MemberServiceImplTest {
         //given
         UserSecurity userSecurity = UserSecurity.builder()
                 .id(1)
-                .username("user12")
+                .username("test_user")
                 .password("123456")
                 .accountNonExpired(true)
                 .accountNonLocked(true)
@@ -62,7 +61,7 @@ public class MemberServiceImplTest {
         given(this.restTemplateHelper.getForEntity(eq(UserSecurity.class), contains("/login"))).willReturn(userSecurity);
 
         //when
-        final UserSecurity selectedUserSecurity = this.memberService.login(userSecurity.getUsername());
+        final UserSecurity selectedUserSecurity = this.loginService.login(userSecurity.getUsername());
 
         //then
         assertThat(selectedUserSecurity, instanceOf(UserSecurity.class));
@@ -74,17 +73,15 @@ public class MemberServiceImplTest {
         assertThat(selectedUserSecurity.getId(), is(userSecurity.getId()));
         assertThat(selectedUserSecurity.isCredentialsNonExpired(), is(userSecurity.isCredentialsNonExpired()));
         assertThat(selectedUserSecurity.isEnabled(), is(userSecurity.isEnabled()));
-
     }
 
     @Test
     public void When_회원정보_조회_Then_정상_반환() {
         //given
         given(this.restTemplateHelper.getForEntity(eq(User.class), contains("/members"))).willReturn(this.user);
-        given(this.securityHelper.getLoginUserId()).willReturn(1);
 
         //when
-        final User selectedUser = this.memberService.readMember();
+        final User selectedUser = this.memberService.readMember(1);
 
         //then
         assertThat(selectedUser, instanceOf(User.class));
@@ -120,7 +117,7 @@ public class MemberServiceImplTest {
         given(this.restTemplateHelper.putForEntity(eq(User.class), contains("/members"), any(UserRequest.class))).willReturn(this.user);
 
         //when
-        final User selectedUser = this.memberService.updateMember(this.user.getId(), user.toRequestDTO());
+        final User selectedUser = this.memberService.updateMember(this.user.getId(), user.toRequestDTO(), 1);
 
         //then
         assertThat(selectedUser, instanceOf(User.class));

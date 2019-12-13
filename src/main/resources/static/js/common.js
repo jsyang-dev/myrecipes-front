@@ -1,14 +1,14 @@
-$(window).on("load", function() {
+$(window).on("load", function () {
     $(".loader").delay(1000).fadeOut("slow");
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $("#currentYear").text((new Date()).getFullYear());
     attachTopScroller(".scrollUp");
 });
 
-function attachTopScroller (elementId) {
-    $(window).scroll(function() {
+function attachTopScroller(elementId) {
+    $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
             $(elementId).fadeIn();
         } else {
@@ -16,7 +16,7 @@ function attachTopScroller (elementId) {
         }
     });
     // Scroll To Top Animation
-    $(elementId).click(function() {
+    $(elementId).click(function () {
         $("html, body").animate({
             scrollTop: 0
         }, 1000);
@@ -25,7 +25,7 @@ function attachTopScroller (elementId) {
 }
 
 /******************************* Custom *******************************/
-$.fn.serializeObject = function() {
+$.fn.serializeObject = function () {
     const result = {};
     const extend = function (i, element) {
         const node = result[element.name];
@@ -44,7 +44,7 @@ $.fn.serializeObject = function() {
     return result
 };
 
-const uploadImage = function(path, $imageFile, $image, $imagePreview) {
+const uploadImage = function (path, $imageFile, $image, $imagePreview) {
     const file = $imageFile[0].files[0];
     const sendData = new FormData();
     sendData.append("file", file);
@@ -52,7 +52,7 @@ const uploadImage = function(path, $imageFile, $image, $imagePreview) {
 
     $.ajax({
         type: "POST",
-        url : "/recipe/upload/ajax",
+        url: "/recipe/upload/ajax",
         data: sendData,
         processData: false,
         contentType: false,
@@ -60,22 +60,22 @@ const uploadImage = function(path, $imageFile, $image, $imagePreview) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
         },
-        success : function(data, status, xhr) {
+        success: function (data, status, xhr) {
             $image.val(data);
             $imagePreview.attr("src", data);
             alert("사진이 등록되었습니다.");
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseJSON.message);
             alert("사진이 등록이 실패하였습니다.");
         }
     });
 };
 
-const showErrorMessage = function(response) {
+const showErrorMessage = function (response) {
     const errorFields = response.responseJSON.errors;
 
-    if (!errorFields){
+    if (!errorFields) {
         alert(response.responseJSON.message);
         return;
     }
@@ -108,3 +108,6 @@ const showErrorMessage = function(response) {
     }
 };
 
+const logout = function () {
+    $("#logoutForm")[0].submit();
+};

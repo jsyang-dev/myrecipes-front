@@ -13,91 +13,91 @@
 
 <th:block layout:fragment="content_body">
     <div class="wrapper py-5 bg-light" id="main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 collection-heading">
-                        <span>인기 레시피</span>
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 collection-heading">
+                    <span>인기 레시피</span>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-4" th:each="recipe: ${popularRecipeList}">
-                        <div class="card mb-4 box-shadow">
-                            <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
-                                <img class="card-img-top" src="img/thumbnail.png" alt=""
-                                     th:src="${recipeImagePath} + ${recipe.getImage()}"
-                                     th:alt="${recipe.getTitle()}"/>
-                            </a>
-                            <div class="card-body">
-                                <p class="card-text" th:text="${recipe.getTitle()}"></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">
-                                        <th:block th:each="recipeTag: ${recipe.getRecipeTagList()}">
-                                            <span th:text="'#' + ${recipeTag.getTag()}"></span>
-                                        </th:block>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 mt-md-5 collection-heading">
-                        <span>신규 레시피</span>
-                    </div>
-                </div>
-
-                <div class="row" id="newRecipeList">
-                    <div class="col-md-4" th:each="recipe: ${newRecipeList}">
-                        <div class="card mb-4 box-shadow">
-                            <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
-                                <img class="card-img-top" src="img/thumbnail.png" alt=""
-                                     th:src="${recipeImagePath} + ${recipe.getImage()}"
-                                     th:alt="${recipe.getTitle()}"/>
-                            </a>
-                            <div class="card-body">
-                                <p class="card-text" th:text="${recipe.getTitle()}"></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">
-                                        <th:block th:each="recipeTag: ${recipe.getRecipeTagList()}">
-                                            <span th:text="'#' + ${recipeTag.getTag()}"></span>
-                                        </th:block>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <input type="hidden" id="nextPage" value="2">
-                    <button type="button" class="btn btn-secondary btn-block" id="more">더보기</button>
-                </div>
-
             </div>
+
+            <div class="row">
+                <div class="col-md-4" th:each="recipe: ${popularRecipeList}">
+                    <div class="card mb-4 box-shadow">
+                        <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
+                            <img class="card-img-top" src="img/thumbnail.png" alt=""
+                                 th:src="${recipeImagePath} + ${recipe.getImage()}"
+                                 th:alt="${recipe.getTitle()}"/>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${recipe.getTitle()}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <th:block th:each="recipeTag: ${recipe.getRecipeTagList()}">
+                                        <span th:text="'#' + ${recipeTag.getTag()}"></span>
+                                    </th:block>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mt-md-5 collection-heading">
+                    <span>신규 레시피</span>
+                </div>
+            </div>
+
+            <div class="row" id="newRecipeList">
+                <div class="col-md-4" th:each="recipe: ${newRecipeList}">
+                    <div class="card mb-4 box-shadow">
+                        <a th:href="@{/recipe/view/{id}(id=${recipe.getId()})}">
+                            <img class="card-img-top" src="img/thumbnail.png" alt=""
+                                 th:src="${recipeImagePath} + ${recipe.getImage()}"
+                                 th:alt="${recipe.getTitle()}"/>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${recipe.getTitle()}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <th:block th:each="recipeTag: ${recipe.getRecipeTagList()}">
+                                        <span th:text="'#' + ${recipeTag.getTag()}"></span>
+                                    </th:block>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input type="hidden" id="nextPage" value="2">
+                <button type="button" class="btn btn-secondary btn-block" id="more">더보기</button>
+            </div>
+
         </div>
-        <a href="#" class="btn btn-primary scrollUp">
-            <i class="fa fa-arrow-circle-o-up"></i>
-        </a>
+    </div>
+    <a href="#" class="btn btn-primary scrollUp">
+        <i class="fa fa-arrow-circle-o-up"></i>
+    </a>
     </div>
 </th:block>
 
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             if ([[${recipePageCnt}]] <= 1) {
                 $("#more").toggle();
             }
         });
 
-        $("#more").click(function() {
+        $("#more").click(function () {
             $.ajax({
                 type: "GET",
-                url : "/index/ajax?nextPage=" + $("#nextPage").val(),
+                url: "/index/ajax?nextPage=" + $("#nextPage").val(),
                 // data: sendData,
                 dataType: "html",
                 async: true,
-                success : function(data, status, xhr) {
+                success: function (data, status, xhr) {
                     $("#newRecipeList").append(data);
 
                     const nextPage = $("#nextPage");
@@ -107,7 +107,7 @@
                         $("#more").toggle();
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
                     alert(textStatus);
                 }
