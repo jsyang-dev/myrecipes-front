@@ -147,7 +147,7 @@ public class RecipeControllerTest {
 
     @Test
     @WithMockUser
-    public void When_레시피_수정_페이지_조회_Then_정상_리턴() throws Exception {
+    public void When_다른_사용자_레시피_수정_페이지_조회_Then_정상_리턴() throws Exception {
         //given
         given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
         given(this.recipeService.readMaterialList()).willReturn(this.materialList);
@@ -157,13 +157,8 @@ public class RecipeControllerTest {
 
         //then
         actions.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/modify"))
-                .andExpect(model().attribute("recipeView", this.recipeView))
-                .andExpect(model().attribute("materialList", this.materialList))
-                .andExpect(model().attribute("recipeImagePath", this.recipeImagePath))
-                .andExpect(model().attribute("stepImagePath", this.stepImagePath))
-                .andExpect(content().string(containsString("_csrf")));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 
     @Test

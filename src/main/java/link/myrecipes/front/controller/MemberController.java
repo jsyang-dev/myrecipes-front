@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/member")
@@ -42,7 +43,8 @@ public class MemberController {
 
     @GetMapping("/modify")
     public String modify(Model model, @AuthenticationPrincipal UserSecurity userSecurity) {
-        User user = this.memberService.readMember(userSecurity.getId());
+        int loginUserId = Optional.ofNullable(userSecurity).map(UserSecurity::getId).orElse(0);
+        User user = this.memberService.readMember(loginUserId);
         model.addAttribute("userRequest", user.toRequestDTO());
         model.addAttribute("userId", user.getId());
         return "member/modify";
@@ -55,7 +57,8 @@ public class MemberController {
             return "member/modify";
         }
 
-        User user = this.memberService.updateMember(id, userRequest, userSecurity.getId());
+        int loginUserId = Optional.ofNullable(userSecurity).map(UserSecurity::getId).orElse(0);
+        User user = this.memberService.updateMember(id, userRequest, loginUserId);
         log.info("updated user = " + user.toString());
         return "redirect:/";
     }

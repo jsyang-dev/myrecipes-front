@@ -9,6 +9,7 @@
             </a>
             <div sec:authorize-expr="isAuthenticated()">
                 <a href="/recipe/register"><img src="/img/register.png" alt="레시피등록" style="width: 93px"></a>
+                <a href="/member/modify"><img src="/img/member.png" alt="회원정보" style="width: 78px"></a>
                 <a href="javascript:logout()"><img src="/img/logout.png" onclick="logout()" alt="로그아웃"
                                                    style="width: 78px"></a>
                 <form action="/logout" method="post" th:action="@{/logout}" id="logoutForm"></form>

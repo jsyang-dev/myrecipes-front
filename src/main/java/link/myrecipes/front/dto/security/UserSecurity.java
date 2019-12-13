@@ -78,4 +78,8 @@ public class UserSecurity implements UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
     }
+
+    public void addUserRoleSecurity(UserRoleSecurity userRoleSecurity) {
+        this.userRoleSecurityList.add(userRoleSecurity);
+    }
 }

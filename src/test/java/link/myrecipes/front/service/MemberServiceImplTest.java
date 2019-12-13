@@ -26,7 +26,7 @@ public class MemberServiceImplTest {
     private MemberServiceImpl memberService;
 
     @InjectMocks
-    private LoginService loginService;
+    private LoginServiceImpl loginService;
 
     @Mock
     private RestTemplateHelperImpl restTemplateHelper;
@@ -38,11 +38,11 @@ public class MemberServiceImplTest {
     public void setUp() {
         this.user = User.builder()
                 .id(1)
-                .username("user12")
+                .username("test_user")
                 .password("123456")
-                .name("유저")
+                .name("테스트유저")
                 .phone("01012345678")
-                .email("user@domain.com")
+                .email("test_user@domain.com")
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class MemberServiceImplTest {
         //given
         UserSecurity userSecurity = UserSecurity.builder()
                 .id(1)
-                .username("user12")
+                .username("test_user")
                 .password("123456")
                 .accountNonExpired(true)
                 .accountNonLocked(true)
