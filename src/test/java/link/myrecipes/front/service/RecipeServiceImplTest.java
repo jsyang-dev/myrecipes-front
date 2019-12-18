@@ -108,7 +108,7 @@ public class RecipeServiceImplTest {
         given(this.restTemplateHelper.postForEntity(eq(Recipe.class), contains("/recipes"), any(RecipeRequest.class))).willReturn(this.recipe);
 
         //when
-        final Recipe selectedRecipe = this.recipeService.createRecipe(this.recipeRequest);
+        final Recipe selectedRecipe = this.recipeService.createRecipe(this.recipeRequest, 1);
 
         //then
         assertThat(selectedRecipe, instanceOf(Recipe.class));
@@ -125,7 +125,7 @@ public class RecipeServiceImplTest {
         given(this.restTemplateHelper.putForEntity(eq(Recipe.class), contains("/recipes"), any(RecipeRequest.class))).willReturn(this.recipe);
 
         //when
-        final Recipe selectedRecipe = this.recipeService.updateRecipe(this.recipe.getId(), this.recipeRequest);
+        final Recipe selectedRecipe = this.recipeService.updateRecipe(this.recipe.getId(), this.recipeRequest, 1);
 
         //then
         assertThat(selectedRecipe, instanceOf(Recipe.class));

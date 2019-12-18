@@ -63,10 +63,10 @@ public class IndexControllerTest {
         //then
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "recipeImagePath"))
+                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCount", "recipeImagePath"))
                 .andExpect(model().attribute("popularRecipeList", contains(recipe)))
                 .andExpect(model().attribute("newRecipeList", contains(recipe)))
-                .andExpect(model().attribute("recipePageCnt", 1))
+                .andExpect(model().attribute("recipePageCount", 1))
                 .andExpect(model().attribute("recipeImagePath", this.recipeImagePath));
     }
 
