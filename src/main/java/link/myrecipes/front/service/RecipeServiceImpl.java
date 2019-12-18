@@ -69,13 +69,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
-    public Recipe createRecipe(RecipeRequest recipeRequest) {
+    public Recipe createRecipe(RecipeRequest recipeRequest, int loginUserId) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
                 .path(RECIPES)
-                .queryParam("userId", 10001)
+                .queryParam("userId", loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.postForEntity(Recipe.class, uriComponents.toUriString(), recipeRequest);
@@ -86,14 +86,14 @@ public class RecipeServiceImpl implements RecipeService {
             @CacheEvict(value = "myrecipe:front:recipeView", key = "#id"),
             @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
     })
-    public Recipe updateRecipe(int id, RecipeRequest recipeRequest) {
+    public Recipe updateRecipe(int id, RecipeRequest recipeRequest, int loginUserId) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
                 .path(RECIPES)
                 .path("/" + id)
-                .queryParam("userId", 10001)
+                .queryParam("userId", loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.putForEntity(Recipe.class, uriComponents.toUriString(), recipeRequest);

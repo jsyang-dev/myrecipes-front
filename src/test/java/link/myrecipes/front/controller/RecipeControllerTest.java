@@ -126,7 +126,7 @@ public class RecipeControllerTest {
     public void When_레시피_등록_Ajax_Then_정상_리턴() throws Exception {
         //given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
-        given(this.recipeService.createRecipe(any(RecipeRequest.class))).willReturn(this.recipe);
+        given(this.recipeService.createRecipe(any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
         //when
         final ResultActions actions = this.mockMvc.perform(post("/recipe/register/ajax")
@@ -166,7 +166,7 @@ public class RecipeControllerTest {
     public void When_레시피_수정_Ajax_Then_정상_리턴() throws Exception {
         //given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
-        given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class))).willReturn(this.recipe);
+        given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
         //when
         final ResultActions actions = this.mockMvc.perform(post("/recipe/modify/ajax/" + this.recipe.getId())

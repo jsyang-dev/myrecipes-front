@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/recipe")
@@ -66,8 +67,9 @@ public class RecipeController {
 
     @PostMapping("/register/ajax")
     @ResponseBody
-    public Recipe registerAjax(@RequestBody @Valid RecipeRequest recipeRequest) {
-        return this.recipeService.createRecipe(recipeRequest);
+    public Recipe registerAjax(@RequestBody @Valid RecipeRequest recipeRequest, @AuthenticationPrincipal UserSecurity userSecurity) {
+        int loginUserId = Optional.ofNullable(userSecurity).map(UserSecurity::getId).orElse(0);
+        return this.recipeService.createRecipe(recipeRequest, loginUserId);
     }
 
     @GetMapping("/modify/{id}")
@@ -93,8 +95,10 @@ public class RecipeController {
 
     @PostMapping("/modify/ajax/{id}")
     @ResponseBody
-    public Recipe modifyAjax(@PathVariable int id, @RequestBody @Valid RecipeRequest recipeRequest) {
-        return this.recipeService.updateRecipe(id, recipeRequest);
+    public Recipe modifyAjax(@PathVariable int id, @RequestBody @Valid RecipeRequest recipeRequest,
+                             @AuthenticationPrincipal UserSecurity userSecurity) {
+        int loginUserId = Optional.ofNullable(userSecurity).map(UserSecurity::getId).orElse(0);
+        return this.recipeService.updateRecipe(id, recipeRequest, loginUserId);
     }
 
     @PostMapping("/delete/{id}")
