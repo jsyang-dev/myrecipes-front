@@ -8,5 +8,5 @@ import java.util.List;
 public interface IndexService {
     List<Recipe> readRecipeList(PageParam pageParam);
 
-    int readRecipePageCnt();
+    int readRecipePageCount();
 }

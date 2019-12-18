@@ -50,15 +50,15 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public int readRecipePageCnt() {
+    public int readRecipePageCount() {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes/cnt")
+                .path("/recipes/count")
                 .build(true);
-        long recipeCnt = this.restTemplateHelper.getForEntity(Long.class, uriComponents.toUriString());
+        long recipeCount = this.restTemplateHelper.getForEntity(Long.class, uriComponents.toUriString());
 
-        return (int) Math.ceil((double) recipeCnt / pageSize);
+        return (int) Math.ceil((double) recipeCount / pageSize);
     }
 }
