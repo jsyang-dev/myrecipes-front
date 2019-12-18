@@ -85,7 +85,7 @@
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
-            if ([[${recipePageCnt}]] <= 1) {
+            if ([[${recipePageCount}]] <= 1) {
                 $("#more").toggle();
             }
         });
@@ -103,7 +103,7 @@
                     const nextPage = $("#nextPage");
                     nextPage.val(Number(nextPage.val()) + 1);
 
-                    if (nextPage.val() > [[${recipePageCnt}]]) {
+                    if (nextPage.val() > [[${recipePageCount}]]) {
                         $("#more").toggle();
                     }
                 },

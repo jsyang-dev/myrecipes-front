@@ -39,11 +39,11 @@ public class IndexController {
         PageParam pageParamForNewList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);
 
-        int recipePageCnt = this.indexService.readRecipePageCnt();
+        int recipePageCount = this.indexService.readRecipePageCount();
 
         model.addAttribute("popularRecipeList", popularRecipeList);
         model.addAttribute("newRecipeList", newRecipeList);
-        model.addAttribute("recipePageCnt", recipePageCnt);
+        model.addAttribute("recipePageCount", recipePageCount);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
         return "index";
     }

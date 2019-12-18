@@ -55,7 +55,7 @@ public class IndexControllerTest {
         PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
-        given(this.indexService.readRecipePageCnt()).willReturn(1);
+        given(this.indexService.readRecipePageCount()).willReturn(1);
 
         //when
         final ResultActions actions = this.mockMvc.perform(get("/index"));
