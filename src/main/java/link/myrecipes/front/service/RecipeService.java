@@ -20,4 +20,6 @@ public interface RecipeService {
     void deleteRecipe(int id);
 
     String uploadImage(MultipartFile file, String path);
+
+    void increaseReadCount(int id);
 }

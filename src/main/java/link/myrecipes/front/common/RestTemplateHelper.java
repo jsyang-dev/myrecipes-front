@@ -11,5 +11,7 @@ public interface RestTemplateHelper {
 
     <T, R> T putForEntity(Class<T> clazz, String url, R body, Object... uriVariables);
 
+    <R> void putForEntity(String url, R body, Object... uriVariables);
+
     void delete(String url);
 }

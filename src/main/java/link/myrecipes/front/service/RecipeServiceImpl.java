@@ -22,6 +22,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class RecipeServiceImpl implements RecipeService {
+    private static final String RECIPES = "/recipes";
+
     @Value("${app.api.recipe.scheme}")
     private String scheme;
 
@@ -46,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
                 .build(true);
 
@@ -72,7 +74,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .queryParam("userId", 10001)
                 .build(true);
 
@@ -89,7 +91,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
                 .queryParam("userId", 10001)
                 .build(true);
@@ -107,7 +109,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
                 .build(true);
 
@@ -125,5 +127,19 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return imageUrl;
+    }
+
+    @Override
+    public void increaseReadCount(int id) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path(RECIPES)
+                .path("/" + id)
+                .path("/readCount")
+                .build(true);
+
+        this.restTemplateHelper.putForEntity(uriComponents.toUriString(), null);
     }
 }

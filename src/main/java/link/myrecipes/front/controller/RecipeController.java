@@ -6,6 +6,7 @@ import link.myrecipes.front.dto.request.RecipeRequest;
 import link.myrecipes.front.dto.security.UserSecurity;
 import link.myrecipes.front.dto.view.RecipeView;
 import link.myrecipes.front.service.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/recipe")
+@Slf4j
 public class RecipeController {
+    public static final String REDIRECT = "redirect:/";
+
     @Value("${app.image-path.recipe}")
     private String recipeImagePath;
 
@@ -35,6 +39,12 @@ public class RecipeController {
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable int id, @AuthenticationPrincipal UserSecurity userSecurity) {
         RecipeView recipeView = this.recipeService.readRecipe(id);
+        try {
+            this.recipeService.increaseReadCount(id);
+        } catch (Exception e) {
+            log.error("increaseReadCount failed: {}", id);
+        }
+
         boolean isRegisteredUser = false;
         if (userSecurity != null) {
             isRegisteredUser = (recipeView.getRegisterUserId().intValue() == userSecurity.getId());
@@ -66,11 +76,11 @@ public class RecipeController {
         List<Material> materialList = this.recipeService.readMaterialList();
 
         if (userSecurity == null) {
-            return "redirect:/";
+            return REDIRECT;
         } else {
             boolean isRegisteredUser = (recipeView.getRegisterUserId().intValue() == userSecurity.getId());
             if (!isRegisteredUser && !userSecurity.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                return "redirect:/";
+                return REDIRECT;
             }
         }
 
@@ -90,7 +100,7 @@ public class RecipeController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
         this.recipeService.deleteRecipe(id);
-        return "redirect:/";
+        return REDIRECT;
     }
 
     @PostMapping("/upload/ajax")
