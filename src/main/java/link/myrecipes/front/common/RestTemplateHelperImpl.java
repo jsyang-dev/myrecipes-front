@@ -62,10 +62,17 @@ public class RestTemplateHelperImpl implements RestTemplateHelper {
     }
 
     @Override
+    public <R> void putForEntity(String url, R body, Object... uriVariables) {
+        HttpEntity<R> request = new HttpEntity<>(body);
+        this.restTemplate.exchange(url, HttpMethod.PUT, request, String.class, uriVariables);
+    }
+
+    @Override
     public void delete(String url) {
         this.restTemplate.delete(url);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T getResult(Class<T> clazz, ResponseEntity<String> response) {
         JavaType type = this.objectMapper.getTypeFactory().constructType(clazz);
         T result = null;

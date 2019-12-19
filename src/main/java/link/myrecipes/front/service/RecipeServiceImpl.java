@@ -22,6 +22,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class RecipeServiceImpl implements RecipeService {
+    private static final String RECIPES = "/recipes";
+
     @Value("${app.api.recipe.scheme}")
     private String scheme;
 
@@ -46,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
                 .build(true);
 
@@ -67,13 +69,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
-    public Recipe createRecipe(RecipeRequest recipeRequest) {
+    public Recipe createRecipe(RecipeRequest recipeRequest, int loginUserId) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
-                .queryParam("userId", 10001)
+                .path(RECIPES)
+                .queryParam("userId", loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.postForEntity(Recipe.class, uriComponents.toUriString(), recipeRequest);
@@ -84,14 +86,14 @@ public class RecipeServiceImpl implements RecipeService {
             @CacheEvict(value = "myrecipe:front:recipeView", key = "#id"),
             @CacheEvict(value = "myrecipe:front:recipeList", allEntries = true)
     })
-    public Recipe updateRecipe(int id, RecipeRequest recipeRequest) {
+    public Recipe updateRecipe(int id, RecipeRequest recipeRequest, int loginUserId) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
-                .queryParam("userId", 10001)
+                .queryParam("userId", loginUserId)
                 .build(true);
 
         return this.restTemplateHelper.putForEntity(Recipe.class, uriComponents.toUriString(), recipeRequest);
@@ -107,7 +109,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/recipes")
+                .path(RECIPES)
                 .path("/" + id)
                 .build(true);
 
@@ -125,5 +127,19 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return imageUrl;
+    }
+
+    @Override
+    public void increaseReadCount(int id) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path(RECIPES)
+                .path("/" + id)
+                .path("/readCount")
+                .build(true);
+
+        this.restTemplateHelper.putForEntity(uriComponents.toUriString(), null);
     }
 }

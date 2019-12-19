@@ -13,11 +13,13 @@ public interface RecipeService {
 
     List<Material> readMaterialList();
 
-    Recipe createRecipe(RecipeRequest recipeRequest);
+    Recipe createRecipe(RecipeRequest recipeRequest, int loginUserId);
 
-    Recipe updateRecipe(int id, RecipeRequest recipeRequest);
+    Recipe updateRecipe(int id, RecipeRequest recipeRequest, int loginUserId);
 
     void deleteRecipe(int id);
 
     String uploadImage(MultipartFile file, String path);
+
+    void increaseReadCount(int id);
 }

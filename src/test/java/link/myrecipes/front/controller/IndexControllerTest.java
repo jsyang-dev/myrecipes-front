@@ -55,7 +55,7 @@ public class IndexControllerTest {
         PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
-        given(this.indexService.readRecipePageCnt()).willReturn(1);
+        given(this.indexService.readRecipePageCount()).willReturn(1);
 
         //when
         final ResultActions actions = this.mockMvc.perform(get("/index"));
@@ -63,10 +63,10 @@ public class IndexControllerTest {
         //then
         actions.andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCnt", "recipeImagePath"))
+                .andExpect(model().attributeExists("popularRecipeList", "newRecipeList", "recipePageCount", "recipeImagePath"))
                 .andExpect(model().attribute("popularRecipeList", contains(recipe)))
                 .andExpect(model().attribute("newRecipeList", contains(recipe)))
-                .andExpect(model().attribute("recipePageCnt", 1))
+                .andExpect(model().attribute("recipePageCount", 1))
                 .andExpect(model().attribute("recipeImagePath", this.recipeImagePath));
     }
 
