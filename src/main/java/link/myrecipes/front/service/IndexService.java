@@ -9,4 +9,6 @@ public interface IndexService {
     List<Recipe> readRecipeList(PageParam pageParam);
 
     int readRecipePageCount();
+
+    List<Recipe> readPopularRecipeList();
 }
