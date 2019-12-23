@@ -33,8 +33,7 @@ public class IndexController {
 
     @GetMapping({"/", "/index"})
     public String index(Model model) {
-        PageParam pageParamForPopularList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
-        List<Recipe> popularRecipeList = this.indexService.readRecipeList(pageParamForPopularList);
+        List<Recipe> popularRecipeList = this.indexService.readPopularRecipeList();
 
         PageParam pageParamForNewList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);

@@ -54,6 +54,7 @@ public class IndexControllerTest {
         Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
         PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
 
+        given(indexService.readPopularRecipeList()).willReturn(Collections.singletonList(recipe));
         given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
         given(this.indexService.readRecipePageCount()).willReturn(1);
 

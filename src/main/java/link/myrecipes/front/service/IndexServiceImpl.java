@@ -61,4 +61,16 @@ public class IndexServiceImpl implements IndexService {
 
         return (int) Math.ceil((double) recipeCount / pageSize);
     }
+
+    @Override
+    public List<Recipe> readPopularRecipeList() {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme(this.scheme)
+                .host(this.host)
+                .port(this.port)
+                .path("/popularRecipes")
+                .build(true);
+
+        return this.restTemplateHelper.getForList(Recipe.class, uriComponents.toUriString());
+    }
 }
