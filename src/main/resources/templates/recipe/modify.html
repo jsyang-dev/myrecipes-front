@@ -191,10 +191,10 @@
             <div class="mt-4">
                 <div class="form-group row">
                     <div class="form-group col-sm-6">
-                        <button class="btn btn-primary btn-block btn-lg" type="button" id="save">저장</button>
+                        <input type="submit" value="수정" class="btn btn-primary btn-block btn-lg"/>
                     </div>
                     <div class="form-group col-sm-6">
-                        <button class="btn btn-secondary btn-block btn-lg" type="button" id="cancel">취소</button>
+                        <input type="button" value="취소" class="btn btn-secondary btn-block btn-lg" id="cancel"/>
                     </div>
                 </div>
             </div>
@@ -402,7 +402,7 @@
                 success: function (data, status, xhr) {
                     alert("레시피가 수정되었습니다.");
 
-                    window.location = "/recipe/view/" + "[[${recipeView.getId()}]]";
+                    location.href = "/recipe/view/" + "[[${recipeView.getId()}]]";
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
@@ -418,7 +418,7 @@
         });
 
         $("#cancel").on("click", function () {
-            window.location = "/";
+            location.href = "/";
         });
     </script>
 </th:block>

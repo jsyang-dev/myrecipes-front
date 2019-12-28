@@ -82,35 +82,35 @@
             <div class="mt-4">
                 <div class="form-group row" sec:authorize="hasRole('ADMIN')">
                     <div class="form-group col-sm-4">
-                        <button class="btn btn-primary btn-block btn-lg" type="button" id="modify">수정</button>
+                        <input type="button" value="수정" class="btn btn-primary btn-block btn-lg" id="modify"/>
                     </div>
                     <div class="form-group col-sm-4">
                         <form th:action="@{/recipe/delete/{id}(id=${recipeView.getId()})}" method="post"
                               onsubmit="return doDelete()">
-                            <button class="btn btn-secondary btn-block btn-lg" type="submit">삭제</button>
+                            <input type="submit" value="삭제" class="btn btn-primary btn-block btn-lg"/>
                         </form>
                     </div>
                     <div class="form-group col-sm-4">
-                        <button class="btn btn-secondary btn-block btn-lg" id="cancel">취소</button>
+                        <input type="button" value="메인으로" class="btn btn-secondary btn-block btn-lg" id="cancel"/>
                     </div>
                 </div>
                 <div class="form-group row" th:if="${isRegisteredUser == true}">
                     <div class="form-group col-sm-4">
-                        <button class="btn btn-primary btn-block btn-lg" type="button" id="modify">수정</button>
+                        <input type="button" value="수정" class="btn btn-primary btn-block btn-lg" id="modify"/>
                     </div>
                     <div class="form-group col-sm-4">
                         <form th:action="@{/recipe/delete/{id}(id=${recipeView.getId()})}" method="post"
                               onsubmit="return doDelete()">
-                            <button class="btn btn-secondary btn-block btn-lg" type="submit">삭제</button>
+                            <input type="submit" value="삭제" class="btn btn-primary btn-block btn-lg"/>
                         </form>
                     </div>
                     <div class="form-group col-sm-4">
-                        <button class="btn btn-secondary btn-block btn-lg" id="cancel">취소</button>
+                        <input type="button" value="메인으로" class="btn btn-secondary btn-block btn-lg" id="cancel"/>
                     </div>
                 </div>
                 <div class="form-group row" th:if="${isRegisteredUser == false}">
                     <div class="form-group col-sm-12">
-                        <button class="btn btn-secondary btn-block btn-lg" id="cancel">취소</button>
+                        <input type="button" value="메인으로" class="btn btn-secondary btn-block btn-lg" id="cancel"/>
                     </div>
                 </div>
             </div>
@@ -124,11 +124,11 @@
 <th:block layout:fragment="custom_js">
     <script type="text/javascript" th:inline="javascript">
         $("#modify").on("click", function () {
-            window.location = "/recipe/modify/" + "[[${recipeView.getId()}]]";
+            location.href = "/recipe/modify/" + "[[${recipeView.getId()}]]";
         });
 
         $("#cancel").on("click", function () {
-            window.location = "/";
+            location.href = "/";
         });
 
         function doDelete() {
