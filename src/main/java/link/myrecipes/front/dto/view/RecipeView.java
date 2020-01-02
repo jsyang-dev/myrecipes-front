@@ -22,6 +22,8 @@ public class RecipeView implements Serializable {
 
     private Integer difficulty;
 
+    private Integer people;
+
     private Integer registerUserId;
 
     private LocalDateTime registerDate;
@@ -34,7 +36,7 @@ public class RecipeView implements Serializable {
 
     @Builder
     public RecipeView(Integer id, String title, String image, Integer estimatedTime, Integer difficulty,
-                      Integer registerUserId, LocalDateTime registerDate,
+                      Integer people, Integer registerUserId, LocalDateTime registerDate,
                       List<RecipeMaterialView> recipeMaterialViewList, List<RecipeStepView> recipeStepViewList,
                       List<RecipeTagView> recipeTagViewList) {
         this.id = id;
@@ -42,6 +44,7 @@ public class RecipeView implements Serializable {
         this.image = image;
         this.estimatedTime = estimatedTime;
         this.difficulty = difficulty;
+        this.people = people;
         this.registerUserId = registerUserId;
         this.registerDate = registerDate;
         this.recipeMaterialViewList = recipeMaterialViewList;
