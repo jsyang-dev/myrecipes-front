@@ -54,13 +54,31 @@
             <div class="card card-register mx-auto mt-3">
                 <div class="card-body text-center">
                     <h4 class="mt-3 mb-4">요리재료</h4>
-                    <th:block th:each="recipeMaterialView: ${recipeView.getRecipeMaterialViewList()}">
-                        <div class="col-md-4 my-3 text-center">
-                            <span th:text="${recipeMaterialView.getMaterialName() + ': '}"></span>
-                            <span th:text="${#strings.replace(recipeMaterialView.getQuantity(), '.0', '')}"></span>
-                            <span th:text="${recipeMaterialView.getMaterialUnitName()}"></span>
-                        </div>
-                    </th:block>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">재료</th>
+                            <th scope="col" th:text="${recipeView.getPeople() + '인 기준'}"></th>
+                            <th scope="col">1인 기준</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="recipeMaterialView: ${recipeView.getRecipeMaterialViewList()}">
+                                <tr>
+                                    <th scope="row" th:text="${recipeMaterialView.getMaterialName()}"></th>
+                                    <td>
+                                        <span th:text="${#strings.replace(recipeMaterialView.getQuantity(), '.0', '')}"></span>
+                                        <span th:text="${recipeMaterialView.getMaterialUnitName()}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${#strings.replace(#numbers.formatDecimal(recipeMaterialView.getQuantity() / recipeView.getPeople(), 1, 1), '.0', '')}"></span>
+                                        <span th:text="${recipeMaterialView.getMaterialUnitName()}"></span>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
