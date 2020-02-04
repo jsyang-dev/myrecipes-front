@@ -3,6 +3,7 @@ package link.myrecipes.front.service;
 import link.myrecipes.front.common.RestTemplateHelper;
 import link.myrecipes.front.dto.PageParam;
 import link.myrecipes.front.dto.Recipe;
+import link.myrecipes.front.dto.RecipeCount;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -57,9 +58,9 @@ public class IndexServiceImpl implements IndexService {
                 .port(this.port)
                 .path("/recipes/count")
                 .build(true);
-        long recipeCount = this.restTemplateHelper.getForEntity(Long.class, uriComponents.toUriString());
+        RecipeCount recipeCount = this.restTemplateHelper.getForEntity(RecipeCount.class, uriComponents.toUriString());
 
-        return (int) Math.ceil((double) recipeCount / pageSize);
+        return (int) Math.ceil((double) recipeCount.getCount() / pageSize);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class IndexServiceImpl implements IndexService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/popularRecipes")
+                .path("/recipes/popular")
                 .build(true);
 
         return this.restTemplateHelper.getForList(Recipe.class, uriComponents.toUriString());
