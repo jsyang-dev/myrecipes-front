@@ -1,11 +1,11 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelper;
-import link.myrecipes.front.dto.PageParam;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.RecipeCount;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,17 +34,16 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     @Cacheable(value = "myrecipe:front:recipeList",
-            key = "#pageParam.page + ':' + #pageParam.size + ':' + #pageParam.sortField + ':' + #pageParam.descending")
-    public List<Recipe> readRecipeList(PageParam pageParam) {
+            key = "#pageRequest.pageNumber + ':' + #pageRequest.pageSize + ':' + #pageRequest.sort")
+    public List<Recipe> readRecipeList(PageRequest pageRequest) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
                 .path("/recipes")
-                .queryParam("page", pageParam.getPage())
-                .queryParam("size", pageParam.getSize())
-                .queryParam("sortField", pageParam.getSortField())
-                .queryParam("isDescending", pageParam.isDescending())
+                .queryParam("page", pageRequest.getPageNumber())
+                .queryParam("size", pageRequest.getPageSize())
+                .queryParam("sort", pageRequest.getSort().toString().replace(": ", ","))
                 .build(true);
 
         return this.restTemplateHelper.getForList(Recipe.class, uriComponents.toUriString());
