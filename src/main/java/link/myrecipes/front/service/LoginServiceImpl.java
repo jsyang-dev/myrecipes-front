@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
                 .scheme(this.scheme)
                 .host(this.host)
                 .port(this.port)
-                .path("/login")
+                .path("/members/login")
                 .path("/" + username)
                 .build(true);
 
