@@ -51,7 +51,6 @@ public class IndexController {
     @GetMapping("/index/ajax")
     public String indexAjax(Model model, @RequestParam int nextPage) {
         PageRequest pageRequest = PageRequest.of(nextPage, this.pageSize, Sort.Direction.DESC, this.sortField);
-//        PageParam pageParam = new PageParam(nextPage, this.pageSize, this.sortField, this.isDescending);  // TODO: 페이지번호 -1 해야됨
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageRequest);
 
         model.addAttribute("newRecipeList", newRecipeList);

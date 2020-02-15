@@ -62,7 +62,7 @@ app:
     member:
       scheme: http
       host: localhost
-      port: 8081
+      port: 8080
   index:
     page-size: 9
     sort-field: registerDate
