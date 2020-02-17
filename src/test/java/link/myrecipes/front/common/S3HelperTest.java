@@ -15,11 +15,9 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "spring.config.location="
-        + "classpath:/application.yml,"
-        + "classpath:/aws.yml"
-)
+@SpringBootTest
 public class S3HelperTest {
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -31,14 +29,15 @@ public class S3HelperTest {
 
     @Test
     public void When_S3_업로드_성공_Then_URL_리턴() throws IOException {
-        //given
+
+        // Given
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", "test.txt", "text/plain", "test data".getBytes());
         String path = "img";
 
-        //when
+        // When
         final String imageUrl = this.s3Helper.upload(mockMultipartFile, path);
 
-        //then
+        // Then
         assertThat(imageUrl, startsWith("https://s3." + this.region + ".amazonaws.com/" + this.bucket + "/" + path + "/"));
         assertThat(imageUrl, endsWith(".txt"));
     }

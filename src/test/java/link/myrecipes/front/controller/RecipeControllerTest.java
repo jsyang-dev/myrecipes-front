@@ -7,17 +7,11 @@ import link.myrecipes.front.dto.view.RecipeView;
 import link.myrecipes.front.service.RecipeServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.file.Files;
@@ -34,13 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(properties = "spring.config.location="
-        + "classpath:/application.yml,"
-        + "classpath:/aws.yml"
-)
-@AutoConfigureMockMvc
-public class RecipeControllerTest {
+public class RecipeControllerTest extends ControllerTest {
+
     private Recipe recipe;
     private RecipeView recipeView;
     private List<Material> materialList;
@@ -53,9 +42,6 @@ public class RecipeControllerTest {
 
     @Value("classpath:/json/recipeRequest.json")
     private Resource recipeRequestResource;
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private RecipeServiceImpl recipeService;
@@ -88,13 +74,14 @@ public class RecipeControllerTest {
 
     @Test
     public void When_레시피_상세정보_페이지_조회_Then_정상_리턴() throws Exception {
-        //given
+
+        // Given
         given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
 
-        //when
+        // When
         final ResultActions actions = this.mockMvc.perform(get("/recipe/view/" + this.recipe.getId()));
 
-        //then
+        // Then
         actions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/view"))
@@ -107,13 +94,14 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser
     public void When_레시피_등록_페이지_조회_Then_정상_리턴() throws Exception {
-        //given
+
+        // Given
         given(this.recipeService.readMaterialList()).willReturn(this.materialList);
 
-        //when
+        // When
         final ResultActions actions = this.mockMvc.perform(get("/recipe/register"));
 
-        //then
+        // Then
         actions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/register"))
@@ -124,17 +112,18 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser
     public void When_레시피_등록_Ajax_Then_정상_리턴() throws Exception {
-        //given
+
+        // Given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
         given(this.recipeService.createRecipe(any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
-        //when
+        // When
         final ResultActions actions = this.mockMvc.perform(post("/recipe/register/ajax")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(recipeRequestJson)
                 .with(csrf()));
 
-        //then
+        // When
         actions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -148,14 +137,15 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser
     public void When_다른_사용자_레시피_수정_페이지_조회_Then_정상_리턴() throws Exception {
-        //given
+
+        // Given
         given(this.recipeService.readRecipe(eq(this.recipe.getId()))).willReturn(this.recipeView);
         given(this.recipeService.readMaterialList()).willReturn(this.materialList);
 
-        //when
+        // When
         final ResultActions actions = this.mockMvc.perform(get("/recipe/modify/" + this.recipe.getId()));
 
-        //then
+        // Then
         actions.andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
@@ -164,17 +154,18 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser
     public void When_레시피_수정_Ajax_Then_정상_리턴() throws Exception {
-        //given
+
+        // Given
         String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
         given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
-        //when
+        // When
         final ResultActions actions = this.mockMvc.perform(post("/recipe/modify/ajax/" + this.recipe.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(recipeRequestJson)
                 .with(csrf()));
 
-        //then
+        // Then
         actions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -188,11 +179,12 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser
     public void When_레시피_삭제_호출_Then_정상_리턴() throws Exception {
-        //when
+
+        // When
         final ResultActions actions = this.mockMvc.perform(post("/recipe/delete/" + this.recipe.getId())
                 .with(csrf()));
 
-        //then
+        // Then
         actions.andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
