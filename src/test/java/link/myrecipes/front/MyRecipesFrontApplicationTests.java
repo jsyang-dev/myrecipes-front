@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties = "spring.config.location="
-        + "classpath:/application.yml,"
+        + "classpath:/application-test.yml,"
         + "classpath:/aws.yml"
 )
 public class MyRecipesFrontApplicationTests {

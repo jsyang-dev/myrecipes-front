@@ -1,7 +1,7 @@
 package link.myrecipes.front.service;
 
 import link.myrecipes.front.common.RestTemplateHelper;
-import link.myrecipes.front.common.S3Helper;
+import link.myrecipes.front.common.S3HelperImpl;
 import link.myrecipes.front.dto.Material;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.dto.request.RecipeRequest;
@@ -34,9 +34,9 @@ public class RecipeServiceImpl implements RecipeService {
     private String port;
 
     private final RestTemplateHelper restTemplateHelper;
-    private final S3Helper s3Helper;
+    private final S3HelperImpl s3Helper;
 
-    public RecipeServiceImpl(RestTemplateHelper restTemplateHelper, S3Helper s3Helper) {
+    public RecipeServiceImpl(RestTemplateHelper restTemplateHelper, S3HelperImpl s3Helper) {
         this.restTemplateHelper = restTemplateHelper;
         this.s3Helper = s3Helper;
     }
