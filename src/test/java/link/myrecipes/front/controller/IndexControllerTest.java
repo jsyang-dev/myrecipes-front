@@ -1,10 +1,13 @@
 package link.myrecipes.front.controller;
 
 import link.myrecipes.front.dto.PageParam;
+import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.service.IndexService;
+import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 public class IndexControllerTest extends ControllerTest {
 
@@ -23,12 +26,12 @@ public class IndexControllerTest extends ControllerTest {
     @Value("${app.index.is-descending}")
     private boolean isDescending;
 
-//    @Test
-//    public void 메인_페이지_호출() throws Exception {
-//        //given
-//        Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
-//        PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
-//
+    @Test
+    public void 메인_페이지_호출() throws Exception {
+        //given
+        Recipe recipe = Recipe.builder().title("test1").image("image1.jpg").estimatedTime(30).difficulty(1).build();
+        PageParam pageParam = PageParam.builder().page(1).size(this.pageSize).sortField(this.sortField).isDescending(this.isDescending).build();
+
 //        given(indexService.readPopularRecipeList()).willReturn(Collections.singletonList(recipe));
 //        given(this.indexService.readRecipeList(argThat(new PageParamMatcher(pageParam)))).willReturn(Collections.singletonList(recipe));
 //        given(this.indexService.readRecipePageCount()).willReturn(1);
@@ -44,7 +47,7 @@ public class IndexControllerTest extends ControllerTest {
 //                .andExpect(model().attribute("newRecipeList", contains(recipe)))
 //                .andExpect(model().attribute("recipePageCount", 1))
 //                .andExpect(model().attribute("recipeImagePath", this.recipeImagePath));
-//    }
+    }
 
     static class PageParamMatcher implements ArgumentMatcher<PageParam> {
         private PageParam left;

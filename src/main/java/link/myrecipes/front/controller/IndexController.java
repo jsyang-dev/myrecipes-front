@@ -36,7 +36,13 @@ public class IndexController {
     public String index(Model model) {
         List<Recipe> popularRecipeList = this.indexService.readPopularRecipeList();
 
-        PageRequest pageRequest = PageRequest.of(0, this.pageSize, Sort.Direction.DESC, this.sortField);
+        Sort.Direction direction;
+        if (isDescending) {
+            direction = Sort.Direction.DESC;
+        } else {
+            direction = Sort.Direction.ASC;
+        }
+        PageRequest pageRequest = PageRequest.of(0, this.pageSize, direction, this.sortField);
         List<Recipe> newRecipeList = this.indexService.readRecipeList(pageRequest);
 
         int recipePageCount = this.indexService.readRecipePageCount();
