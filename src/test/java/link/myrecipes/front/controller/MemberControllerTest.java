@@ -4,7 +4,6 @@ import link.myrecipes.front.dto.User;
 import link.myrecipes.front.dto.request.UserRequest;
 import link.myrecipes.front.service.MemberServiceImpl;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,11 +31,11 @@ public class MemberControllerTest extends ControllerTest {
     public void setUp() {
         this.user = User.builder()
                 .id(1)
-                .username("test_user")
+                .username("user12")
                 .password("123456")
-                .name("테스트유저")
+                .name("유저")
                 .phone("01012345678")
-                .email("test_user@domain.com")
+                .email("user@domain.com")
                 .build();
     }
 
@@ -138,7 +137,6 @@ public class MemberControllerTest extends ControllerTest {
 
     @Test
     @WithMockUser
-    @Ignore
     public void When_회원정보수정_파라미터없이_저장_Then_리다이렉트() throws Exception {
 
         // When
@@ -147,10 +145,6 @@ public class MemberControllerTest extends ControllerTest {
 
         // Then
         actions.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("member/modify"))
-                .andExpect(model().hasErrors())
-                .andExpect(content().string(containsString("_csrf")))
-                .andExpect(content().string(containsString("error-message")));
+                .andExpect(status().isBadRequest());
     }
 }
