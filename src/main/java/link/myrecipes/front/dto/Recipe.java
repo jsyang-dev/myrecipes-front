@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Recipe implements Serializable {
+
     private Integer id;
 
     private String title;

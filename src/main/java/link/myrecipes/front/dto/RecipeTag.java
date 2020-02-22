@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 public class RecipeTag implements Serializable {
+
     private String tag;
 
     @Builder
