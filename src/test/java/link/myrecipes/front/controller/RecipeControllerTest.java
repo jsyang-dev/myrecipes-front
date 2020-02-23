@@ -9,12 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +38,6 @@ public class RecipeControllerTest extends ControllerTest {
     @Value("${app.image-path.step}")
     private String stepImagePath;
 
-    @Value("classpath:/json/recipeRequest.json")
-    private Resource recipeRequestResource;
-
     @MockBean
     private RecipeServiceImpl recipeService;
 
@@ -56,13 +51,7 @@ public class RecipeControllerTest extends ControllerTest {
                 .difficulty(1)
                 .build();
 
-        this.recipeView = RecipeView.builder()
-                .id(this.recipe.getId())
-                .title(this.recipe.getTitle())
-                .image(this.recipe.getImage())
-                .estimatedTime(this.recipe.getEstimatedTime())
-                .difficulty(this.recipe.getDifficulty())
-                .build();
+        this.recipeView = this.modelMapper.map(this.recipe, RecipeView.class);
 
         this.materialList = new ArrayList<>();
         this.materialList.add(Material.builder()
@@ -114,13 +103,13 @@ public class RecipeControllerTest extends ControllerTest {
     public void When_레시피_등록_Ajax_Then_정상_리턴() throws Exception {
 
         // Given
-        String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
+        String recipeJson = this.objectMapper.writeValueAsString(this.recipe);
         given(this.recipeService.createRecipe(any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
         // When
         final ResultActions actions = this.mockMvc.perform(post("/recipe/register/ajax")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(recipeRequestJson)
+                .content(recipeJson)
                 .with(csrf()));
 
         // When
@@ -156,13 +145,13 @@ public class RecipeControllerTest extends ControllerTest {
     public void When_레시피_수정_Ajax_Then_정상_리턴() throws Exception {
 
         // Given
-        String recipeRequestJson = new String(Files.readAllBytes(recipeRequestResource.getFile().toPath()));
+        String recipeJson = this.objectMapper.writeValueAsString(this.recipe);
         given(this.recipeService.updateRecipe(eq(this.recipe.getId()), any(RecipeRequest.class), any(Integer.class))).willReturn(this.recipe);
 
         // When
         final ResultActions actions = this.mockMvc.perform(post("/recipe/modify/ajax/" + this.recipe.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(recipeRequestJson)
+                .content(recipeJson)
                 .with(csrf()));
 
         // Then
