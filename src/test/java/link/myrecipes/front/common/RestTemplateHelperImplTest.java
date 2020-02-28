@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,11 +16,10 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "spring.config.location="
-        + "classpath:/application.yml,"
-        + "classpath:/aws.yml"
-)
+@SpringBootTest
+@ActiveProfiles("test")
 public class RestTemplateHelperImplTest {
+
     @Autowired
     private RestTemplateHelperImpl restTemplateHelper;
 
@@ -35,7 +35,8 @@ public class RestTemplateHelperImplTest {
     @Test
     @Ignore
     public void API_호출_테스트() {
-        //given
+
+        // Given
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme(this.scheme)
                 .host(this.host)
@@ -43,10 +44,10 @@ public class RestTemplateHelperImplTest {
                 .path("/health")
                 .build(true);
 
-        //when
+        // When
         final Object recipe = this.restTemplateHelper.getForEntity(Recipe.class, uriComponents.toUriString());
 
-        //then
+        // Then
         assertThat(recipe, instanceOf(Recipe.class));
     }
 }

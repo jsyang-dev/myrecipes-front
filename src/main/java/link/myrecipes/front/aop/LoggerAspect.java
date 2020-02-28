@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,10 @@ import java.util.Arrays;
 
 @Aspect
 @Component
+@ConditionalOnProperty("spring.rabbitmq")
 @Slf4j
 public class LoggerAspect {
+
     @Value("${app.rabbitmq.exchange}")
     private String exchange;
 

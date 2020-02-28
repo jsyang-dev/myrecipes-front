@@ -6,7 +6,7 @@ app:
   artifactId: @project.artifactId@
 
 server:
-  port: 8080
+  port: 80
 
 ---
 spring:
@@ -58,11 +58,11 @@ app:
     recipe:
       scheme: http
       host: localhost
-      port: 8081
+      port: 8080
     member:
       scheme: http
       host: localhost
-      port: 8081
+      port: 8080
   index:
     page-size: 9
     sort-field: registerDate
@@ -75,7 +75,7 @@ app:
 
 ---
 spring:
-  profiles: dev
+  profiles: prod
   http:
     encoding:
       force: true
@@ -117,70 +117,11 @@ app:
     recipe:
       scheme: http
       host: 10.0.20.156
-      port: 8081
+      port: 8080
     member:
       scheme: http
       host: 10.0.20.156
-      port: 8081
-  index:
-    page-size: 9
-    sort-field: registerDate
-    is-descending: true
-  rabbitmq:
-    exchange: logger.exchange
-    routing:
-      call: logger.controller.call
-      fail: logger.controller.fail
-
----
-spring:
-  profiles: prod
-  http:
-    encoding:
-      force: true
-  thymeleaf:
-    cache: true
-  resources:
-    static-locations:
-      - classpath:/static/
-      - https://s3.ap-northeast-2.amazonaws.com/static.myrecipes.link/static/
-  cache:
-    type: redis
-    redis:
-      time-to-live: 10000
-  redis:
-    host: 10.0.10.206
-    port: 6379
-  rabbitmq:
-    host: 10.0.10.206
-    port: 5672
-    username: mruser
-    password: qwer1234!
-
-logging:
-  level:
-    org.springframework.web: TRACE
-
-cloud:
-  aws:
-    region:
-      static: ap-northeast-2
-    s3:
-      bucket: static.myrecipes.link
-
-app:
-  image-path:
-    recipe: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/recipe/
-    step: https://s3.ap-northeast-2.amazonaws.com/${cloud.aws.s3.bucket}/step/
-  api:
-    recipe:
-      scheme: http
-      host: service.myrecipes.link
-      port: 8081
-    member:
-      scheme: http
-      host: service.myrecipes.link
-      port: 8081
+      port: 8080
   index:
     page-size: 9
     sort-field: registerDate

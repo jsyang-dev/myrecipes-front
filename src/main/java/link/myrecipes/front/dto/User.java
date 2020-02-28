@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class User {
+
     private Integer id;
 
     private String username;

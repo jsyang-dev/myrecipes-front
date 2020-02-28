@@ -1,9 +1,10 @@
 package link.myrecipes.front.controller;
 
-import link.myrecipes.front.dto.PageParam;
 import link.myrecipes.front.dto.Recipe;
 import link.myrecipes.front.service.IndexService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +34,16 @@ public class IndexController {
 
     @GetMapping({"/", "/index"})
     public String index(Model model) {
-        PageParam pageParamForPopularList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
-        List<Recipe> popularRecipeList = this.indexService.readRecipeList(pageParamForPopularList);
+        List<Recipe> popularRecipeList = this.indexService.readPopularRecipeList();
 
-        PageParam pageParamForNewList = new PageParam(1, this.pageSize, this.sortField, this.isDescending);
-        List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParamForNewList);
+        Sort.Direction direction;
+        if (isDescending) {
+            direction = Sort.Direction.DESC;
+        } else {
+            direction = Sort.Direction.ASC;
+        }
+        PageRequest pageRequest = PageRequest.of(0, this.pageSize, direction, this.sortField);
+        List<Recipe> newRecipeList = this.indexService.readRecipeList(pageRequest);
 
         int recipePageCount = this.indexService.readRecipePageCount();
 
@@ -50,8 +56,8 @@ public class IndexController {
 
     @GetMapping("/index/ajax")
     public String indexAjax(Model model, @RequestParam int nextPage) {
-        PageParam pageParam = new PageParam(nextPage, this.pageSize, this.sortField, this.isDescending);
-        List<Recipe> newRecipeList = this.indexService.readRecipeList(pageParam);
+        PageRequest pageRequest = PageRequest.of(nextPage, this.pageSize, Sort.Direction.DESC, this.sortField);
+        List<Recipe> newRecipeList = this.indexService.readRecipeList(pageRequest);
 
         model.addAttribute("newRecipeList", newRecipeList);
         model.addAttribute("recipeImagePath", this.recipeImagePath);
